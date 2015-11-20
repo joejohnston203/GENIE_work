@@ -1,0 +1,6 @@
+# root files tend to be large and should not be uploaded
+.root
+
+# do not include files in ignore directory
+ignore
+runs

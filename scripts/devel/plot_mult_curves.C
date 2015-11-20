@@ -1,0 +1,61 @@
+void plot_mult_curves(){
+  // To make a plot, change these strings to set what you are graphing.
+  // Run this script from the C12 directory containing all of the fortran directories
+  // load validation_costheta.C first
+
+  TString rootFile1 = "/data/jpj13/2015_07_13_runs/noR_noC_S/N_LFG_numu_C12_run1_noFSI.gst.root";
+  TString spline1 = "/data/jpj13/2015_07_13_runs/noR_noC_S/data.txt";
+  TString target = "C12";
+  double Enu = 1.0;
+
+  TString fortDir = "/data/jpj13/validation_Summer_2015/validation/C12_dir/C12_Enu_1.0_RPA0_coul0/C12_1.0GeV";
+  
+  TString title = "C12, Enu = 1 GeV, No RPA, No Coul, Nieves' Suppression";
+  TString xlabel = "T_lepton(GeV)";
+  TString ylabel = "Dif XSec dSigma/dEl, 10^-38 cm^2/GeV";
+
+  double height = 10.0;
+
+  TString outputFilename = target + "_noR_noC.png";
+
+  // Don't change past here unless you want different angles
+
+  gROOT->ProcessLine(".L /data/jpj13/scripts/devel/validation_costheta.C");
+
+  double ctmin = -1.0;
+  double ctmax = -0.9;
+  TString temp = "_ctmin-1.0_ctmax-0.9";
+  TString fortData = fortDir + temp;
+  int color = kRed;
+  validation_plot(height,rootFile1, spline1, target, Enu, ctmin, ctmax, fortData, false, title, xlabel, ylabel, color);
+  
+  ctmin = -0.05;
+  ctmax = 0.05;
+  temp = "_ctmin-0.05_ctmax0.05";
+  fortData = fortDir + temp;
+  color = kBlue;
+  validation_plot(height,rootFile1, spline1, target, Enu, ctmin, ctmax, fortData, true, "", "", "", color);
+
+  ctmin = 0.4;
+  ctmax = 0.5;
+  temp = "_ctmin0.4_ctmax0.5";
+  fortData = fortDir + temp;
+  color = kGreen;
+  validation_plot(height,rootFile1, spline1, target, Enu, ctmin, ctmax, fortData, true, "", "", "", color);
+
+  ctmin = 0.7;
+  ctmax = 0.8;
+  temp = "_ctmin0.7_ctmax0.8";
+  fortData = fortDir + temp;
+  color = kMagenta;
+  validation_plot(height,rootFile1, spline1, target, Enu, ctmin, ctmax, fortData, true, "", "", "", color);
+
+  ctmin = 0.9;
+  ctmax = 0.95;
+  temp = "_ctmin0.9_ctmax0.95";
+  fortData = fortDir + temp;
+  color = kCyan;
+  validation_plot(height,rootFile1, spline1, target, Enu, ctmin, ctmax, fortData, true, "", "", "", color);
+
+  c1->Print(outputFilename);
+}
