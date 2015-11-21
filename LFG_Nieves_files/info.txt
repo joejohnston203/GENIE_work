@@ -1,0 +1,18 @@
+Files that must be added/modified in the GENIE code in order
+to implement the LFG model and Nieves RPA model:
+
+-- LFG Model --
+
+Added:
+src/EVGModules/FermiMoverLFG.h
+src/EVGModules/FermiMoverLFG.cxx
+src/Nuclear/LFGMBodekRitchie.h
+src/Nuclear/LFGMBodekRitchie.cxx
+config/LFGMBodekRitchie.xml
+
+Modified:
+src/Interaction/Target.h
+src/Interaction/Target.cxx
+src/EVGModules/VertexGenerator.cxx
+src/EVGModules/LinkDef.h
+src/Nuclear/LinkDef.h

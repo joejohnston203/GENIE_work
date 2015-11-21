@@ -3,5 +3,7 @@
 
 # do not include files in ignore directory
 ignore
+
+# these directories tend to have large files
 runs
-temp
+data
