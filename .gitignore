@@ -4,3 +4,4 @@
 # do not include files in ignore directory
 ignore
 runs
+temp

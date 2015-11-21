@@ -1,0 +1,956 @@
+ 
+ 
+***** Building GENIE from source tree at: /home/joe/GENIE_work/GENIE_v2.10.0
+***** The source tree corresponds to GENIE version 2.10.0
+ 
+ 
+** Creating GENIE lib and bin directories...
+cd /home/joe/GENIE_work/GENIE_v2.10.0; \
+	[ -d bin ] || mkdir bin; chmod 755 bin;\
+	[ -d lib ] || mkdir lib; chmod 755 lib;
+ 
+** Taking a snapshot of the build environment...
+perl /home/joe/GENIE_work/GENIE_v2.10.0/src/scripts/setup/genie-build-env-snapshot
+sh: 1: quota: not found
+ 
+** Adding automatically generated code...
+perl /home/joe/GENIE_work/GENIE_v2.10.0/src/scripts/setup/genie-write-gbuild
+perl /home/joe/GENIE_work/GENIE_v2.10.0/src/scripts/setup/genie-write-gversion
+svn: warning: W155010: The node '/home/joe/GENIE_work/GENIE_v2.10.0' was not found.
+
+svn: E200009: Could not display info for all targets because some targets don't exist
+ 
+** Building base-framework...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd Algorithm;  make; cd ..; \
+	cd Messenger;  make; cd ..; \
+	cd Registry;   make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Algorithm'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Algorithm'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Messenger'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Messenger'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Registry'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Registry'
+ 
+** Building utility libraries...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd Numerical;      make; cd ..; \
+	cd CrossSections;  make; cd ..; \
+	cd PDG;            make; cd ..; \
+	cd Utils;          make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Numerical'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Numerical'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/CrossSections'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/CrossSections'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/PDG'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/PDG'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Utils'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Utils'
+ 
+** Building evgen-framework...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd BaryonResonance;    make; cd ..; \
+	cd Base;               make; cd ..; \
+	cd EVGCore;            make; cd ..; \
+	cd EVGDrivers;         make; cd ..; \
+	cd Interaction;        make; cd ..; \
+	cd GHEP;               make; cd ..; \
+	cd Ntuple;             make; 
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/BaryonResonance'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/BaryonResonance'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Base'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Base'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/EVGCore'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/EVGCore'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/EVGDrivers'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/EVGDrivers'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Interaction'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Interaction'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/GHEP'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/GHEP'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Ntuple'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NtpWriter.cxx
+rm -f _ROOT_DICT_Ntuple.*
+[package: Ntuple] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Ntuple.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NtpMCDTime.h NtpMCEventRecord.h NtpMCJobConfig.h NtpMCJobEnv.h NtpMCRecHeader.h NtpMCRecordI.h NtpMCTreeHeader.h NtpWriter.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Ntuple.cc
+[package: Ntuple] Generating shared library ...
+g++ -shared  NtpMCDTime.o NtpMCEventRecord.o NtpMCJobConfig.o NtpMCJobEnv.o NtpMCRecHeader.o NtpMCRecordI.o NtpMCTreeHeader.o NtpWriter.o _ROOT_DICT_Ntuple.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNtuple-2.10.0.so
+[package: Ntuple] Creating symbolic link to shared library ...
+ln -sf libGNtuple-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNtuple.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Ntuple'
+ 
+** Building core medium energy range physics models...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd BodekYang;          make; cd ..; \
+	cd Charm;              make; cd ..; \
+	cd Coherent;           make; cd ..; \
+	cd Decay;              make; cd ..; \
+	cd Diffractive;        make; cd ..; \
+	cd DIS;                make; cd ..; \
+	cd Elastic;            make; cd ..; \
+	cd ElFF;               make; cd ..; \
+	cd EVGModules;         make; cd ..; \
+	cd Fragmentation;      make; cd ..; \
+	cd GiBUU;              make; cd ..; \
+	cd HadronTransport;    make; cd ..; \
+	cd LlewellynSmith;     make; cd ..; \
+	cd NuE;                make; cd ..; \
+	cd Nuclear;            make; cd ..; \
+	cd PartonModel;        make; cd ..; \
+	cd PDF;                make; cd ..; \
+	cd QEL;                make; cd ..; \
+	cd ReinSehgal;         make; cd ..; \
+	cd RES;                make; cd ..; \
+	cd VHE;                make; cd ..; \
+	cd SingleKaon;         make; cd ..; 
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/BodekYang'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BYPDF.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BYStrucFunc.cxx
+rm -f _ROOT_DICT_BodekYang.*
+[package: BodekYang] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_BodekYang.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BYPDF.h BYStrucFunc.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_BodekYang.cc
+[package: BodekYang] Generating shared library ...
+g++ -shared  BYPDF.o BYStrucFunc.o _ROOT_DICT_BodekYang.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGBodekYang-2.10.0.so
+[package: BodekYang] Creating symbolic link to shared library ...
+ln -sf libGBodekYang-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGBodekYang.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/BodekYang'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Charm'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AivazisCharmPXSecLO.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  KovalenkoQELCharmPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SlowRsclCharmDISPXSecLO.cxx
+rm -f _ROOT_DICT_Charm.*
+[package: Charm] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Charm.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AivazisCharmPXSecLO.h KovalenkoQELCharmPXSec.h SlowRsclCharmDISPXSecLO.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Charm.cc
+[package: Charm] Generating shared library ...
+g++ -shared  AivazisCharmPXSecLO.o KovalenkoQELCharmPXSec.o SlowRsclCharmDISPXSecLO.o _ROOT_DICT_Charm.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGCharm-2.10.0.so
+[package: Charm] Creating symbolic link to shared library ...
+ln -sf libGCharm-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGCharm.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Charm'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Coherent'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHElasticPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHElHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHElKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHPrimaryLeptonGenerator.cxx
+rm -f _ROOT_DICT_Coherent.*
+[package: Coherent] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Coherent.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  COHElasticPXSec.h COHElHadronicSystemGenerator.h COHElKinematicsGenerator.h COHHadronicSystemGenerator.h COHInteractionListGenerator.h COHKinematicsGenerator.h COHPrimaryLeptonGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Coherent.cc
+[package: Coherent] Generating shared library ...
+g++ -shared  COHElasticPXSec.o COHElHadronicSystemGenerator.o COHElKinematicsGenerator.o COHHadronicSystemGenerator.o COHInteractionListGenerator.o COHKinematicsGenerator.o COHPrimaryLeptonGenerator.o _ROOT_DICT_Coherent.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGCoh-2.10.0.so
+[package: Coherent] Creating symbolic link to shared library ...
+ln -sf libGCoh-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGCoh.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Coherent'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Decay'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BaryonResonanceDecayer.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DecayModelI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PythiaDecayer.cxx
+rm -f _ROOT_DICT_Decay.*
+[package: Decay] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Decay.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BaryonResonanceDecayer.h DecayModelI.h PythiaDecayer.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Decay.cc
+[package: Decay] Generating shared library ...
+g++ -shared  BaryonResonanceDecayer.o DecayModelI.o PythiaDecayer.o _ROOT_DICT_Decay.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGDecay-2.10.0.so
+[package: Decay] Creating symbolic link to shared library ...
+ln -sf libGDecay-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGDecay.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Decay'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Diffractive'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DFRHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DFRInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DFRKinematicsGenerator.cxx
+DFRKinematicsGenerator.cxx: In member function ‘virtual double genie::DFRKinematicsGenerator::ComputeMaxXSec(const genie::Interaction*) const’:
+DFRKinematicsGenerator.cxx:310:11: warning: variable ‘increasing_x’ set but not used [-Wunused-but-set-variable]
+      bool increasing_x;
+           ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DFRPrimaryLeptonGenerator.cxx
+rm -f _ROOT_DICT_Diffractive.*
+[package: Diffractive] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Diffractive.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DFRHadronicSystemGenerator.h DFRInteractionListGenerator.h DFRKinematicsGenerator.h DFRPrimaryLeptonGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Diffractive.cc
+[package: Diffractive] Generating shared library ...
+g++ -shared  DFRHadronicSystemGenerator.o DFRInteractionListGenerator.o DFRKinematicsGenerator.o DFRPrimaryLeptonGenerator.o _ROOT_DICT_Diffractive.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGDfrc-2.10.0.so
+[package: Diffractive] Creating symbolic link to shared library ...
+ln -sf libGDfrc-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGDfrc.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Diffractive'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/DIS'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DISHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DISInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DISKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DISPrimaryLeptonGenerator.cxx
+rm -f _ROOT_DICT_DIS.*
+[package: DIS] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_DIS.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DISHadronicSystemGenerator.h DISInteractionListGenerator.h DISKinematicsGenerator.h DISPrimaryLeptonGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_DIS.cc
+[package: DIS] Generating shared library ...
+g++ -shared  DISHadronicSystemGenerator.o DISInteractionListGenerator.o DISKinematicsGenerator.o DISPrimaryLeptonGenerator.o _ROOT_DICT_DIS.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGDIS-2.10.0.so
+[package: DIS] Creating symbolic link to shared library ...
+ln -sf libGDIS-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGDIS.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/DIS'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Elastic'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AhrensNCELPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RosenbluthPXSec.cxx
+rm -f _ROOT_DICT_Elastic.*
+[package: Elastic] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Elastic.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AhrensNCELPXSec.h RosenbluthPXSec.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Elastic.cc
+[package: Elastic] Generating shared library ...
+g++ -shared  AhrensNCELPXSec.o RosenbluthPXSec.o _ROOT_DICT_Elastic.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGElas-2.10.0.so
+[package: Elastic] Creating symbolic link to shared library ...
+ln -sf libGElas-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGElas.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Elastic'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/ElFF'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BBA03ELFormFactorsModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BBA05ELFormFactorsModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BBA07ELFormFactorsModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DipoleELFormFactorsModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ELFormFactors.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ELFormFactorsModelI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  TransverseEnhancementFFModel.cxx
+rm -f _ROOT_DICT_ElFF.*
+[package: ElFF] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_ElFF.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BBA03ELFormFactorsModel.h BBA05ELFormFactorsModel.h BBA07ELFormFactorsModel.h DipoleELFormFactorsModel.h ELFormFactors.h ELFormFactorsModelI.h TransverseEnhancementFFModel.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_ElFF.cc
+[package: ElFF] Generating shared library ...
+g++ -shared  BBA03ELFormFactorsModel.o BBA05ELFormFactorsModel.o BBA07ELFormFactorsModel.o DipoleELFormFactorsModel.o ELFormFactors.o ELFormFactorsModelI.o TransverseEnhancementFFModel.o _ROOT_DICT_ElFF.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGElFF-2.10.0.so
+[package: ElFF] Creating symbolic link to shared library ...
+ln -sf libGElFF-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGElFF.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/ElFF'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/EVGModules'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FermiMover.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HadronTransporter.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  InitialStateAppender.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  KineGeneratorWithCache.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NucBindEnergyAggregator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NucDeExcitationSim.cxx
+NucDeExcitationSim.cxx: In member function ‘void genie::NucDeExcitationSim::AddPhoton(genie::GHepRecord*, double, double) const’:
+NucDeExcitationSim.cxx:332:7: warning: variable ‘iremnant’ set but not used [-Wunused-but-set-variable]
+   int iremnant = -1;
+       ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PauliBlocker.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PrimaryLeptonGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  UnstableParticleDecayer.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  VertexGenerator.cxx
+rm -f _ROOT_DICT_EVGModules.*
+[package: EVGModules] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_EVGModules.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FermiMover.h HadronicSystemGenerator.h HadronTransporter.h InitialStateAppender.h KineGeneratorWithCache.h NucBindEnergyAggregator.h NucDeExcitationSim.h PauliBlocker.h PrimaryLeptonGenerator.h UnstableParticleDecayer.h VertexGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_EVGModules.cc
+[package: EVGModules] Generating shared library ...
+g++ -shared  FermiMover.o HadronicSystemGenerator.o HadronTransporter.o InitialStateAppender.o KineGeneratorWithCache.o NucBindEnergyAggregator.o NucDeExcitationSim.o PauliBlocker.o PrimaryLeptonGenerator.o UnstableParticleDecayer.o VertexGenerator.o _ROOT_DICT_EVGModules.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGEVGModules-2.10.0.so
+[package: EVGModules] Creating symbolic link to shared library ...
+ln -sf libGEVGModules-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGEVGModules.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/EVGModules'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Fragmentation'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  CharmHadronization.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  CollinsSpillerFragm.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FragmentationFunctionI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FragmentationFunctions.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HadronizationModelBase.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HadronizationModelI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  KNOHadronization.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  KNOPythiaHadronization.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PetersonFragm.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PythiaHadronization.cxx
+rm -f _ROOT_DICT_Fragmentation.*
+[package: Fragmentation] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Fragmentation.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  CharmHadronization.h CollinsSpillerFragm.h FragmentationFunctionI.h FragmentationFunctions.h HadronizationModelBase.h HadronizationModelI.h KNOHadronization.h KNOPythiaHadronization.h PetersonFragm.h PythiaHadronization.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Fragmentation.cc
+[package: Fragmentation] Generating shared library ...
+g++ -shared  CharmHadronization.o CollinsSpillerFragm.o FragmentationFunctionI.o FragmentationFunctions.o HadronizationModelBase.o HadronizationModelI.o KNOHadronization.o KNOPythiaHadronization.o PetersonFragm.o PythiaHadronization.o _ROOT_DICT_Fragmentation.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGFragmentation-2.10.0.so
+[package: Fragmentation] Creating symbolic link to shared library ...
+ln -sf libGFragmentation-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGFragmentation.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Fragmentation'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/GiBUU'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GiBUUData.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GiBUURESPXSec.cxx
+rm -f _ROOT_DICT_GiBUU.*
+[package: VLE] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_GiBUU.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GiBUUData.h GiBUURESPXSec.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_GiBUU.cc
+[package: VLE] Generating shared library ...
+g++ -shared  GiBUUData.o GiBUURESPXSec.o _ROOT_DICT_GiBUU.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGGiBUU-2.10.0.so
+[package: VLE] Creating symbolic link to shared library ...
+ln -sf libGGiBUU-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGGiBUU.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/GiBUU'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/HadronTransport'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HAIntranuke2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HAIntranuke.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HNIntranuke2014.cxx
+HNIntranuke2014.cxx: In member function ‘void genie::HNIntranuke2014::AbsorbHN(genie::GHepRecord*, genie::GHepParticle*, genie::INukeFateHN_t) const’:
+HNIntranuke2014.cxx:364:14: warning: variable ‘M2’ set but not used [-Wunused-but-set-variable]
+   double M1, M2, M2_1, M2_2, M3, M4;        // rest energies, in GeV
+              ^
+HNIntranuke2014.cxx:368:14: warning: variable ‘P1CM’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, E2CM, P2CM;
+              ^
+HNIntranuke2014.cxx:368:26: warning: variable ‘P2CM’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, E2CM, P2CM;
+                          ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HNIntranuke.cxx
+HNIntranuke.cxx: In member function ‘void genie::HNIntranuke::AbsorbHN(genie::GHepRecord*, genie::GHepParticle*, genie::INukeFateHN_t) const’:
+HNIntranuke.cxx:360:14: warning: variable ‘M2’ set but not used [-Wunused-but-set-variable]
+   double M1, M2, M2_1, M2_2, M3, M4;        // rest energies, in GeV
+              ^
+HNIntranuke.cxx:364:14: warning: variable ‘P1CM’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, E2CM, P2CM;
+              ^
+HNIntranuke.cxx:364:26: warning: variable ‘P2CM’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, E2CM, P2CM;
+                          ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  Intranuke2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  Intranuke.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  INukeDeltaPropg.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  INukeException.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  INukeHadroData2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  INukeHadroData.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  INukeUtils2014.cxx
+INukeUtils2014.cxx: In function ‘bool genie::utils::intranuke2014::TwoBodyCollision(genie::GHepRecord*, int, int, int, int, double, genie::GHepParticle*, genie::GHepParticle*, int&, int&, TLorentzVector&, genie::EINukeMode)’:
+INukeUtils2014.cxx:642:10: warning: variable ‘M1’ set but not used [-Wunused-but-set-variable]
+   double M1, M2, M3, M4; // rest energies, in GeV
+          ^
+INukeUtils2014.cxx:642:14: warning: variable ‘M2’ set but not used [-Wunused-but-set-variable]
+   double M1, M2, M3, M4; // rest energies, in GeV
+              ^
+INukeUtils2014.cxx:644:10: warning: variable ‘P3zL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+          ^
+INukeUtils2014.cxx:644:16: warning: variable ‘P3tL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+                ^
+INukeUtils2014.cxx:644:22: warning: variable ‘P4zL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+                      ^
+INukeUtils2014.cxx:644:28: warning: variable ‘P4tL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+                            ^
+INukeUtils2014.cxx: In function ‘bool genie::utils::intranuke2014::TwoBodyKinematics(double, double, TLorentzVector, TLorentzVector, TLorentzVector&, TLorentzVector&, double, TLorentzVector&, double)’:
+INukeUtils2014.cxx:791:14: warning: variable ‘P1CM’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, Ptot;
+              ^
+INukeUtils2014.cxx:791:20: warning: variable ‘Ptot’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, Ptot;
+                    ^
+INukeUtils2014.cxx: In function ‘bool genie::utils::intranuke2014::ThreeBodyKinematics(genie::GHepRecord*, genie::GHepParticle*, int, genie::GHepParticle*, genie::GHepParticle*, genie::GHepParticle*, bool, double, double, const genie::NuclearModelI*)’:
+INukeUtils2014.cxx:977:16: warning: variable ‘P1CM’ set but not used [-Wunused-but-set-variable]
+   double E1CM, P1CM, E2CM, P3tL;
+                ^
+INukeUtils2014.cxx:982:17: warning: variable ‘Ptot’ set but not used [-Wunused-but-set-variable]
+   double Et, M, Ptot, theta1, theta2;
+                 ^
+INukeUtils2014.cxx:983:28: warning: variable ‘P2tL’ set but not used [-Wunused-but-set-variable]
+   double P1zL, P2zL, P1tL, P2tL;
+                            ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  INukeUtils.cxx
+INukeUtils.cxx: In function ‘bool genie::utils::intranuke::TwoBodyCollision(genie::GHepRecord*, int, int, int, int, double, genie::GHepParticle*, genie::GHepParticle*, int&, int&, TLorentzVector&, genie::EINukeMode)’:
+INukeUtils.cxx:639:10: warning: variable ‘M1’ set but not used [-Wunused-but-set-variable]
+   double M1, M2, M3, M4; // rest energies, in GeV
+          ^
+INukeUtils.cxx:639:14: warning: variable ‘M2’ set but not used [-Wunused-but-set-variable]
+   double M1, M2, M3, M4; // rest energies, in GeV
+              ^
+INukeUtils.cxx:641:10: warning: variable ‘P3zL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+          ^
+INukeUtils.cxx:641:16: warning: variable ‘P3tL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+                ^
+INukeUtils.cxx:641:22: warning: variable ‘P4zL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+                      ^
+INukeUtils.cxx:641:28: warning: variable ‘P4tL’ set but not used [-Wunused-but-set-variable]
+   double P3zL, P3tL, P4zL, P4tL;
+                            ^
+INukeUtils.cxx: In function ‘bool genie::utils::intranuke::TwoBodyKinematics(double, double, TLorentzVector, TLorentzVector, TLorentzVector&, TLorentzVector&, double, TLorentzVector&, double)’:
+INukeUtils.cxx:788:14: warning: variable ‘P1CM’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, Ptot;
+              ^
+INukeUtils.cxx:788:20: warning: variable ‘Ptot’ set but not used [-Wunused-but-set-variable]
+   double Et, P1CM, Ptot;
+                    ^
+INukeUtils.cxx: In function ‘bool genie::utils::intranuke::ThreeBodyKinematics(genie::GHepRecord*, genie::GHepParticle*, int, genie::GHepParticle*, genie::GHepParticle*, genie::GHepParticle*, bool, double, double, const genie::NuclearModelI*)’:
+INukeUtils.cxx:974:16: warning: variable ‘P1CM’ set but not used [-Wunused-but-set-variable]
+   double E1CM, P1CM, E2CM, P3tL;
+                ^
+INukeUtils.cxx:979:17: warning: variable ‘Ptot’ set but not used [-Wunused-but-set-variable]
+   double Et, M, Ptot, theta1, theta2;
+                 ^
+INukeUtils.cxx:980:28: warning: variable ‘P2tL’ set but not used [-Wunused-but-set-variable]
+   double P1zL, P2zL, P1tL, P2tL;
+                            ^
+rm -f _ROOT_DICT_HadronTransport.*
+[package: HadronTransport] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_HadronTransport.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  HAIntranuke2014.h HAIntranuke.h HNIntranuke2014.h HNIntranuke.h Intranuke2014.h Intranuke.h INukeDeltaPropg.h INukeException.h INukeHadroData2014.h INukeHadroData.h INukeUtils2014.h INukeUtils.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_HadronTransport.cc
+[package: HadronTransport] Generating shared library ...
+g++ -shared  HAIntranuke2014.o HAIntranuke.o HNIntranuke2014.o HNIntranuke.o Intranuke2014.o Intranuke.o INukeDeltaPropg.o INukeException.o INukeHadroData2014.o INukeHadroData.o INukeUtils2014.o INukeUtils.o _ROOT_DICT_HadronTransport.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGHadronTransp-2.10.0.so
+[package: HadronTransport] Creating symbolic link to shared library ...
+ln -sf libGHadronTransp-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGHadronTransp.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/HadronTransport'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/LlewellynSmith'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  LwlynSmithFFCC.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  LwlynSmithFF.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  LwlynSmithFFNC.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  LwlynSmithQELCCPXSec.cxx
+rm -f _ROOT_DICT_LlewellynSmith.*
+[package: LlewellynSmith] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_LlewellynSmith.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  LwlynSmithFFCC.h LwlynSmithFF.h LwlynSmithFFNC.h LwlynSmithQELCCPXSec.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_LlewellynSmith.cc
+[package: LlewellynSmith] Generating shared library ...
+g++ -shared  LwlynSmithFFCC.o LwlynSmithFF.o LwlynSmithFFNC.o LwlynSmithQELCCPXSec.o _ROOT_DICT_LlewellynSmith.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGLlewellynSmith-2.10.0.so
+[package: LlewellynSmith] Creating symbolic link to shared library ...
+ln -sf libGLlewellynSmith-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGLlewellynSmith.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/LlewellynSmith'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/NuE'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BardinIMDRadCorPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  IMDAnnihilationPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuEInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuEKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuElectronPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuEPrimaryLeptonGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuETargetRemnantGenerator.cxx
+rm -f _ROOT_DICT_NuE.*
+[package: NuE] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_NuE.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BardinIMDRadCorPXSec.h IMDAnnihilationPXSec.h NuEInteractionListGenerator.h NuEKinematicsGenerator.h NuElectronPXSec.h NuEPrimaryLeptonGenerator.h NuETargetRemnantGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_NuE.cc
+[package: NuE] Generating shared library ...
+g++ -shared  BardinIMDRadCorPXSec.o IMDAnnihilationPXSec.o NuEInteractionListGenerator.o NuEKinematicsGenerator.o NuElectronPXSec.o NuEPrimaryLeptonGenerator.o NuETargetRemnantGenerator.o _ROOT_DICT_NuE.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNuE-2.10.0.so
+[package: NuE] Creating symbolic link to shared library ...
+ln -sf libGNuE-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNuE.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/NuE'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Nuclear'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  EffectiveSF.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FermiMomentumTable.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FermiMomentumTablePool.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FGMBodekRitchie.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuclearData.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuclearModelI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NuclearModelMap.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SpectralFunc1d.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SpectralFunc.cxx
+rm -f _ROOT_DICT_Nuclear.*
+[package: Nuclear] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Nuclear.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  EffectiveSF.h FermiMomentumTable.h FermiMomentumTablePool.h FGMBodekRitchie.h NuclearData.h NuclearModelI.h NuclearModelMap.h SpectralFunc1d.h SpectralFunc.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Nuclear.cc
+[package: Nuclear] Generating shared library ...
+g++ -shared  EffectiveSF.o FermiMomentumTable.o FermiMomentumTablePool.o FGMBodekRitchie.o NuclearData.o NuclearModelI.o NuclearModelMap.o SpectralFunc1d.o SpectralFunc.o _ROOT_DICT_Nuclear.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNuclear-2.10.0.so
+[package: Nuclear] Creating symbolic link to shared library ...
+ln -sf libGNuclear-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNuclear.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Nuclear'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/PartonModel'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QPMDISPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QPMDISStrucFuncBase.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QPMDISStrucFunc.cxx
+rm -f _ROOT_DICT_GQPM.*
+[package: PartonModel] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_GQPM.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QPMDISPXSec.h QPMDISStrucFuncBase.h QPMDISStrucFunc.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_GQPM.cc
+[package: PartonModel] Generating shared library ...
+g++ -shared  QPMDISPXSec.o QPMDISStrucFuncBase.o QPMDISStrucFunc.o _ROOT_DICT_GQPM.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGQPM-2.10.0.so
+[package: PartonModel] Creating symbolic link to shared library ...
+ln -sf libGQPM-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGQPM.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/PartonModel'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/PDF'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PDF.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PDFLIB.cxx
+PDFLIB.cxx: In member function ‘void genie::PDFLIB::SetPDFSetFromConfig() const’:
+PDFLIB.cxx:122:3: error: ‘initPDFByName’ is not a member of ‘LHAPDF’
+   LHAPDF::initPDFByName(name, stype, memset);
+   ^
+make[1]: *** [PDFLIB.o] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/PDF'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/QEL'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QELHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QELInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QELKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QELPrimaryLeptonGenerator.cxx
+rm -f _ROOT_DICT_QEL.*
+[package: QEL] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_QEL.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  QELHadronicSystemGenerator.h QELInteractionListGenerator.h QELKinematicsGenerator.h QELPrimaryLeptonGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_QEL.cc
+[package: QEL] Generating shared library ...
+g++ -shared  QELHadronicSystemGenerator.o QELInteractionListGenerator.o QELKinematicsGenerator.o QELPrimaryLeptonGenerator.o _ROOT_DICT_QEL.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGQEL-2.10.0.so
+[package: QEL] Creating symbolic link to shared library ...
+ln -sf libGQEL-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGQEL.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/QEL'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/ReinSehgal'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BergerSehgalRESPXSec2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BSKLNBaseRESPXSec2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FKR.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  KuzminLyubushkinNaumovRESPXSec2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinDFRPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinSehgalCOHPiPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinSehgalRESPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinSehgalRESXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinSehgalRESXSecWithCache.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinSehgalSPPPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ReinSehgalSPPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmpl.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmplModelCC.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmplModelEMn.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmplModelEMp.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmplModelI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmplModelNCn.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSHelicityAmplModelNCp.cxx
+rm -f _ROOT_DICT_ReinSehgal.*
+[package: ReinSehgal] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_ReinSehgal.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BergerSehgalRESPXSec2014.h BSKLNBaseRESPXSec2014.h FKR.h KuzminLyubushkinNaumovRESPXSec2014.h ReinDFRPXSec.h ReinSehgalCOHPiPXSec.h ReinSehgalRESPXSec.h ReinSehgalRESXSec.h ReinSehgalRESXSecWithCache.h ReinSehgalSPPPXSec.h ReinSehgalSPPXSec.h RSHelicityAmpl.h RSHelicityAmplModelCC.h RSHelicityAmplModelEMn.h RSHelicityAmplModelEMp.h RSHelicityAmplModelI.h RSHelicityAmplModelNCn.h RSHelicityAmplModelNCp.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_ReinSehgal.cc
+[package: ReinSehgal] Generating shared library ...
+g++ -shared  BergerSehgalRESPXSec2014.o BSKLNBaseRESPXSec2014.o FKR.o KuzminLyubushkinNaumovRESPXSec2014.o ReinDFRPXSec.o ReinSehgalCOHPiPXSec.o ReinSehgalRESPXSec.o ReinSehgalRESXSec.o ReinSehgalRESXSecWithCache.o ReinSehgalSPPPXSec.o ReinSehgalSPPXSec.o RSHelicityAmpl.o RSHelicityAmplModelCC.o RSHelicityAmplModelEMn.o RSHelicityAmplModelEMp.o RSHelicityAmplModelI.o RSHelicityAmplModelNCn.o RSHelicityAmplModelNCp.o _ROOT_DICT_ReinSehgal.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGReinSehgal-2.10.0.so
+[package: ReinSehgal] Creating symbolic link to shared library ...
+ln -sf libGReinSehgal-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGReinSehgal.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/ReinSehgal'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/RES'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RESHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RESInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RESKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RESPrimaryLeptonGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSPPHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSPPInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RSPPResonanceSelector.cxx
+rm -f _ROOT_DICT_RES.*
+[package: RES] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_RES.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  RESHadronicSystemGenerator.h RESInteractionListGenerator.h RESKinematicsGenerator.h RESPrimaryLeptonGenerator.h RSPPHadronicSystemGenerator.h RSPPInteractionListGenerator.h RSPPResonanceSelector.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_RES.cc
+[package: RES] Generating shared library ...
+g++ -shared  RESHadronicSystemGenerator.o RESInteractionListGenerator.o RESKinematicsGenerator.o RESPrimaryLeptonGenerator.o RSPPHadronicSystemGenerator.o RSPPInteractionListGenerator.o RSPPResonanceSelector.o _ROOT_DICT_RES.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGRES-2.10.0.so
+[package: RES] Creating symbolic link to shared library ...
+ln -sf libGRES-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGRES.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/RES'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/VHE'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GLRESGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GLRESInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GLRESPXSec.cxx
+rm -f _ROOT_DICT_VHE.*
+[package: VHE] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_VHE.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GLRESGenerator.h GLRESInteractionListGenerator.h GLRESPXSec.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_VHE.cc
+[package: VHE] Generating shared library ...
+g++ -shared  GLRESGenerator.o GLRESInteractionListGenerator.o GLRESPXSec.o _ROOT_DICT_VHE.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGVHE-2.10.0.so
+[package: VHE] Creating symbolic link to shared library ...
+ln -sf libGVHE-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGVHE.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/VHE'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/SingleKaon'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AlamSimoAtharVacasSKPXSec2014.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AlamSimoAtharVacasSKXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SKHadronicSystemGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SKInteractionListGenerator.cxx
+SKInteractionListGenerator.cxx: In member function ‘virtual genie::InteractionList* genie::SKInteractionListGenerator::CreateInteractionList(const genie::InitialState&) const’:
+SKInteractionListGenerator.cxx:51:21: warning: variable ‘inttype’ set but not used [-Wunused-but-set-variable]
+   InteractionType_t inttype;
+                     ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SKKinematicsGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  SKPrimaryLeptonGenerator.cxx
+rm -f _ROOT_DICT_SingleKaon.*
+[package: SingleKaon] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_SingleKaon.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AlamSimoAtharVacasSKPXSec2014.h AlamSimoAtharVacasSKXSec.h SKHadronicSystemGenerator.h SKInteractionListGenerator.h SKKinematicsGenerator.h SKPrimaryLeptonGenerator.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_SingleKaon.cc
+[package: SingleKaon] Generating shared library ...
+g++ -shared  AlamSimoAtharVacasSKPXSec2014.o AlamSimoAtharVacasSKXSec.o SKHadronicSystemGenerator.o SKInteractionListGenerator.o SKKinematicsGenerator.o SKPrimaryLeptonGenerator.o _ROOT_DICT_SingleKaon.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGSingleKaon-2.10.0.so
+[package: SingleKaon] Creating symbolic link to shared library ...
+ln -sf libGSingleKaon-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGSingleKaon.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/SingleKaon'
+ 
+** Building tested medium energy range physics models...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd MEC;                make; cd ..; \
+	cd NuGamma;            make; cd ..; 
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/MEC'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  MECGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  MECInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  MECPXSec.cxx
+rm -f _ROOT_DICT_MEC.*
+[package: MEC] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_MEC.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  MECGenerator.h MECInteractionListGenerator.h MECPXSec.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_MEC.cc
+[package: MEC] Generating shared library ...
+g++ -shared  MECGenerator.o MECInteractionListGenerator.o MECPXSec.o _ROOT_DICT_MEC.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGMEC-2.10.0.so
+[package: MEC] Creating symbolic link to shared library ...
+ln -sf libGMEC-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGMEC.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/MEC'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/NuGamma'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AMNuGammaGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AMNuGammaInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  H3AMNuGammaPXSec.cxx
+rm -f _ROOT_DICT_NuGamma.*
+[package: NuGamma] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_NuGamma.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  AMNuGammaGenerator.h AMNuGammaInteractionListGenerator.h H3AMNuGammaPXSec.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_NuGamma.cc
+[package: NuGamma] Generating shared library ...
+g++ -shared  AMNuGammaGenerator.o AMNuGammaInteractionListGenerator.o H3AMNuGammaPXSec.o _ROOT_DICT_NuGamma.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNuGamma-2.10.0.so
+[package: NuGamma] Creating symbolic link to shared library ...
+ln -sf libGNuGamma-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNuGamma.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/NuGamma'
+ 
+** The VLE extension was not enabled. Skipping...
+ 
+** Building flux-drivers...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/FluxDrivers; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/FluxDrivers'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GAstroFlux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GAtmoFlux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GBartolAtmoFlux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GCylindTH1Flux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFlavorMap.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFlavorMixerFactory.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFlavorMixerI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFlukaAtmo3DFlux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFluxBlender.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFluxDriverFactory.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFluxExposureI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GFluxFileConfigI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GJPARCNuFlux.cxx
+GJPARCNuFlux.cxx: In member function ‘bool genie::flux::GJPARCNuFlux::LoadBeamSimData(std::string, std::string)’:
+GJPARCNuFlux.cxx:764:7: warning: ‘lastfile’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+       for (int i = firstfile+1; i < lastfile+1; i++) {
+       ^
+GJPARCNuFlux.cxx:572:28: warning: ‘firstfile’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     for (int i = firstfile+1; i < lastfile+1; i++) {
+                            ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GMonoEnergeticFlux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GNuMIFlux.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GSimpleNtpFlux.cxx
+rm -f _ROOT_DICT_FluxDrivers.*
+[package: FluxDrivers] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_FluxDrivers.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GAstroFlux.h GAtmoFlux.h GBartolAtmoFlux.h GCylindTH1Flux.h GFlavorMap.h GFlavorMixerFactory.h GFlavorMixerI.h GFlukaAtmo3DFlux.h GFluxBlender.h GFluxDriverFactory.h GFluxExposureI.h GFluxFileConfigI.h GJPARCNuFlux.h GMonoEnergeticFlux.h GNuMIFlux.h GSimpleNtpFlux.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_FluxDrivers.cc
+[package: FluxDrivers] Generating shared library ...
+g++ -shared  GAstroFlux.o GAtmoFlux.o GBartolAtmoFlux.o GCylindTH1Flux.o GFlavorMap.o GFlavorMixerFactory.o GFlavorMixerI.o GFlukaAtmo3DFlux.o GFluxBlender.o GFluxDriverFactory.o GFluxExposureI.o GFluxFileConfigI.o GJPARCNuFlux.o GMonoEnergeticFlux.o GNuMIFlux.o GSimpleNtpFlux.o _ROOT_DICT_FluxDrivers.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGFluxDrivers-2.10.0.so
+[package: FluxDrivers] Creating symbolic link to shared library ...
+ln -sf libGFluxDrivers-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGFluxDrivers.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/FluxDrivers'
+ 
+** Building geometry-drivers...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/Geo; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Geo'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FidShape.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GeomVolSelectorBasic.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GeomVolSelectorFiducial.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GeomVolSelectorI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GeomVolSelectorRockBox.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GeoUtils.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PathSegmentList.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PointGeomAnalyzer.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  ROOTGeomAnalyzer.cxx
+rm -f _ROOT_DICT_Geo.*
+[package: Geo] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_Geo.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  FidShape.h GeomVolSelectorBasic.h GeomVolSelectorFiducial.h GeomVolSelectorI.h GeomVolSelectorRockBox.h GeoUtils.h PathSegmentList.h PointGeomAnalyzer.h ROOTGeomAnalyzer.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_Geo.cc
+[package: Geo] Generating shared library ...
+g++ -shared  FidShape.o GeomVolSelectorBasic.o GeomVolSelectorFiducial.o GeomVolSelectorI.o GeomVolSelectorRockBox.o GeoUtils.o PathSegmentList.o PointGeomAnalyzer.o ROOTGeomAnalyzer.o _ROOT_DICT_Geo.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGGeo-2.10.0.so
+[package: Geo] Creating symbolic link to shared library ...
+ln -sf libGGeo-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGGeo.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/Geo'
+ 
+** Building nucleon decay library...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd NucleonDecay; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/NucleonDecay'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DummyInteractionListGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DummyPXSec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NucleonDecayPrimaryVtxGenerator.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  NucleonDecayUtils.cxx
+rm -f _ROOT_DICT_NucleonDecay.*
+[package: NucleonDecay] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_NucleonDecay.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  DummyInteractionListGenerator.h DummyPXSec.h NucleonDecayPrimaryVtxGenerator.h NucleonDecayUtils.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_NucleonDecay.cc
+[package: NucleonDecay] Generating shared library ...
+g++ -shared  DummyInteractionListGenerator.o DummyPXSec.o NucleonDecayPrimaryVtxGenerator.o NucleonDecayUtils.o _ROOT_DICT_NucleonDecay.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNucleonDecay-2.10.0.so
+[package: NucleonDecay] Creating symbolic link to shared library ...
+ln -sf libGNucleonDecay-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGNucleonDecay.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/NucleonDecay'
+ 
+** Building event reweighting library...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src;\
+	cd ReWeight; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/ReWeight'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightAGKY.cxx
+GReWeightAGKY.cxx: In member function ‘double genie::rew::GReWeightAGKY::RewxFpT1pi(const genie::EventRecord&)’:
+GReWeightAGKY.cxx:175:7: warning: variable ‘iN’ set but not used [-Wunused-but-set-variable]
+   int iN = -1;
+       ^
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeight.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightDISNuclMod.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightFGM.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightFZone.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightINuke.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightINukeParams.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightMarginalize.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNonResonanceBkg.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecCCQE.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecCCQEvec.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecCCRES.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecCOH.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecDIS.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecHelper.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecNC.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecNCEL.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightNuXSecNCRES.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightResonanceDecay.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightUtils.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GSystSet.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GSystUncertainty.cxx
+rm -f _ROOT_DICT_ReWeight.*
+[package: ReWeight] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_ReWeight.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  GReWeightAGKY.h GReWeight.h GReWeightDISNuclMod.h GReWeightFGM.h GReWeightFZone.h GReWeightINuke.h GReWeightINukeParams.h GReWeightMarginalize.h GReWeightNonResonanceBkg.h GReWeightNuXSecCCQE.h GReWeightNuXSecCCQEvec.h GReWeightNuXSecCCRES.h GReWeightNuXSecCOH.h GReWeightNuXSecDIS.h GReWeightNuXSecHelper.h GReWeightNuXSecNC.h GReWeightNuXSecNCEL.h GReWeightNuXSecNCRES.h GReWeightResonanceDecay.h GReWeightUtils.h GSystSet.h GSystUncertainty.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_ReWeight.cc
+[package: ReWeight] Generating shared library ...
+g++ -shared  GReWeightAGKY.o GReWeight.o GReWeightDISNuclMod.o GReWeightFGM.o GReWeightFZone.o GReWeightINuke.o GReWeightINukeParams.o GReWeightMarginalize.o GReWeightNonResonanceBkg.o GReWeightNuXSecCCQE.o GReWeightNuXSecCCQEvec.o GReWeightNuXSecCCRES.o GReWeightNuXSecCOH.o GReWeightNuXSecDIS.o GReWeightNuXSecHelper.o GReWeightNuXSecNC.o GReWeightNuXSecNCEL.o GReWeightNuXSecNCRES.o GReWeightResonanceDecay.o GReWeightUtils.o GSystSet.o GSystUncertainty.o _ROOT_DICT_ReWeight.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGReWeight-2.10.0.so
+[package: ReWeight] Creating symbolic link to shared library ...
+ln -sf libGReWeight-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGReWeight.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/ReWeight'
+ 
+** Building mueloss utility package...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/MuELoss; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/MuELoss'
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BetheBlochModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BezrukovBugaevModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  KokoulinPetrukhinModel.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  MuELossI.cxx
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  PetrukhinShestakovModel.cxx
+rm -f _ROOT_DICT_MuELoss.*
+[package: MuELoss] Generating ROOT dictionary ...
+rootcint -f _ROOT_DICT_MuELoss.cc -c -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  BetheBlochModel.h BezrukovBugaevModel.h KokoulinPetrukhinModel.h MuELossI.h PetrukhinShestakovModel.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT_MuELoss.cc
+[package: MuELoss] Generating shared library ...
+g++ -shared  BetheBlochModel.o BezrukovBugaevModel.o KokoulinPetrukhinModel.o MuELossI.o PetrukhinShestakovModel.o _ROOT_DICT_MuELoss.o  -o /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGMuELoss-2.10.0.so
+[package: MuELoss] Creating symbolic link to shared library ...
+ln -sf libGMuELoss-2.10.0.so /home/joe/GENIE_work/GENIE_v2.10.0/lib/libGMuELoss.so
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/MuELoss'
+ 
+** Building GENIE validation tools...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/EvScan; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/MCx; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/NuXSec; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/StructFunc; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Hadronization; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Intranuke; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Merenyi; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/validation/eA; \
+	make; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/EvScan'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gVldSampleScan.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gVldSampleScan.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_sample_scan
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldSampleScan] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/EvScan'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/MCx'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gVldSampleComp.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gVldSampleComp.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_sample_comp
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldSampleComp] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/MCx'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/NuXSec'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c NuXSecData.cxx NuXSecFunc.cxx NuXSecComparison.cxx gVldNuXSec.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined NuXSecData.o NuXSecFunc.o NuXSecComparison.o gVldNuXSec.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_nu_xsec
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldNuXSec] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/NuXSec'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/StructFunc'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c StructFunc.cxx gVldStructFunc.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined StructFunc.o gVldStructFunc.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_sf
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldStructFunc] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/StructFunc'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Hadronization'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c HadPlots.cxx HadPlotter.cxx gVldHadronzTest.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined HadPlots.o HadPlotter.o gVldHadronzTest.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_hadronz_test
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldHadronzTest] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Hadronization'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Intranuke'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gtestINukeHadroXSec.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+gtestINukeHadroXSec.cxx: In function ‘int main(int, char**)’:
+gtestINukeHadroXSec.cxx:173:7: warning: case value ‘13’ not in enumerated type ‘genie::INukeFateHA_t {aka genie::EINukeFateHA_t}’ [-Wswitch]
+       case 13:  countfate[8]++; break;
+       ^
+gtestINukeHadroXSec.cxx:113:21: warning: variable ‘thdr’ set but not used [-Wunused-but-set-variable]
+   NtpMCTreeHeader * thdr   = 0;
+                     ^
+gtestINukeHadroXSec.cxx: In function ‘genie::INukeFateHA_t FindhAFate(const genie::GHepRecord*)’:
+gtestINukeHadroXSec.cxx:399:7: warning: variable ‘num_t’ set but not used [-Wunused-but-set-variable]
+   int num_t  = 0;
+       ^
+gtestINukeHadroXSec.cxx:408:8: warning: variable ‘hasBlob’ set but not used [-Wunused-but-set-variable]
+   bool hasBlob = false;
+        ^
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gtestINukeHadroXSec.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gtestINukeHadroXSec
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gtestINukeHadroXSec] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Intranuke'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Merenyi'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gVldMerenyiTest.cxx MerenyiAnalysis.cxx MerenyiAnalysisD2.cxx MerenyiAnalysisNe.cxx MerenyiNuEvent.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gVldMerenyiTest.o MerenyiAnalysis.o MerenyiAnalysisD2.o MerenyiAnalysisNe.o MerenyiNuEvent.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_merenyi_test
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldMerenyiTest] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/Merenyi'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/eA'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gVldeQELXSec.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gVldeQELXSec.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gvld_e_qel_xsec
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gVldeQELXSec] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/validation/eA'
+ 
+** Building test applications...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/test;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/test'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gtestAlgorithms.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gtestAlgorithms.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gtestAlgorithms
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gtestAlgorithms] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/test'
+ 
+** Building GENIE applications...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/stdapp;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/stdapp'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gEvGen.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gEvGen.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gevgen 
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gEvGen] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/stdapp'
+ 
+** Building T2K-specific support software...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/support/t2k/EvGen/;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/t2k/EvGen'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gT2KEvGen.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gT2KEvGen.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gevgen_t2k
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gevgen_t2k] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/t2k/EvGen'
+ 
+** Building FNAL-specific support software...
+Not enabled! Skipping...
+ 
+** Building support software for atmospheric neutrino studies...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/support/atmo/EvGen/;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0/src/support/atmo/UpMuFluxGen/;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/atmo/EvGen'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gAtmoEvGen.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gAtmoEvGen.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gevgen_atmo
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gAtmoEvGen] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/atmo/EvGen'
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/atmo/UpMuFluxGen'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gUpMuFluxGen.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gUpMuFluxGen.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gevgen_upmu
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gUpMuFluxGen] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/atmo/UpMuFluxGen'
+ 
+** Building nucleon decay applications ...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/support/ndcy/EvGen;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/ndcy/EvGen'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gNucleonDecayEvGen.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gNucleonDecayEvGen.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gevgen_ndcy
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gevgen_ndcy] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/ndcy/EvGen'
+ 
+** Building event reweighting applications ...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/support/rwght/;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/rwght'
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c gRwght1Scan.cxx -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined gRwght1Scan.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/grwght1scan
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gRwght1Scan] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/rwght'
+ 
+** Building neutrino masterclass application ...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/support/masterclass/;\
+	make all; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/masterclass'
+Generating dictionary _ROOT_DICT.cc...
+rootcint -f _ROOT_DICT.cc -c -I/usr/local/root/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src GNuMcMainFrame.h FastSimCherenkov.h FastSimScintCalo.h MCTruthDisplay.h LinkDef.h
+g++ -c  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/  _ROOT_DICT.cc
+g++  -Wall -fPIC  -O2   -Wno-strict-aliasing -ffriend-injection -c FastSimCherenkov.cxx FastSimScintCalo.cxx gNeutrinoMasterClassApp.cxx GNuMcMainFrame.cxx MCTruthDisplay.cxx _ROOT_DICT.cc -I//include -I/usr/include/libxml2  -I/opt/log4cpp/include -I/opt/LHAPDF-6.1.5/include -I/home/joe/GENIE_work/GENIE_v2.10.0/src/ 
+GNuMcMainFrame.cxx: In member function ‘void genie::masterclass::GNuMcMainFrame::BuildFastSimScintCaloTab()’:
+GNuMcMainFrame.cxx:257:22: warning: variable ‘tf’ set but not used [-Wunused-but-set-variable]
+   TGCompositeFrame * tf = 0;
+                      ^
+GNuMcMainFrame.cxx: In member function ‘void genie::masterclass::GNuMcMainFrame::BuildFastSimCherenkovTab()’:
+GNuMcMainFrame.cxx:268:22: warning: variable ‘tf’ set but not used [-Wunused-but-set-variable]
+   TGCompositeFrame * tf = 0;
+                      ^
+g++ -g -Wl,--no-as-needed -Wl,--no-undefined FastSimCherenkov.o FastSimScintCalo.o gNeutrinoMasterClassApp.o GNuMcMainFrame.o MCTruthDisplay.o _ROOT_DICT.o -L/home/joe/GENIE_work/GENIE_v2.10.0/lib -lGAlgorithm -lGBaryonResonance -lGBase -lGBodekYang -lGCharm -lGCoh -lGDfrc -lGDIS -lGCrossSections -lGDecay -lGElas -lGElFF -lGHEP -lGEVGCore -lGEVGModules -lGEVGDrivers -lGGiBUU -lGHadronTransp -lGFragmentation -lGInteraction -lGLlewellynSmith -lGMEC -lGMessenger -lGNuGamma -lGNuE -lGNtuple -lGNuclear -lGNumerical -lGQPM -lGPDG -lGPDF -lGQEL -lGRES -lGRegistry -lGReinSehgal -lGSingleKaon -lGUtils -lGVHE -lGGeo -lGFluxDrivers -lGMuELoss -lGReWeight -lGNucleonDecay  -L//lib -lGui -lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic -lMinuit -lGeom -lEG -lEGPythia6 -lGenVector -L/opt/pythia/v6_424/lib -lPythia6   -L/opt/LHAPDF-6.1.5/src/.libs -lLHAPDF  -L/usr/share/aclocal -lxml2 -L/opt/log4cpp/lib -llog4cpp  -lnsl  -o /home/joe/GENIE_work/GENIE_v2.10.0/bin/gnumc
+/usr/bin/ld: cannot find -lGPDF
+collect2: error: ld returned 1 exit status
+make[1]: *** [gnumc] Error 1
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/support/masterclass'
+ 
+** Installing scripts...
+cd /home/joe/GENIE_work/GENIE_v2.10.0/src/scripts;\
+	make install; \
+	cd /home/joe/GENIE_work/GENIE_v2.10.0
+make[1]: Entering directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/scripts'
+cp setup/genie-config /home/joe/GENIE_work/GENIE_v2.10.0/bin; \
+	cp gcint/genie /home/joe/GENIE_work/GENIE_v2.10.0/bin; \
+	chmod 755 /home/joe/GENIE_work/GENIE_v2.10.0/bin/genie-config; \
+	chmod 755 /home/joe/GENIE_work/GENIE_v2.10.0/bin/genie; 
+make[1]: Leaving directory `/home/joe/GENIE_work/GENIE_v2.10.0/src/scripts'

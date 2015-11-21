@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Script to configure GENIE before building and installing
+
 export GENIE="/home/joe/work/GENIE_v2.10.0"
 export ROOTSYS="/usr/local/root"
 

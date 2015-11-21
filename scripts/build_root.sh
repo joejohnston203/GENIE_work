@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Script to install root with the options necessary for GENIE
+
 # Set directory of repository cloned from github
 root_download="/home/joe/work/ignore/root_download"
 ver="v5-34-34" # Set version to use
