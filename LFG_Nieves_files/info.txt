@@ -9,6 +9,7 @@ src/EVGModules/FermiMoverLFG.cxx
 src/Nuclear/LFGMBodekRitchie.h
 src/Nuclear/LFGMBodekRitchie.cxx
 config/LFGMBodekRitchie.xml
+config/FermiMoverLFG.xml
 
 Modified:
 src/Interaction/Target.h
@@ -16,3 +17,6 @@ src/Interaction/Target.cxx
 src/EVGModules/VertexGenerator.cxx
 src/EVGModules/LinkDef.h
 src/Nuclear/LinkDef.h
+config/master_config.xml
+config/UserPhysicsOptions.xml
+config/EventGenerator.xml

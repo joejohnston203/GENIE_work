@@ -45,7 +45,7 @@ NuclearModelI("genie::LFGMBodekRitchie", config)
 //____________________________________________________________________________
 LFGMBodekRitchie::~LFGMBodekRitchie()
 {
-  map<std::pair<string,double> , TH1D*>::iterator iter =fProbDistroMap.begin();
+  /*map<std::pair<string,double> , TH1D*>::iterator iter =fProbDistroMap.begin();
   for( ; iter != fProbDistroMap.begin(); ++iter) {
     TH1D * hst = iter->second;
     if(hst) {
@@ -53,7 +53,7 @@ LFGMBodekRitchie::~LFGMBodekRitchie()
       hst=0;
     }
   }
-  fProbDistroMap.clear();
+  fProbDistroMap.clear();*/
 }
 //____________________________________________________________________________
 bool LFGMBodekRitchie::GenerateNucleon(const Target & target) const
@@ -125,7 +125,7 @@ TH1D * LFGMBodekRitchie::ProbDistro(const Target & target) const
   LOG("LFGMBodekRitchie", pNOTICE)
              << "Computing P = f(p_nucleon) for: " << target.AsString();
   LOG("LFGMBodekRitchie", pNOTICE)
-               << "P(cut-off) = " << fPCutOff << ", P(max) = " << fPMax;
+             << ", P(max) = " << fPMax;
 
   //-- get information for the nuclear target
   int nucleon_pdgc = target.HitNucPdg();
@@ -137,7 +137,7 @@ TH1D * LFGMBodekRitchie::ProbDistro(const Target & target) const
   double numNuc = (is_p) ? (double)target.Z():(double)target.N();
 
   // Calculate Fermi Momentum using LFG model
-  double r = target.GetHitNucRadius(), hbarc = .1973269602;
+  double r = target.HitNucRadius(), hbarc = .1973269602;
   double KF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
@@ -218,6 +218,8 @@ void LFGMBodekRitchie::LoadConfig(void)
   // configuration file or the UserPhysicsOptions file.
   // If none is used use Wapstra's semi-empirical formula.
   //
+  AlgConfigPool * confp = AlgConfigPool::Instance();
+  const Registry * gc = confp->GlobalParameterList();
   for(int Z=1; Z<140; Z++) {
     for(int A=Z; A<3*Z; A++) {
       ostringstream key, gckey;
@@ -237,8 +239,6 @@ void LFGMBodekRitchie::LoadConfig(void)
   }
 
   // LFG does not use a Fermi Momentum Table
-  //AlgConfigPool * confp = AlgConfigPool::Instance();
-  //const Registry * gc = confp->GlobalParameterList();
   //fKFTable = fConfig->GetStringDef ("FermiMomentumTable", 
   //gc->GetString("FermiMomentumTable"));
   //

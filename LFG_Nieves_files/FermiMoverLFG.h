@@ -30,9 +30,9 @@ class NuclearModelI;
 class FermiMoverLFG : public EventRecordVisitorI {
 
 public :
-  FermiMover();
-  FermiMover(string config);
- ~FermiMover();
+  FermiMoverLFG();
+  FermiMoverLFG(string config);
+ ~FermiMoverLFG();
 
   //-- implement the EventRecordVisitorI interface
   void ProcessEventRecord(GHepRecord * event_rec) const;

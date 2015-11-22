@@ -181,7 +181,7 @@ void VertexGenerator::ProcessEventRecord(GHepRecord * evrec) const
                                           << print::Vec3AsString(&vtx);
 
   // Store the radius in the nuclear target object, for use in LFG model
-  interaction->InitStatePtr()->TgtPtr()->SetHitNucRadius(vtx.Mag());
+  evrec->Summary()->InitStatePtr()->TgtPtr()->SetHitNucRadius(vtx.Mag());
 
   // Copy the vertex info to the particles already in the event  record
   //

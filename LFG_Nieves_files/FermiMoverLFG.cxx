@@ -44,6 +44,7 @@
 #include "PDG/PDGUtils.h"
 #include "PDG/PDGCodes.h"
 #include "Utils/KineUtils.h"
+#include "Utils/NuclearUtils.h"
 
 using namespace genie;
 using namespace genie::constants;
@@ -187,7 +188,7 @@ void FermiMoverLFG::KickHitNucleon(GHepRecord * evrec) const
       int A = tgt->A();
       bool is_p = pdg::IsProton(nucleon_pdgc);
       double numNuc = (is_p) ? (double)tgt->Z():(double)tgt->N();
-      double r = tgt->GetHitNucRadius(), hbarc = .1973269602;
+      double r = tgt->HitNucRadius(), hbarc = .1973269602;
       double kF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
