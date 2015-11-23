@@ -52,8 +52,8 @@ LFGMBodekRitchie::~LFGMBodekRitchie()
       delete hst;
       hst=0;
     }
-  }
-  fProbDistroMap.clear();*/
+    }
+    fProbDistroMap.clear();*/
 }
 //____________________________________________________________________________
 bool LFGMBodekRitchie::GenerateNucleon(const Target & target) const
@@ -72,6 +72,7 @@ bool LFGMBodekRitchie::GenerateNucleon(const Target & target) const
     exit(1);
   }
   double p = prob->GetRandom();
+  delete prob;
   LOG("LFGMBodekRitchie", pINFO) << "|p,nucleon| = " << p;
 
   RandomGen * rnd = RandomGen::Instance();
@@ -106,6 +107,7 @@ double LFGMBodekRitchie::Prob(double p, double w, const Target & target) const
     double y  = prob->GetBinContent(bin);
     double dx = prob->GetBinWidth(bin);
     double p  = y*dx;
+    delete prob;
     return p;
   }
   return 1;
