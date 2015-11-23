@@ -113,6 +113,7 @@ double LFGMBodekRitchie::Prob(double p, double w, const Target & target) const
   return 1;
 }
 //____________________________________________________________________________
+// *** The TH1D object must be deleted after it is used ***
 TH1D * LFGMBodekRitchie::ProbDistro(const Target & target) const
 {
   // Do not store computed values, because the radius will be different
