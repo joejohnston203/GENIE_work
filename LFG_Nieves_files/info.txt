@@ -5,9 +5,6 @@ to implement the LFG model:
 
 Added:
 config/LFGNuclearModel.xml
-config/FermiMoverLFG.xml
-src/EVGModules/FermiMoverLFG.h
-src/EVGModules/FermiMoverLFG.cxx
 src/Nuclear/LFGNuclearModel.h
 src/Nuclear/LFGNuclearModel.cxx
 src/Nuclear/NuclearModel.h
@@ -26,3 +23,12 @@ config/UserPhysicsOptions.xml
 config/EventGenerator.xml
 config/Messenger.xml
 *** all of the Messenger files need to be updated to include LFGNuclearModel ***
+
+Options to add LFG to FermiMover when deciding whether to emit a recoil nucleon:
+Option 1 (Add a second FermiMover class):
+config/FermiMoverLFG.xml
+src/EVGModules/FermiMoverLFG.h
+src/EVGModules/FermiMoverLFG.cxx
+
+Option 2 (Edit FermiMover.cxx to check what nuclear model is being used):
+src/EVGModules/FermiMover.cxx
