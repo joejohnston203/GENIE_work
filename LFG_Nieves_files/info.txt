@@ -24,3 +24,5 @@ src/Nuclear/LinkDef.h
 config/master_config.xml
 config/UserPhysicsOptions.xml
 config/EventGenerator.xml
+config/Messenger.xml
+*** all of the Messenger files need to be updated to include LFGNuclearModel ***

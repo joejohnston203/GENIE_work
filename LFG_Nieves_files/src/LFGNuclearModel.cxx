@@ -73,7 +73,7 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target) const
   }
   double p = prob->GetRandom();
   delete prob;
-  LOG("LFGMBodekRitchie", pINFO) << "|p,nucleon| = " << p;
+  LOG("LFGNuclearModel", pINFO) << "|p,nucleon| = " << p;
 
   RandomGen * rnd = RandomGen::Instance();
 
@@ -125,9 +125,9 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
   //  fProbDistroMap.find(targetStr);
   //if(it != fProbDistroMap.end()) return it->second;
 
-  LOG("LFGMBodekRitchie", pNOTICE)
+  LOG("LFGNuclearModel", pNOTICE)
              << "Computing P = f(p_nucleon) for: " << target.AsString();
-  LOG("LFGMBodekRitchie", pNOTICE)
+  LOG("LFGNuclearModel", pNOTICE)
              << ", P(max) = " << fPMax;
 
   //-- get information for the nuclear target
@@ -144,16 +144,16 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
   double KF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
-  LOG("LFGMBodekRitchie",pDEBUG) << "r = " << r << ",KF LFG = " << KF;
+  LOG("LFGNuclearModel",pDEBUG) << "r = " << r << ",KF LFG = " << KF;
 
   double a  = 2.0;
   double C  = 4. * kPi * TMath::Power(KF,3) / 3.;
   // Do not include nucleon correlation tail
   //double R  = 1. / (1.- KF/4.);
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
-  LOG("LFGMBodekRitchie", pDEBUG) << "a  = " << a;
-  LOG("LFGMBodekRitchie", pDEBUG) << "C  = " << C;
-  //LOG("LFGMBodekRitchie", pDEBUG) << "R  = " << R;
+  LOG("LFGNuclearModel", pDEBUG) << "a  = " << a;
+  LOG("LFGNuclearModel", pDEBUG) << "C  = " << C;
+  //LOG("LFGNuclearModel", pDEBUG) << "R  = " << R;
 #endif
 
   //-- create the probability distribution
@@ -181,7 +181,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
      // calculate probability density : dProbability/dp
      double dP_dp = 4*kPi * p2 * phi2;
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
-     LOG("LFGMBodekRitchie", pDEBUG) << "p = " << p << ", dP/dp = " << dP_dp;
+     LOG("LFGNuclearModel", pDEBUG) << "p = " << p << ", dP/dp = " << dP_dp;
 #endif
      prob->Fill(p, dP_dp);
   }
@@ -190,7 +190,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
   prob->Scale( 1.0 / prob->Integral("width") );
 
   //-- store
-  //LOG("LFGMBodekRitchie",pDEBUG) << "Target name as string = " << 
+  //LOG("LFGNuclearModel",pDEBUG) << "Target name as string = " << 
   //  target.AsString();
   //std::pair <string,double> targetPair (target.AsString(),
   //					  target.GetHitNucRadius());
@@ -234,7 +234,7 @@ void LFGNuclearModel::LoadConfig(void)
       if (this->GetConfig().Exists(rgkey) || gc->Exists(gcrgkey)) {
         double eb = fConfig->GetDoubleDef(rgkey, gc->GetDouble(gcrgkey));
         eb = TMath::Max(eb, 0.);
-        LOG("LFGMBodekRitchie", pINFO)
+        LOG("LFGNuclearModel", pINFO)
           << "Nucleus: " << pdgc << " -> using Eb =  " << eb << " GeV";
         fNucRmvE.insert(map<int,double>::value_type(Z,eb));
       }
