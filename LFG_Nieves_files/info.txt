@@ -4,12 +4,13 @@ to implement the LFG model:
 -- LFG Model --
 
 Added:
-config/LFGMBodekRitchie.xml
+config/LFGNuclearModel.xml
 config/FermiMoverLFG.xml
 src/EVGModules/FermiMoverLFG.h
 src/EVGModules/FermiMoverLFG.cxx
-src/Nuclear/LFGMBodekRitchie.h
-src/Nuclear/LFGMBodekRitchie.cxx
+src/Nuclear/LFGNuclearModel.h
+src/Nuclear/LFGNuclearModel.cxx
+src/Nuclear/NuclearModel.h
 
 Modified:
 config/master_config.xml

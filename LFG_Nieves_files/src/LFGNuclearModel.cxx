@@ -19,7 +19,7 @@
 #include "Conventions/GBuild.h"
 #include "Conventions/Constants.h"
 #include "Messenger/Messenger.h"
-#include "Nuclear/LFGMBodekRitchie.h"
+#include "Nuclear/LFGNuclearModel.h"
 #include "PDG/PDGCodes.h"
 #include "PDG/PDGUtils.h"
 #include "Numerical/RandomGen.h"
@@ -31,19 +31,19 @@ using namespace genie::constants;
 using namespace genie::utils;
 
 //____________________________________________________________________________
-LFGMBodekRitchie::LFGMBodekRitchie() :
-NuclearModelI("genie::LFGMBodekRitchie")
+LFGNuclearModel::LFGNuclearModel() :
+NuclearModelI("genie::LFGNuclearModel")
 {
 
 }
 //____________________________________________________________________________
-LFGMBodekRitchie::LFGMBodekRitchie(string config) :
-NuclearModelI("genie::LFGMBodekRitchie", config)
+LFGNuclearModel::LFGNuclearModel(string config) :
+NuclearModelI("genie::LFGNuclearModel", config)
 {
 
 }
 //____________________________________________________________________________
-LFGMBodekRitchie::~LFGMBodekRitchie()
+LFGNuclearModel::~LFGNuclearModel()
 {
   /*map<std::pair<string,double> , TH1D*>::iterator iter =fProbDistroMap.begin();
   for( ; iter != fProbDistroMap.begin(); ++iter) {
@@ -56,7 +56,7 @@ LFGMBodekRitchie::~LFGMBodekRitchie()
     fProbDistroMap.clear();*/
 }
 //____________________________________________________________________________
-bool LFGMBodekRitchie::GenerateNucleon(const Target & target) const
+bool LFGNuclearModel::GenerateNucleon(const Target & target) const
 {
   assert(target.HitNucIsSet());
 
@@ -67,7 +67,7 @@ bool LFGMBodekRitchie::GenerateNucleon(const Target & target) const
   //
   TH1D * prob = this->ProbDistro(target);
   if(!prob) {
-    LOG("LFGMBodekRitchie", pNOTICE)
+    LOG("LFGNuclearModel", pNOTICE)
               << "Null nucleon momentum probability distribution";
     exit(1);
   }
@@ -99,7 +99,7 @@ bool LFGMBodekRitchie::GenerateNucleon(const Target & target) const
   return true;
 }
 //____________________________________________________________________________
-double LFGMBodekRitchie::Prob(double p, double w, const Target & target) const
+double LFGNuclearModel::Prob(double p, double w, const Target & target) const
 {
   if(w<0) {
     TH1D * prob = this->ProbDistro(target);
@@ -114,7 +114,7 @@ double LFGMBodekRitchie::Prob(double p, double w, const Target & target) const
 }
 //____________________________________________________________________________
 // *** The TH1D object must be deleted after it is used ***
-TH1D * LFGMBodekRitchie::ProbDistro(const Target & target) const
+TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
 {
   // Do not store computed values, because the radius will be different
   // for nearly every event
@@ -200,19 +200,19 @@ TH1D * LFGMBodekRitchie::ProbDistro(const Target & target) const
   return prob; 
 }
 //____________________________________________________________________________
-void LFGMBodekRitchie::Configure(const Registry & config)
+void LFGNuclearModel::Configure(const Registry & config)
 {
   Algorithm::Configure(config);
   this->LoadConfig();
 }
 //____________________________________________________________________________
-void LFGMBodekRitchie::Configure(string param_set)
+void LFGNuclearModel::Configure(string param_set)
 {
   Algorithm::Configure(param_set);
   this->LoadConfig();
 }
 //____________________________________________________________________________
-void LFGMBodekRitchie::LoadConfig(void)
+void LFGNuclearModel::LoadConfig(void)
 {
   fPMax    = fConfig->GetDoubleDef ("MomentumMax", 1.0);
   assert(fPMax > 0);

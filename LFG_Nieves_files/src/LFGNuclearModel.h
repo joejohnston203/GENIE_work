@@ -19,8 +19,8 @@
 */
 //____________________________________________________________________________
 
-#ifndef _LFGM_BODEK_RITCHIE_H_
-#define _LFGM_BODEK_RITCHIE_H_
+#ifndef _LFG_NUCLEAR_MODEL_H_
+#define _LFG_NUCLEAR_MODEL_H_
 
 #include <map>
 
@@ -31,19 +31,19 @@ using std::map;
 
 namespace genie {
 
-class LFGMBodekRitchie : public NuclearModelI {
+class LFGNuclearModel : public NuclearModelI {
 
 public:
-  LFGMBodekRitchie();
-  LFGMBodekRitchie(string config);
-  virtual ~LFGMBodekRitchie();
+  LFGNuclearModel();
+  LFGNuclearModel(string config);
+  virtual ~LFGNuclearModel();
 
   //-- implement the NuclearModelI interface
   bool           GenerateNucleon (const Target & t) const;
   double         Prob            (double p, double w, const Target & t) const;
   NuclearModel_t ModelType       (const Target &) const 
   { 
-    return kNucmFermiGas; 
+    return kNucmLocalFermiGas; 
   }
 
   //-- override the Algorithm::Configure methods to load configuration
@@ -65,5 +65,5 @@ private:
 };
 
 }         // genie namespace
-#endif    // _LFGM_BODEK_RITCHIE_H_
+#endif    // _LFG_NUCLEAR_MODEL_H_
 
