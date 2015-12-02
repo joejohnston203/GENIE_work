@@ -1,0 +1,45 @@
+Files that must be added/modified in the GENIE code in order
+to implement the LFG model:
+
+Added:
+config/LFGNuclearModel.xml
+src/Nuclear/LFGNuclearModel.h
+src/Nuclear/LFGNuclearModel.cxx
+
+Modified:
+config/master_config.xml
+config/UserPhysicsOptions.xml
+config/ Messenger files updated to include LFGNuclearModel
+src/EVGModules/FermiMover.cxx
+src/Nuclear/NuclearModel.h
+src/Nuclear/LinkDef.h
+
+(Changes to be removed)
+src/EVGModules/VertexGenerator.cxx
+src/Interaction/Target.h
+src/Interaction/Target.cxx
+
+Summary:
+
+config/LFGNuclearModel.xml
+src/Nuclear/LFGNuclearModel.h
+src/Nuclear/LFGNuclearModel.cxx
+These files actually implement the local Fermi gas model. It calculates the Fermi momentum using a local Fermi gas, then generates a momentum for the nucleon below the Fermi momentum.
+
+config/master_config.xml
+One line added to link to LFGNuclearModel.xml.
+
+config/ Messenger files updated to include LFGNuclearModel
+Use the same messenger options as FGMBodekRitchie for LFGNuclearModel.
+
+config/UserPhysicsOptions.xml
+Add LFGNuclearModel as an option.
+
+src/EVGModules/FermiMover.cxx
+Updated to check what type of nuclear model is being used, and if LFG is being used call GenerateNucleon() with another parameter indicating the radius of the nucleon, and use LFG when deciding whether to eject a second nucleon.
+
+src/Nuclear/NuclearModel.h
+One line added to include knucModelLocalFermiGas as an option.
+
+src/Nuclear/LinkDef.h
+One line added to link the LFGNuclearModel class to the GENIE code.
