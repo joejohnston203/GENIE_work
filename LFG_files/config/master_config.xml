@@ -5,7 +5,6 @@
    <!-- ****** CONFIGURATION FOR EVENT GENERATION MODULES ****** -->
    <config alg="genie::EventGenerator">              EventGenerator.xml              </config>
    <config alg="genie::FermiMover">                  FermiMover.xml                  </config>
-   <config alg="genie::FermiMoverLFG">               FermiMoverLFG.xml               </config>
    <config alg="genie::HadronTransporter">           HadronTransporter.xml           </config>
    <config alg="genie::HAIntranuke">                 HAIntranuke.xml                 </config>
    <config alg="genie::HNIntranuke">                 HNIntranuke.xml                 </config>

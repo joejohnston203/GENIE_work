@@ -4,7 +4,7 @@
  For the full text of the license visit http://copyright.genie-mc.org
  or see $GENIE/LICENSE
 
- Author: Joe Johnston, University of Pittsburgh
+ Author: Joe Johnston, University of Pittsburgh. (Advisor Steven Dytman)
 
  For the class documentation see the corresponding header file.
 
@@ -45,18 +45,11 @@ NuclearModelI("genie::LFGNuclearModel", config)
 //____________________________________________________________________________
 LFGNuclearModel::~LFGNuclearModel()
 {
-  /*map<std::pair<string,double> , TH1D*>::iterator iter =fProbDistroMap.begin();
-  for( ; iter != fProbDistroMap.begin(); ++iter) {
-    TH1D * hst = iter->second;
-    if(hst) {
-      delete hst;
-      hst=0;
-    }
-    }
-    fProbDistroMap.clear();*/
+
 }
 //____________________________________________________________________________
-bool LFGNuclearModel::GenerateNucleon(const Target & target) const
+bool LFGNuclearModel::GenerateNucleon(const Target & target, 
+				                      double r) const
 {
   assert(target.HitNucIsSet());
 
@@ -65,7 +58,7 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target) const
 
   //-- set fermi momentum vector
   //
-  TH1D * prob = this->ProbDistro(target);
+  TH1D * prob = this->ProbDistro(target,r);
   if(!prob) {
     LOG("LFGNuclearModel", pNOTICE)
               << "Null nucleon momentum probability distribution";
@@ -99,10 +92,11 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target) const
   return true;
 }
 //____________________________________________________________________________
-double LFGNuclearModel::Prob(double p, double w, const Target & target) const
+double LFGNuclearModel::Prob(double p, double w, 
+			        const Target & target, double r) const
 {
   if(w<0) {
-    TH1D * prob = this->ProbDistro(target);
+    TH1D * prob = this->ProbDistro(target, r);
     int bin = prob->FindBin(p);
     double y  = prob->GetBinContent(bin);
     double dx = prob->GetBinWidth(bin);
@@ -114,19 +108,11 @@ double LFGNuclearModel::Prob(double p, double w, const Target & target) const
 }
 //____________________________________________________________________________
 // *** The TH1D object must be deleted after it is used ***
-TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
+TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
 {
-  // Do not store computed values, because the radius will be different
-  // for nearly every event
-  //-- return stored /if already computed/
-  //std::pair <string,double> targetStr (target.AsString(),
-  //				       target.HitNucRadius());
-  //map<std::pair<string,double>, TH1D*>::iterator it = 
-  //  fProbDistroMap.find(targetStr);
-  //if(it != fProbDistroMap.end()) return it->second;
-
   LOG("LFGNuclearModel", pNOTICE)
-             << "Computing P = f(p_nucleon) for: " << target.AsString();
+             << "Computing P = f(p_nucleon) for: " << target.AsString()
+	     << ", Radius = " << r;
   LOG("LFGNuclearModel", pNOTICE)
              << ", P(max) = " << fPMax;
 
@@ -140,7 +126,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
   double numNuc = (is_p) ? (double)target.Z():(double)target.N();
 
   // Calculate Fermi Momentum using LFG model
-  double r = target.HitNucRadius(), hbarc = .1973269602;
+  double hbarc = .1973269602;
   double KF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
@@ -148,6 +134,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
 
   double a  = 2.0;
   double C  = 4. * kPi * TMath::Power(KF,3) / 3.;
+
   // Do not include nucleon correlation tail
   //double R  = 1. / (1.- KF/4.);
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
@@ -174,6 +161,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
      double phi2 = 0;
      if (p <= KF)
         phi2 = iC * (1. - 6.*kfa_pi_2);
+
      // Do not include nucleon correlation tail
      //else if ( p > KF && p < fPCutOff)
      //   phi2 = iC * (2*R*kfa_pi_2*TMath::Power(KF/p,4.));
@@ -188,14 +176,6 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target) const
 
   //-- normalize the probability distribution
   prob->Scale( 1.0 / prob->Integral("width") );
-
-  //-- store
-  //LOG("LFGNuclearModel",pDEBUG) << "Target name as string = " << 
-  //  target.AsString();
-  //std::pair <string,double> targetPair (target.AsString(),
-  //					  target.GetHitNucRadius());
-  //fProbDistroMap.insert(
-  //	map<pair<string,double>, TH1D*>::value_type(targetPair, prob));
 
   return prob; 
 }
@@ -240,15 +220,6 @@ void LFGNuclearModel::LoadConfig(void)
       }
     }
   }
-
-  // LFG does not use a Fermi Momentum Table
-  //fKFTable = fConfig->GetStringDef ("FermiMomentumTable", 
-  //gc->GetString("FermiMomentumTable"));
-  //
-  // Do not include nucleon correlation tail for LFG
-  //fPCutOff = fConfig->GetDoubleDef ("MomentumCutOff",  
-  //gc->GetDouble("RFG-MomentumCutOff"));
-  //assert(fPMax > 0 && fPCutOff > 0 && fPCutOff < fPMax);
 }
 //____________________________________________________________________________
 

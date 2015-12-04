@@ -11,13 +11,11 @@ config/master_config.xml
 config/UserPhysicsOptions.xml
 config/ Messenger files updated to include LFGNuclearModel
 src/EVGModules/FermiMover.cxx
+src/EVGModules/PauliBlocker.h
+src/EVGModules/PauliBlocker.cxx
 src/Nuclear/NuclearModel.h
 src/Nuclear/LinkDef.h
 
-(Changes to be removed)
-src/EVGModules/VertexGenerator.cxx
-src/Interaction/Target.h
-src/Interaction/Target.cxx
 
 Summary:
 
@@ -30,13 +28,17 @@ config/master_config.xml
 One line added to link to LFGNuclearModel.xml.
 
 config/ Messenger files updated to include LFGNuclearModel
-Use the same messenger options as FGMBodekRitchie for LFGNuclearModel.
+Use the same messenger options as BodekRitchie for LFGNuclearModel.
 
 config/UserPhysicsOptions.xml
 Add LFGNuclearModel as an option.
 
 src/EVGModules/FermiMover.cxx
 Updated to check what type of nuclear model is being used, and if LFG is being used call GenerateNucleon() with another parameter indicating the radius of the nucleon, and use LFG when deciding whether to eject a second nucleon.
+
+src/EVGModules/PauliBlocker.h
+src/EVGModules/PauliBlocker.cxx
+Updated to check what type of nuclear model is being used, and use a local Fermi gas for pauli blocking if the nuclear model is LFG.
 
 src/Nuclear/NuclearModel.h
 One line added to include knucModelLocalFermiGas as an option.

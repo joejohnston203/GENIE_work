@@ -39,12 +39,20 @@ public:
   virtual ~LFGNuclearModel();
 
   //-- implement the NuclearModelI interface
-  bool           GenerateNucleon (const Target & t) const;
-  double         Prob            (double p, double w, const Target & t) const;
+  bool           GenerateNucleon (const Target & t) const {
+    return GenerateNucleon(t, 0.0);
+  }
+  double         Prob (double p, double w, const Target & t) const{
+    return Prob(p,w,t,0.0);
+  }
   NuclearModel_t ModelType       (const Target &) const 
   { 
     return kNucmLocalFermiGas; 
   }
+
+  //-- add methods to be called with a nucleon radius;
+  bool   GenerateNucleon (const Target & t, double r) const;
+  double Prob            (double p, double w, const Target & t, double r) const;
 
   //-- override the Algorithm::Configure methods to load configuration
   //   data to private data members
@@ -53,15 +61,11 @@ public:
 
 private:
   void   LoadConfig (void);
-  TH1D * ProbDistro (const Target & t) const;
-
-  //mutable map<string, TH1D *> fProbDistroMap;
+  TH1D * ProbDistro (const Target & t, double r) const;
 
   map<int, double> fNucRmvE;
 
   double fPMax;
-  //double fPCutOff;
-  //string fKFTable;
 };
 
 }         // genie namespace

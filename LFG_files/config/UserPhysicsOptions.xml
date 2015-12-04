@@ -280,6 +280,7 @@ STFC, Rutherford Appleton Laboratory
   Currently the same nuclear model is forced for all isotopes.
 
   <param type="alg"  name="NuclearModel">                 genie::EffectiveSF/Default </param>
+  <param type="alg"  name="NuclearModel">                 genie::FGMBodekRitchie/Default </param>
   -->
   <param type="alg"  name="NuclearModel">                 genie::LFGNuclearModel/Default </param>
 <!--

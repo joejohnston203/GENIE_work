@@ -18,6 +18,11 @@
    the nn, pp, np pairs. 
    The code for adding the recoil nuclear target at the GHEP record was moved 
    into this processing step.
+
+ @ Dec 03, 2015- Joe Johnston (SD)
+   Added checks to see if a local Fermi gas model was being used. If so,
+   provide a radius to GenerateNucleon() and use a local Fermi gas model when
+   deciding whether to eject a recoil nucleon.
 */
 //____________________________________________________________________________
 
@@ -38,6 +43,7 @@
 #include "GHEP/GHepFlags.h"
 #include "Interaction/Interaction.h"
 #include "Messenger/Messenger.h"
+#include "Nuclear/LFGNuclearModel.h"
 #include "Nuclear/NuclearModel.h"
 #include "Nuclear/NuclearModelI.h"
 #include "Nuclear/FermiMomentumTablePool.h"
@@ -100,8 +106,29 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
   // initial state selection)
   if(p4->Px()>0 || p4->Py()>0 || p4->Pz()>0) return;
 
+  // access the hit nucleon and target nucleus at the GHEP record
+  GHepParticle * nucleon = evrec->HitNucleon();
+  GHepParticle * nucleus = evrec->TargetNucleus();
+  assert(nucleon);
+  assert(nucleus);
+
   // generate a Fermi momentum & removal energy
-  fNuclModel->GenerateNucleon(*tgt);
+  // If the model is LFG, GenerateNucleon should be called with a radius
+  //const LFGNuclearModel* lfgNuclModel; 
+  //dynamic_cast<const LFGNuclearModel*>(fNuclModel);
+  //const NuclearModelI* lfgNuclModel = 
+  //dynamic_cast<const NuclearModelI*>(fNuclModel);
+  LOG("FermiMover",pFATAL) << "TESTING: Checking nuclear model class (should be LFG? "
+			   << (fNuclModel->ModelType(*tgt) == kNucmLocalFermiGas);
+    //<< ", " << lfgNuclModel <<")";
+  if(const LFGNuclearModel* lfgNuclModel = static_cast<const LFGNuclearModel*>(fNuclModel)){
+    LOG("FermiMover",pFATAL) << "TESTING: Using LFG";
+    double radius = nucleon->X4()->Vect().Mag();
+    lfgNuclModel->GenerateNucleon(*tgt,radius);
+  }else{
+    LOG("FermiMover",pFATAL) << "TESTING: Not using LFG";
+    fNuclModel->GenerateNucleon(*tgt);
+  }
   TVector3 p3 = fNuclModel->Momentum3();
   double w    = fNuclModel->RemovalEnergy();
 
@@ -113,12 +140,6 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
      << "Generated nucleon removal energy: w = " << w;
   
   double pF2 = p3.Mag2(); // (fermi momentum)^2
-
-  // access the hit nucleon and target nucleus at the GHEP record
-  GHepParticle * nucleon = evrec->HitNucleon();
-  GHepParticle * nucleus = evrec->TargetNucleus();
-  assert(nucleon);
-  assert(nucleus);
 
   nucleon->SetRemovalEnergy(w);
 
@@ -186,7 +207,7 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
       const int nucleus_pdgc = nucleus->Pdg();
       const int nucleon_pdgc = nucleon->Pdg();
 
-      // Calculate the Fermi momentum, using an LFG model if the
+      // Calculate the Fermi momentum, using a local Fermi gas if the
       // nuclear model is LFG, and RFG otherwise
       double kF;
       if(fNuclModel->ModelType(init_state->Tgt()) == kNucmLocalFermiGas){
@@ -194,9 +215,10 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
 	int A = tgt->A();
 	bool is_p = pdg::IsProton(nucleon_pdgc);
 	double numNuc = (is_p) ? (double)tgt->Z():(double)tgt->N();
-	double r = tgt->HitNucRadius(), hbarc = .1973269602;
+	double radius = nucleon->X4()->Vect().Mag();
+	double hbarc = .1973269602;
 	kF= TMath::Power(3*kPi2*numNuc*
-		    genie::utils::nuclear::Density(r,A),1.0/3.0) *hbarc;
+		  genie::utils::nuclear::Density(radius,A),1.0/3.0) *hbarc;
       }else{
 	FermiMomentumTablePool * kftp = FermiMomentumTablePool::Instance();
 	const FermiMomentumTable * kft  = kftp->GetTable("Default");
