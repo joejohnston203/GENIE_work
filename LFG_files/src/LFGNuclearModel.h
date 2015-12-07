@@ -38,6 +38,10 @@ public:
   LFGNuclearModel(string config);
   virtual ~LFGNuclearModel();
 
+  //-- add methods to be called with a nucleon radius;
+  bool   GenerateNucleon (const Target & t, double r) const;
+  double Prob            (double p, double w, const Target & t, double r) const;
+
   //-- implement the NuclearModelI interface
   bool           GenerateNucleon (const Target & t) const {
     return GenerateNucleon(t, 0.0);
@@ -49,10 +53,6 @@ public:
   { 
     return kNucmLocalFermiGas; 
   }
-
-  //-- add methods to be called with a nucleon radius;
-  bool   GenerateNucleon (const Target & t, double r) const;
-  double Prob            (double p, double w, const Target & t, double r) const;
 
   //-- override the Algorithm::Configure methods to load configuration
   //   data to private data members

@@ -58,12 +58,14 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target,
 
   //-- set fermi momentum vector
   //
+  LOG("LFGNuclearModel",pDEBUG) << "Generating prob distro";
   TH1D * prob = this->ProbDistro(target,r);
   if(!prob) {
     LOG("LFGNuclearModel", pNOTICE)
               << "Null nucleon momentum probability distribution";
     exit(1);
   }
+  LOG("LFGNuclearModel",pDEBUG) << "Getting prob";
   double p = prob->GetRandom();
   delete prob;
   LOG("LFGNuclearModel", pINFO) << "|p,nucleon| = " << p;
@@ -130,7 +132,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
   double KF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
-  LOG("LFGNuclearModel",pDEBUG) << "r = " << r << ",KF LFG = " << KF;
+  LOG("LFGNuclearModel",pDEBUG) << "r = " << r << ",KF_LFG = " << KF;
 
   double a  = 2.0;
   double C  = 4. * kPi * TMath::Power(KF,3) / 3.;

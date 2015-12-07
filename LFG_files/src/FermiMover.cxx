@@ -114,19 +114,17 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
 
   // generate a Fermi momentum & removal energy
   // If the model is LFG, GenerateNucleon should be called with a radius
-  //const LFGNuclearModel* lfgNuclModel; 
-  //dynamic_cast<const LFGNuclearModel*>(fNuclModel);
-  //const NuclearModelI* lfgNuclModel = 
-  //dynamic_cast<const NuclearModelI*>(fNuclModel);
-  LOG("FermiMover",pFATAL) << "TESTING: Checking nuclear model class (should be LFG? "
-			   << (fNuclModel->ModelType(*tgt) == kNucmLocalFermiGas);
-    //<< ", " << lfgNuclModel <<")";
-  if(const LFGNuclearModel* lfgNuclModel = static_cast<const LFGNuclearModel*>(fNuclModel)){
-    LOG("FermiMover",pFATAL) << "TESTING: Using LFG";
+  LOG("FermiMover",pDEBUG) << "TESTING: Checking nuclear model class (should be LFG = "
+			  << (fNuclModel->ModelType(*tgt) == kNucmLocalFermiGas) 
+			  << ", should be RFG = "
+			  << (fNuclModel->ModelType(*tgt) == kNucmFermiGas) << ")";
+  const LFGNuclearModel * lfgNuclModel = dynamic_cast<const LFGNuclearModel *>(fNuclModel);
+  if(lfgNuclModel){
+    LOG("FermiMover",pDEBUG) << "TESTING: Using LFG";
     double radius = nucleon->X4()->Vect().Mag();
-    lfgNuclModel->GenerateNucleon(*tgt,radius);
+    lfgNuclModel->GenerateNucleon(*tgt, radius);
   }else{
-    LOG("FermiMover",pFATAL) << "TESTING: Not using LFG";
+    LOG("FermiMover",pDEBUG) << "TESTING: Not using LFG";
     fNuclModel->GenerateNucleon(*tgt);
   }
   TVector3 p3 = fNuclModel->Momentum3();

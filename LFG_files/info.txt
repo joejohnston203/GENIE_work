@@ -34,7 +34,7 @@ config/UserPhysicsOptions.xml
 Add LFGNuclearModel as an option.
 
 src/EVGModules/FermiMover.cxx
-Updated to check what type of nuclear model is being used, and if LFG is being used call GenerateNucleon() with another parameter indicating the radius of the nucleon, and use LFG when deciding whether to eject a second nucleon.
+Updated to check what type of nuclear model is being used. If LFG is being used call GenerateNucleon() with another parameter indicating the radius of the nucleon, and use LFG when deciding whether to eject a second nucleon.
 
 src/EVGModules/PauliBlocker.h
 src/EVGModules/PauliBlocker.cxx
