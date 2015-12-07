@@ -1,17 +1,16 @@
 //____________________________________________________________________________
 /*!
 
-\class    genie::FGMBodekRitchie
+\class    genie::LFGNuclearModel
 
-\brief    The Bodek Richie Fermi Gass model. Implements the NuclearModelI 
+\brief    local Fermi gas model. Implements the NuclearModelI 
           interface.
 
 \ref      
 
-\author   Costas Andreopoulos <costas.andreopoulos \at stfc.ac.uk>
-          University of Liverpool & STFC Rutherford Appleton Lab
+\author   Joe Johnston, Steven Dytman
 
-\created  October 09, 2004
+\created  December 2015
 
 \cpright  Copyright (c) 2003-2015, GENIE Neutrino MC Generator Collaboration
           For the full text of the license visit http://copyright.genie-mc.org
