@@ -37,15 +37,16 @@ public:
   LFGNuclearModel(string config);
   virtual ~LFGNuclearModel();
 
-  //-- add methods to be called with a nucleon radius;
-  bool   GenerateNucleon (const Target & t, double r) const;
-  double Prob            (double p, double w, const Target & t, double r) const;
+  //-- allow methods to be called with a radius
+  bool   GenerateNucleon (const Target & t, double hitNucleonRadius) const;
+  double Prob            (double p, double w, const Target & t,
+			  double hitNucleonRadius) const;
 
   //-- implement the NuclearModelI interface
-  bool           GenerateNucleon (const Target & t) const {
-    return GenerateNucleon(t, 0.0);
+  bool GenerateNucleon (const Target & t) const {
+    return GenerateNucleon(t,0.0);
   }
-  double         Prob (double p, double w, const Target & t) const{
+  double Prob (double p, double w, const Target & t) const {
     return Prob(p,w,t,0.0);
   }
   NuclearModel_t ModelType       (const Target &) const 
@@ -56,8 +57,8 @@ public:
   //-- override the Algorithm::Configure methods to load configuration
   //   data to private data members
   void Configure (const Registry & config);
-  void Configure (string param_set);
-
+  void Configure (string param_set)
+;
 private:
   void   LoadConfig (void);
   TH1D * ProbDistro (const Target & t, double r) const;

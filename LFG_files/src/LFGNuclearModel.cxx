@@ -4,7 +4,7 @@
  For the full text of the license visit http://copyright.genie-mc.org
  or see $GENIE/LICENSE
 
- Author: Joe Johnston, University of Pittsburgh. (Advisor Steven Dytman)
+ Author: Joe Johnston, University of Pittsburgh (Advisor Steven Dytman)
 
  For the class documentation see the corresponding header file.
 
@@ -49,7 +49,7 @@ LFGNuclearModel::~LFGNuclearModel()
 }
 //____________________________________________________________________________
 bool LFGNuclearModel::GenerateNucleon(const Target & target, 
-				                      double r) const
+				      double hitNucleonRadius) const
 {
   assert(target.HitNucIsSet());
 
@@ -58,14 +58,12 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target,
 
   //-- set fermi momentum vector
   //
-  LOG("LFGNuclearModel",pDEBUG) << "Generating prob distro";
-  TH1D * prob = this->ProbDistro(target,r);
+  TH1D * prob = this->ProbDistro(target,hitNucleonRadius);
   if(!prob) {
     LOG("LFGNuclearModel", pNOTICE)
               << "Null nucleon momentum probability distribution";
     exit(1);
   }
-  LOG("LFGNuclearModel",pDEBUG) << "Getting prob";
   double p = prob->GetRandom();
   delete prob;
   LOG("LFGNuclearModel", pINFO) << "|p,nucleon| = " << p;
@@ -94,11 +92,11 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target,
   return true;
 }
 //____________________________________________________________________________
-double LFGNuclearModel::Prob(double p, double w, 
-			        const Target & target, double r) const
+double LFGNuclearModel::Prob(double p, double w, const Target & target,
+			     double hitNucleonRadius) const
 {
   if(w<0) {
-    TH1D * prob = this->ProbDistro(target, r);
+    TH1D * prob = this->ProbDistro(target, hitNucleonRadius);
     int bin = prob->FindBin(p);
     double y  = prob->GetBinContent(bin);
     double dx = prob->GetBinWidth(bin);
@@ -114,7 +112,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
 {
   LOG("LFGNuclearModel", pNOTICE)
              << "Computing P = f(p_nucleon) for: " << target.AsString()
-	     << ", Radius = " << r;
+	     << ", Nucleon Radius = " << r;
   LOG("LFGNuclearModel", pNOTICE)
              << ", P(max) = " << fPMax;
 
@@ -132,7 +130,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
   double KF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
-  LOG("LFGNuclearModel",pDEBUG) << "r = " << r << ",KF_LFG = " << KF;
+  LOG("LFGNuclearModel",pNOTICE) << "KF = " << KF;
 
   double a  = 2.0;
   double C  = 4. * kPi * TMath::Power(KF,3) / 3.;

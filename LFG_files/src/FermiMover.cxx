@@ -1,4 +1,4 @@
-//____________________________________________________________________________
+///____________________________________________________________________________
 /*
  Copyright (c) 2003-2015, GENIE Neutrino MC Generator Collaboration
  For the full text of the license visit http://copyright.genie-mc.org
@@ -20,9 +20,10 @@
    into this processing step.
 
  @ Dec 03, 2015- Joe Johnston (SD)
-   Added checks to see if a local Fermi gas model was being used. If so,
-   provide a radius to GenerateNucleon() and use a local Fermi gas model when
-   deciding whether to eject a recoil nucleon.
+   Call GenerateNucleon() with a target and a radius, so the local Fermi
+   gas model can access the radius.
+   Added a check to see if a local Fermi gas model is being used. If so,
+   use a local Fermi gas model when deciding whether to eject a recoil nucleon.
 */
 //____________________________________________________________________________
 
@@ -33,6 +34,7 @@
 #include <TParticlePDG.h>
 #include <TMath.h>
 
+#include "Algorithm/AlgFactory.h"
 #include "Algorithm/AlgConfigPool.h"
 #include "Conventions/Constants.h"
 #include "EVGModules/FermiMover.h"
@@ -43,7 +45,6 @@
 #include "GHEP/GHepFlags.h"
 #include "Interaction/Interaction.h"
 #include "Messenger/Messenger.h"
-#include "Nuclear/LFGNuclearModel.h"
 #include "Nuclear/NuclearModel.h"
 #include "Nuclear/NuclearModelI.h"
 #include "Nuclear/FermiMomentumTablePool.h"
@@ -113,20 +114,10 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
   assert(nucleus);
 
   // generate a Fermi momentum & removal energy
-  // If the model is LFG, GenerateNucleon should be called with a radius
-  LOG("FermiMover",pDEBUG) << "TESTING: Checking nuclear model class (should be LFG = "
-			  << (fNuclModel->ModelType(*tgt) == kNucmLocalFermiGas) 
-			  << ", should be RFG = "
-			  << (fNuclModel->ModelType(*tgt) == kNucmFermiGas) << ")";
-  const LFGNuclearModel * lfgNuclModel = dynamic_cast<const LFGNuclearModel *>(fNuclModel);
-  if(lfgNuclModel){
-    LOG("FermiMover",pDEBUG) << "TESTING: Using LFG";
-    double radius = nucleon->X4()->Vect().Mag();
-    lfgNuclModel->GenerateNucleon(*tgt, radius);
-  }else{
-    LOG("FermiMover",pDEBUG) << "TESTING: Not using LFG";
-    fNuclModel->GenerateNucleon(*tgt);
-  }
+  // call GenerateNucleon with a radius in case the model is LFG
+  double radius = nucleon->X4()->Vect().Mag();
+  fNuclModel->GenerateNucleon(*tgt,radius);
+
   TVector3 p3 = fNuclModel->Momentum3();
   double w    = fNuclModel->RemovalEnergy();
 
@@ -208,7 +199,7 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
       // Calculate the Fermi momentum, using a local Fermi gas if the
       // nuclear model is LFG, and RFG otherwise
       double kF;
-      if(fNuclModel->ModelType(init_state->Tgt()) == kNucmLocalFermiGas){
+      if(fNuclModel->ModelType(*tgt) == kNucmLocalFermiGas){
 	assert(pdg::IsProton(nucleon_pdgc) || pdg::IsNeutron(nucleon_pdgc));
 	int A = tgt->A();
 	bool is_p = pdg::IsProton(nucleon_pdgc);
@@ -376,8 +367,6 @@ void FermiMover::LoadConfig(void)
   fNuclModel = 0;
 
   RgKey nuclkey = "NuclearModel";
-//  RgAlg nuclalg = fConfig->GetAlgDef(nuclkey, gc->GetAlg(nuclkey));
-//  LOG("FermiMover", pINFO) << "Loading nuclear model: " << nuclalg;
 
   fNuclModel = dynamic_cast<const NuclearModelI *> (this->SubAlg(nuclkey));
   assert(fNuclModel);
