@@ -7,6 +7,8 @@ src/Nuclear/LFGNuclearModel.h
 src/Nuclear/LFGNuclearModel.cxx
 
 Modified:
+
+Files to implement LFG for generating nucleons:
 config/master_config.xml
 config/UserPhysicsOptions.xml
 config/ Messenger files updated to include LFGNuclearModel
@@ -18,6 +20,12 @@ src/Nuclear/LinkDef.h
 src/Nuclear/NuclearModelI.h
 src/Nuclear/NuclearModelMap.h
 src/Nuclear/NuclearModelMap.cxx
+
+Files to use LFG when determining suppression factors:
+src/Interaction/KineVar.h
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+src/Utils/NuclearUtils.cxx
 
 
 Summary:
@@ -55,3 +63,13 @@ Added the option for GenerateNucleon() to be called with a radius. The default i
 src/Nuclear/NuclearModelMap.h
 src/Nuclear/NuclearModelMap.cxx
 Updated to allow GenerateNucleon() to be called with a radius. FermiMover calls NuclearModelMap::GenerateNucleon(), which in turn calls LFGNuclearModel::GenerateNucleon().
+
+src/Interaction/KineVar.h
+Added kinematic variable kKVSelRad, to temporarily store the radius of the struck particle when calling the XSec model.
+
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+Updated to choose a random position before choosing a random initial nucleon when averaging over initial nucleons. This way, the initial nucleon does depend on radius, and the NuclQELXSecSupression() method can use the radius when calculating the suppression factor.
+
+src/Utils/NuclearUtils.cxx
+Updated NuclQELXSecSuppression() to get the radius and use the LFG Fermi momentum when calculating the suppression factor if the nuclear model is a local fermi gas. This, in combination with the changes to QELXSec, will include nuclear suppression when creating the splines.
