@@ -1,0 +1,75 @@
+Files that must be added/modified in the GENIE code in order
+to implement the LFG model:
+
+Added:
+config/LFGNuclearModel.xml
+src/Nuclear/LFGNuclearModel.h
+src/Nuclear/LFGNuclearModel.cxx
+
+Modified:
+
+Files to implement LFG for generating nucleons:
+config/master_config.xml
+config/UserPhysicsOptions.xml
+config/ Messenger files updated to include LFGNuclearModel
+src/EVGModules/FermiMover.cxx
+src/EVGModules/PauliBlocker.h
+src/EVGModules/PauliBlocker.cxx
+src/Nuclear/NuclearModel.h
+src/Nuclear/LinkDef.h
+src/Nuclear/NuclearModelI.h
+src/Nuclear/NuclearModelMap.h
+src/Nuclear/NuclearModelMap.cxx
+
+Files to use LFG when determining suppression factors:
+src/Conventions/KineVar.h
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+src/Utils/NuclearUtils.cxx
+
+
+Summary:
+
+config/LFGNuclearModel.xml
+src/Nuclear/LFGNuclearModel.h
+src/Nuclear/LFGNuclearModel.cxx
+These files actually implement the local Fermi gas model. It calculates the Fermi momentum using a local Fermi gas, then generates a momentum for the nucleon below the Fermi momentum.
+
+config/master_config.xml
+One line added to link to LFGNuclearModel.xml.
+
+config/ Messenger files updated to include LFGNuclearModel
+Use the same messenger options as BodekRitchie for LFGNuclearModel.
+
+config/UserPhysicsOptions.xml
+Add LFGNuclearModel as an option.
+
+src/EVGModules/FermiMover.cxx
+Call GenerateNucleon() with a target and a radius, so the LFGNuclearModel class has access to the radius.
+
+src/EVGModules/PauliBlocker.h
+src/EVGModules/PauliBlocker.cxx
+Updated to check what type of nuclear model is being used, and use a local Fermi gas for pauli blocking if the nuclear model is LFG.
+
+src/Nuclear/NuclearModel.h
+One line added to include kNucModelLocalFermiGas as an option.
+
+src/Nuclear/LinkDef.h
+One line added to link the LFGNuclearModel class to the GENIE code.
+
+src/Nuclear/NuclearModelI.h
+Added the option for GenerateNucleon() to be called with a radius. The default is to call the GenerateNucleon() method that does not ask for a radius.
+
+src/Nuclear/NuclearModelMap.h
+src/Nuclear/NuclearModelMap.cxx
+Updated to allow GenerateNucleon() to be called with a radius. FermiMover calls NuclearModelMap::GenerateNucleon(), which in turn calls LFGNuclearModel::GenerateNucleon().
+
+src/Interaction/KineVar.h
+Added kinematic variable kKVSelRad, to temporarily store the radius of the struck particle when calling the XSec model.
+
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+Updated to choose a random position before choosing a random initial nucleon when averaging over initial nucleons. This way, the initial nucleon does depend on radius, and the NuclQELXSecSupression() method can use the radius when calculating the suppression factor.
+
+src/Utils/NuclearUtils.cxx
+Updated NuclQELXSecSuppression() to get the radius and use the LFG Fermi momentum when calculating the suppression factor if the nuclear model is a local fermi gas. This, in combination with the changes to QELXSec, will include nuclear suppression when creating the splines.

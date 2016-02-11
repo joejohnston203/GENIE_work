@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+#----------------------------------------------------------------
+# An example bash shell script for setting up the environment for
+# building/using GENIE
+#
+# Costas Andreopoulos <C.V.Andreopoulos@rl.ac.uk>
+#----------------------------------------------------------------
+#
+# See $GENIE/src/Make.include for a definition of these variables
+# and change them to match your machine's package organization.
+# Note: not all of these are mandatory (see below)
+
+#----------------------------------------------------------------
+#                         Setting paths
+#----------------------------------------------------------------
+
+# [mandatory] 
+
+export GENIE="/home/joe/GENIE_work/GENIE_v2.10.0"
+export ROOTSYS="/opt/root"
+export LHAPDF_LIB=/opt/lhapdf-5.9.1/lib   #lhapdf/lib
+export LHAPDF_INC=/opt/lhapdf-5.9.1/include   # new   
+export LHAPATH=/opt/lhapdf-5.9.1/share/lhapdf  #lhapdf/share/lhapdf/PDFsets
+export PYTHIA6=/opt/v6_424/lib
+export LIBXML2_INC=/usr/include/libxml2
+export LIBXML2_LIB=/usr/share/aclocal
+export LOG4CPP_INC=/opt/log4cpp/include
+export LOG4CPP_LIB=/opt/log4cpp/lib
+
+# [optional]
+#   (depending on which features you enable)
+
+#---  You only really need to set NEUGEN3PATH is you plan to enable
+#---  GENIE's NuValidator (by setting GOPT_ENABLE_NUVALIDATOR=YES)
+#export NEUGEN3PATH=/opt/neugen3
+#export NEUGEN3PATH=/data/genie/neugen3_v7
+
+#--- You only really need to set GPROFILER is you plan to enable
+#--- Google's profiling tool (by setting GOPT_ENABLE_PROFILER=YES)
+##export GPROFILER_LIB=/usr/local/lib
+
+#--- You only really need to set DOXYGEN is you plan to enable
+#--- GENIE's Doxygen documentation (by setting GOPT_ENABLE_DOXYGEN_DOC=YES)
+##export DOXYGEN=/usr/local/bin/doxygen
+
+# this adds the necessary paths to your PATH and LD_LIBRARY_PATH
+# environmental variables:
+export INSTALLATION=
+export PATH=${ROOTSYS}/bin:${GENIE}/bin:${INSTALLATION}/bin:${PATH}
+#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${ROOTSYS}/lib:${GENIE}/lib:${CERNLIB}:${PYTHIA6}:${LOG4CPP_LIB}:${INSTALLATION}/lib
+export LD_LIBRARY_PATH=${ROOTSYS}/lib:${GENIE}/lib:${PYTHIA6}:${LOG4CPP_LIB}:${INSTALLATION}/lib:${CERNLIB}:/usr/lib64:${LD_LIBRARY_PATH}
+
+#----------------------------------------------------------------
+#                    Setting build options
+#----------------------------------------------------------------
+
+export GOPT_ENABLE_PROFILER=NO
+export GOPT_ENABLE_NUVALIDATOR=YES
+export GOPT_ENABLE_NEUGEN=YES
+export GOPT_ENABLE_FLUX_DRIVERS=YES
+export GOPT_ENABLE_GEOM_DRIVERS=YES
+export GOPT_ENABLE_DOXYGEN_DOC=NO
+export GOPT_ENABLE_TEST=YES
+export GOPT_ENABLE_VIEWER=YES
+export GOPT_ENABLE_MUELOSS=YES
+
+#----------------------------------------------------------------
+#                           Report
+#----------------------------------------------------------------
+
+#echo
+#echo "Setting up the environment for GENIE:"
+#echo "-------------------------------------"
+
+#if [ ! -z "SRT_ENV_SET" ]; 
+#then
+# echo "srt_setup --unsetup"
+# srt_setup --unsetup
+#fi
+
+#echo "GENIE       -> " ${GENIE}
+#echo "ROOTSYS     -> " ${ROOTSYS}
+#echo "NEUGEN3PATH -> " ${NEUGEN3PATH}
+#echo "CERNLIB     -> " ${CERNLIB}
+#echo "PYTHIA      -> " ${PYTHIA6}
+#echo "LIBXML2_INC -> " ${LIBXML2_INC}
+#echo "LIBXML2_LIB -> " ${LIBXML2_LIB}
+#echo "LOG4CPP_INC -> " ${LOG4CPP_INC}
+#echo "LOG4CPP_LIB -> " ${LOG4CPP_LIB}
+#echo
+#echo "GENIE building options:"
+#echo "-----------------------"
+#echo "Enabling GENIE's NuValidator       -> " ${GOPT_ENABLE_NUVALIDATOR}
+#echo "Enabling GENIE's NeuGen facade     -> " ${GOPT_ENABLE_NEUGEN}
+#echo "Enabling GENIE's flux drivers      -> " ${GOPT_ENABLE_FLUX_DRIVERS}
+#echo "Enabling GENIE's geometry drivers  -> " ${GOPT_ENABLE_GEOM_DRIVERS}
+#echo "Enabling Google profiler           -> " ${GOPT_ENABLE_PROFILER}
+#echo "Enabling Doxygen doc generation    -> " ${GOPT_ENABLE_DOXYGEN_DOC}
+#echo "Enabling GENIE test programs       -> " ${GOPT_ENABLE_TEST}
+#echo "Enabling GENIE Feynman/GHEP viewer -> " ${GOPT_ENABLE_VIEWER}
+#echo "Enabling MuELoss utility package   -> " ${GOPT_ENABLE_MUELOSS}
+
+#echo
+

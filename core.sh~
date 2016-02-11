@@ -15,9 +15,10 @@
 # Sample commands:
 #
 # Code to create a spline and run gevgen for CCQE, C12, RPA, Coul, LFG
-# mkspl_rungevgen C12_R_C_LFG false true false true \
-#     LFGNuclearModel FGMBodekRitchie CC 1000060120 C12 \
-#     1 1000000 1.0
+# mkspl_rungevgen N_RPA_Coul_LFG false true false true \
+#     FGMBodekRitchie LFGNuclearModel \
+#     /data/jpj13/scripts/partial_spline.xml \
+#     1 1000000 1.0 & 
 #
 # Code to create and combine a CCQE spline with a CC spline:
 # 
@@ -38,9 +39,9 @@
 # $14 - Messenger settings (same default as gevgenScript)
 #
 # Sample call:
-# mkspl_rungevgen noR_noC_RFG true false true false \
-#     LFGNuclearModel FGMBodekRitchie CC 1000060120 C12 \
-#     1 1000000 1.0
+# mkspl_rungevgen noR_noC_S true false true false LFGNuclearModel FGMBodekRitchie \
+#     /data/jpj13/scripts/partial_spline.xml \
+#     1 1000000 1.0 &
 
 function mkspl_rungevgen() {
     mkspl $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${14} 
@@ -236,8 +237,6 @@ function mkspl() {
     echo -e 'mkspl complete' >> "status_"$newdir".txt"
     date >> "status_"$newdir".txt"
     echo -e "\n" >> "status_"$newdir".txt"
-
-    cd $CWD
 }
 # ---------------------------------------------------------------------------
 # NOT UPDATED. CURRENTLY WILL NOT WORK.

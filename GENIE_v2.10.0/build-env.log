@@ -2,9 +2,9 @@
 
 $GENIE                       -> /home/joe/GENIE_work/GENIE_v2.10.0
 $SRT_ENV_SET                 -> **undefined**
-$LD_LIBRARY_PATH             -> **undefined**
-$DYLD_LIBRARY_PATH           -> **undefined**
-$PATH                        -> /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+$LD_LIBRARY_PATH             -> /opt/root/lib
+$DYLD_LIBRARY_PATH           -> /opt/root/lib
+$PATH                        -> /opt/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 
 Saving the configuration of your GENIE installation: 
 
@@ -37,10 +37,10 @@ Saving the configuration of your GENIE installation:
  GOPT_WITH_CXX_OPTIMIZ_FLAG=-O2
  GOPT_WITH_PROFILER_LIB=
  GOPT_WITH_DOXYGEN_PATH=
- GOPT_WITH_PYTHIA6_LIB=/opt/pythia/v6_424/lib
+ GOPT_WITH_PYTHIA6_LIB=/opt/v6_424/lib
  GOPT_WITH_CERN_LIB=
- GOPT_WITH_LHAPDF_LIB=/opt/LHAPDF-6.1.5/src/.libs
- GOPT_WITH_LHAPDF_INC=/opt/LHAPDF-6.1.5/include
+ GOPT_WITH_LHAPDF_LIB=/opt/lhapdf-5.9.1/lib
+ GOPT_WITH_LHAPDF_INC=/opt/lhapdf-5.9.1/include
  GOPT_WITH_LIBXML2_INC=/usr/include/libxml2
  GOPT_WITH_LIBXML2_LIB=/usr/share/aclocal
  GOPT_WITH_LOG4CPP_INC=/opt/log4cpp/include
@@ -53,14 +53,14 @@ Saving the configuration of your ROOT installation:
 
 Saving info on your OS, activity, disk usage & quota limit: 
 
-Linux S855 3.13.0-68-generic #111-Ubuntu SMP Fri Nov 6 18:17:06 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+Linux joe-S855 3.13.0-77-generic #121-Ubuntu SMP Wed Jan 20 10:50:42 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
 
 Filesystem     1K-blocks     Used Available Use% Mounted on
-/dev/sda5       42080800 28668336  11251824  72% /
-none                   4        0         4   0% /sys/fs/cgroup
 udev             4040120        4   4040116   1% /dev
-tmpfs             810184     1356    808828   1% /run
+tmpfs             810184     1220    808964   1% /run
+/dev/sda5       55796676 42845768  10093512  81% /
+none                   4        0         4   0% /sys/fs/cgroup
 none                5120        0      5120   0% /run/lock
-none             4050904    18304   4032600   1% /run/shm
-none              102400       44    102356   1% /run/user
+none             4050904    10148   4040756   1% /run/shm
+none              102400       36    102364   1% /run/user
 
