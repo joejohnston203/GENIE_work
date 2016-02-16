@@ -26,6 +26,7 @@
 #include "Algorithm/AlgFactory.h"
 #include "Algorithm/AlgConfigPool.h"
 #include "Conventions/Constants.h"
+#include "Conventions/Units.h"
 #include "EVGCore/EVGThreadException.h"
 #include "EVGModules/PauliBlocker.h"
 #include "GHEP/GHepRecord.h"
@@ -44,6 +45,7 @@
 
 using namespace genie;
 using namespace genie::constants;
+using namespace genie::units;
 
 //___________________________________________________________________________
 PauliBlocker::PauliBlocker() :
@@ -99,7 +101,7 @@ void PauliBlocker::ProcessEventRecord(GHepRecord * evrec) const
     bool is_p = pdg::IsProton(nucleon_pdgc);
     double numNuc = (is_p) ? (double)tgt->Z():(double)tgt->N();
     double radius = hit->X4()->Vect().Mag();
-    double hbarc = .1973269602;
+    double hbarc = kLightSpeed*kPlankConstant/fermi;
     kf= TMath::Power(3*kPi2*numNuc*
 		     genie::utils::nuclear::Density(radius,A),1.0/3.0) *hbarc;
   }else{

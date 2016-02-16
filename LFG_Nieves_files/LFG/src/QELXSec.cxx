@@ -78,7 +78,9 @@ double QELXSec::Integrate(
   }
 
   double E = in->InitState().ProbeE(kRfHitNucRest);
-  if(E < fEnergyCutOff) {
+  // Also average over positions in the nucleus if model == lfg
+  bool lfg = (fNuclModel && fNuclModel->ModelType(Target()) == kNucmLocalFermiGas);
+  if(E < fEnergyCutOff || lfg) {
      // clone the input interaction so as to tweak the
      // hit nucleon 4-momentum in the averaging loop
      Interaction in_curr(*in);

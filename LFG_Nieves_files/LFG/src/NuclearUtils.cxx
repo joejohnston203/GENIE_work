@@ -40,6 +40,8 @@
 
 #include "Algorithm/AlgFactory.h"
 #include "Algorithm/AlgConfigPool.h"
+#include "Conventions/Constants.h"
+#include "Conventions/Units.h"
 #include "Interaction/Interaction.h"
 #include "Messenger/Messenger.h"
 #include "Nuclear/FermiMomentumTablePool.h"
@@ -52,6 +54,7 @@
 
 using namespace genie;
 using namespace genie::constants;
+using namespace genie::units;
 
 //____________________________________________________________________________
 double genie::utils::nuclear::BindEnergy(const Target & target)
@@ -178,7 +181,8 @@ double genie::utils::nuclear::NuclQELXSecSuppression(
       radius = interaction->Kine().GetKV(kKVSelRad);
     else
       radius = 0.0;
-    double hbarc = .1973269602;
+
+    double hbarc = kLightSpeed*kPlankConstant/fermi;
     Target* tgt = interaction->InitStatePtr()->TgtPtr();
     int A = tgt->A();
     // kFi
