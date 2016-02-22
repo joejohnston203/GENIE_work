@@ -13,7 +13,7 @@
 	 Joe Johnston <jpj13 \at pitt.edu>
 	 Univ. of Pittsburgh
 
-\created October 10, 2011
+\created June 2015
 
  For the class documentation see the corresponding header file.
 

@@ -26,7 +26,6 @@
 #include "Base/QELFormFactors.h"
 
 #include <complex>
-//#include <vector>
 
 namespace genie {
 
@@ -66,9 +65,13 @@ private:
 
   bool                         fRPA;              ///< use RPA corrections
   bool                         fCoulomb;          ///< use Coulomb corrections
-  // use Nieves theta functions instead of GENIE's nuclear suppression
-  bool                         fNievesSuppression;///<
   bool                         fPrintData;        ///< print data
+
+  // Detect whether the nuclear model is local Fermi gas, and store
+  // the relativistic Fermi momentum table if not
+  bool                         fLFG;
+  const FermiMomentumTable *   fKFTable;
+  string                       fKFTableName;  
 
   // Variables to do integrals 
   std::vector<double> fIntervalFractions;
@@ -79,8 +82,9 @@ private:
   // Calculates values of CN, CT, CL, and imU, and stores them in the provided 
   // variables. If target is not a nucleus, then CN, CN, and CL are all 1.0.
   // r must be in units of fm.
-  void CNCTCLimUcalc(const Target * target, TLorentzVector qVec,double q2, 
-		  bool is_neutrino, double & CN, double & CT, double & CL,
+  void CNCTCLimUcalc(const Target * target, double r, 
+		     TLorentzVector qVec, double q2, bool is_neutrino,
+		     double & CN, double & CT, double & CL,
 		     double & imU, double & t0, double & r00) const;
 
   //Equations to calculate the relativistic Lindhard function for Amunu
@@ -101,7 +105,7 @@ private:
 				     double rho, double kFgev) const;
 
   // Potential for coulomb correction
-  double vcr(const Target * target) const;
+  double vcr(const Target * target, double r) const;
 
   // Functions to do integrals
   std::vector<double> integrationSetup(double a,double b,int n) const;

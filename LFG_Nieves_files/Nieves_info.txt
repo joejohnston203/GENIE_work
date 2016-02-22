@@ -1,0 +1,97 @@
+Nieves' QEL model with RPA
+
+Nieves' model depends on the LFG nuclear model, so all files 
+from that model are used.
+
+Files that must be added/modified in the GENIE code in order
+to implement Nieves QEL model:
+
+Added:
+config/NievesQELCCPXSec.xml
+src/LlewellynSmith/NievesQELCCPXSec.h
+src/LlewellynSmith/NievesQELCCPXSec.cxx
+src/LlewellynSmith/NievesQELException.h
+src/LlewellynSmith/NievesQELException.cxx
+
+Modified:
+config/master_config.xml
+config/UserPhysicsOptions.xml 
+config/ Messenger files
+src/LwlynSmith/LinkDef.h
+src/QEL/QELKinematicsGenerator.cxx
+src/QEL/QELPrimaryLeptonGenerator.cxx
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+
+Files from LFGNuclearModel:
+config/LFGNuclearModel.xml
+src/Nuclear/LFGNuclearModel.h
+src/Nuclear/LFGNuclearModel.cxx
+src/Nuclear/NuclearModel.h
+src/Nuclear/LinkDef.h
+src/Nuclear/NuclearModelI.h
+src/Nuclear/NuclearModelMap.h
+src/Nuclear/NuclearModelMap.cxx
+src/EVGModules/FermiMover.cxx
+src/EVGModules/PauliBlocker.h
+src/EVGModules/PauliBlocker.cxx
+src/Conventions/KineVar.h
+src/Utils/NuclearUtils.cxx
+
+Summary:
+
+config/NievesQELCCPXSec.xml:
+src/LlewellynSmith/NievesQELCCPXSec.h
+src/LlewellynSmith/NievesQELCCPXSec.cxx
+src/LlewellynSmith/NievesQELException.h
+src/LlewellynSmith/NievesQELException.cxx
+
+Files to implement Nieves' QEL model. It can include RPA long range 
+correlations in order to account for the intermediate W boson 
+interacting with surrounding nucleons. It can also include
+Couloumb corrections. Gives identical results 
+to LwlynSmithQELCCPXSec when the target is a free nucleon. The
+exception is thrown if an event is unphysical, such as when
+Coulomb effects would push the event below threshold.
+
+config/master_config.xml
+One line added to link to LFGNuclearModel.xml
+One line added to link to NievesQELCCPXSec.xml
+
+config/UserPhysicsOptions.xml
+Comments added to include LFGNucelearModel and NievesQELCCPXSec
+as options
+
+config/ Messenger files 
+updated to inclue LFGNuclearModel and NievesQELCCPXSec
+respectively use the same messenger settings as 
+BodekRitchie and LwlynSmithQELCCPXSec
+
+src/LwlynSmith/LinkDef.h
+Updated to link NievesQELCCPXSec to the genie
+
+src/QEL/QELKinematicsGenerator.h
+src/QEL/QELKinematicsGenerator.cxx
+src/QEL/QELPrimaryLeptonGenerator.cxx
+QELKinematicsGenerator generates a temporary lepton before 
+calculating the cross section, and then stores that lepton
+if the temporary kinematics are accepted. Also updated
+to catch NievesQELCCPXSecException.
+QELPrimaryLeptonGenerator accesses the stored leptons and
+adds it to the event record.
+
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+Updated to catch NievesQELException.
+For use in the LFG nuclear model, these were also
+updated to choose a random position before choosing a random 
+initial nucleon when averaging over initial nucleons. This way,
+the initial nucleon does depend on radius, and the 
+NuclQELXSecSupression() method can use the radius when 
+calculating the suppression factor.
+
+LFGNuclearModel:
+Fermi gas model, where the Fermi momentum depends on the position
+in the nucleus. Nieves used this model when doing his calculation,
+so the best data should be obtained by combining Nieves' QEL model
+with the LFG nuclear model.

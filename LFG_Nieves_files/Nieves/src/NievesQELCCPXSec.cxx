@@ -46,6 +46,7 @@
 using namespace genie;
 using namespace genie::constants;
 using namespace genie::utils;
+using namespace genie::units;
 
 //____________________________________________________________________________
 NievesQELCCPXSec::NievesQELCCPXSec() :
@@ -109,7 +110,7 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
  // Initial neutrino
   TVector3 k3Vec(0,0,E);
 
-  // Generate outgoin lepton, and store for use by primary lepton generator
+  // Generate outgoing lepton, and store for use by primary lepton generator
   TLorentzVector * probe = new TLorentzVector(k3Vec,E);
   try{
     SetRunningOutgoingLepton(interaction, probe);
@@ -129,8 +130,12 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 
   // Coulomb Effects
   if(fCoulomb){
+    if(kinematics.KVSet(kKVSelRad))
+      r = kinematics.GetKV(kKVSelRad);
+    else
+      r = 0.0;
     // Coulomb potential
-    double Vc = vcr(& target);
+    double Vc = vcr(& target, double r);
 
     // Outgoing lepton energy and momentum including coulomb potential
     int sign = (pdg::IsNeutrino(init_state.ProbePdg())) ? 1 : -1;
@@ -209,39 +214,6 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
   // pInit is the initial nucleon momentum in the coordinates where 
   // q is in the z direction.
   TLorentzVector pInit = target.HitNucP4();
-
-  // The following commented code would check if the event should be Pauli
-  // blocked by an LFG Fermi gas model. This is properly handled by PauliBlocker.cxx
-  // and the analytic calculation of the suppression factor when generating splines
-  /*
-  // Check if Nieves' theta functions require any cuts for outgoing momenta
-  if(fNievesSuppression && !interaction->TestBit(kIAssumeFreeNucleon)){
-    // Calculate fermi momentum for outgoing nucleon
-    double r = target.GetHitNucRadius();
-    int A = target.A();
-
-    double rho; // Nucleon density, normalized to number of p or n
-    if(pdg::IsProton(target.HitNucPdg())){
-      // Then the outgoing nucleon is a neutron
-      // Normalize the density to the number of neutrons
-      rho = target.N()*nuclear::Density(r,A,false);
-    }else{
-      // Outgoing nucleon is a proton
-      // Normalize density to number of protons
-      rho = target.Z()*nuclear::Density(r,A,true);
-    }
-    // Calculate fermi momentum from the density
-    // Multiply by hbarc to put in units of GeV
-    double kFoutgoing = TMath::Power(3.0*kPi2*rho, 1.0/3.0) * fhbarc;
-    double EFoutgoing = TMath::Power(kFoutgoing,2) + M2;
-    TLorentzVector pFinal = pInit + qVec;
-    if(pFinal.Vect().Mag() < kFoutgoing || pFinal.E() < EFoutgoing){
-      LOG("Nieves",pINFO) << "Event should be rejected. Final nucleon below fermi sea.";
-      exceptions::NievesQELException exception;
-      exception.SetReason("Final nucleon below fermi sea");
-      throw exception;
-    }
-  }*/
 
   double LmunuAnumuResult = LmunuAnumu(interaction,pInit,kVec,kPrimeVec);
 
@@ -372,7 +344,7 @@ void NievesQELCCPXSec::LoadConfig(void)
 		  .1181945319,.1316886384,.1420961093,.1491729864,.1527533871};
   fW.assign(w,w+10);
   // hbarc for unit conversion, GeV*fm
-  fhbarc = .1973269602;
+  fhbarc = kLightSpeed*kPlankConstant/fermi;
 
    // load QEL form factors model
   fFormFactorsModel = dynamic_cast<const QELFormFactorsModelI *> (
@@ -385,7 +357,7 @@ void NievesQELCCPXSec::LoadConfig(void)
       dynamic_cast<const XSecIntegratorI *> (this->SubAlg("XSec-Integrator"));
   assert(fXSecIntegrator);
 
-  // Load settings for RPA, Coulomb, and Nieves suppression
+  // Load settings for RPA and Coulomb effects
 
   // RPA corrections will not effect a free nucleon
   fRPA = fConfig->GetBoolDef("RPA",true);
@@ -395,16 +367,30 @@ void NievesQELCCPXSec::LoadConfig(void)
   // Correction only becomes sizeable near threshold and/or for heavy nuclei
   fCoulomb = fConfig->GetBoolDef("Coulomb",true);
 
-  // Use Nieves' theta functions to account for being inside a nucleus
-  // instead of GENIE's nuclear suppression
-  // It may be that using RPA automatically includes some effects from
-  // Nieves' nuclear suppression, in which case set fNievesSuppression = RPA
-  fNievesSuppression = fConfig->GetBoolDef("Suppression",true);
-
-  LOG("Nieves",pNOTICE) << "RPA=" << fRPA << ", useCoulomb=" << fCoulomb 
-			<< ", Nieves Suppression=" << fNievesSuppression;
+  LOG("Nieves",pNOTICE) << "RPA=" << fRPA << ", useCoulomb=" << fCoulomb;
 
   fPrintData = fConfig->GetBoolDef("PrintData",false);
+
+  // Create a nuclear model object to check the model type
+  RgKey nuclkey = "NuclearModel";
+  RgAlg nuclalg = gc->GetAlg(nuclkey);
+  AlgFactory * algf = AlgFactory::Instance();
+  const NuclearModelI* nuclModel = 
+    dynamic_cast<const NuclearModelI*>(
+			     algf->GetAlgorithm(nuclalg.name,nuclalg.config));
+  // Check if the model is a local Fermi gas
+  fLFG = (nuclModel && nuclModel->ModelType(Target()) == kNucmLocalFermiGas);
+  
+  if(!fLFG){
+    // get the Fermi momentum table for relativistic Fermi gas
+    fKFTableName = fConfig->GetStringDef ("FermiMomentumTable",
+					  gc->GetString("FermiMomentumTable"));
+    fKFTable = 0;
+    
+    FermiMomentumTablePool * kftp = FermiMomentumTablePool::Instance();
+    fKFTable = kftp->GetTable(fKFTableName);
+    assert(fKFTable);
+  }
 }
 //___________________________________________________________________________
 void NievesQELCCPXSec::SetRunningOutgoingLepton(
@@ -567,6 +553,7 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
 }
 //___________________________________________________________________________
 void NievesQELCCPXSec::CNCTCLimUcalc(const Target * target,
+				     radius r,
 				     TLorentzVector qVec,double q2,
 				     bool is_neutrino,
 				     double & CN, double & CT, double & CL,
@@ -581,38 +568,40 @@ void NievesQELCCPXSec::CNCTCLimUcalc(const Target * target,
     //Terms for polarization coefficients CN,CT, and CL
     double hbarc2 = TMath::Power(fhbarc,2);
     double c0 = 0.380/fhbarc;//Constant for CN in natural units
-    //Density gives the nuclear density, normalized to number p or n
+
+    //Density gives the nuclear density, normalized to 1
     //Input radius r must be in fm
-    double r = target->GetHitNucRadius();
     int A = target->A();
-    
-    double rhop = nuclear::Density(r,A,true);
-    double rhon = nuclear::Density(r,A,false);
+    int Z = target->Z();
+    int N = target->N();
+    double rhop = nuclear::Density(r,A)*Z;
+    double rhon = nuclear::Density(r,A)*N;
     double rho = rhop + rhon;
-    double rho0 = nuclear::Density(0,A,true)+nuclear::Density(0,A,false);
-
+    double rho0 = A*nuclear::Density(0,A);
+    
     double fPrime = 0.33*rho/rho0+0.45*(1-rho/rho0);
-
+    
+    // Get Fermi momenta
     double kF1, kF2;
-    // Charge radius in fm
-    //double rmaxfm= ((1.1*TMath::Power(A,1./3.) + 
-    //	     0.86*TMath::Power(A,-1./3.))/0.197)*fhbarc;
-
-    //Nieves uses a local Fermi momentum model
-    //if(r>rmaxfm){
-    //kF1 = 0.0,kF2 = 0.0;
-    //LOG("Nieves",pDEBUG) << "r>rmax";
-    //}else{
-    if(pdg::IsProton(target->HitNucPdg())){
-      kF1 = TMath::Power(3*kPi2*rhop, 1.0/3.0) *fhbarc;
-      kF2 = TMath::Power(3*kPi2*rhon, 1.0/3.0) *fhbarc;
+    if(fLFG){
+      if(pdg::IsProton(target->HitNucPdg())){
+	kF1 = TMath::Power(3*kPi2*rhop, 1.0/3.0) *fhbarc;
+	kF2 = TMath::Power(3*kPi2*rhon, 1.0/3.0) *fhbarc;
+      }else{
+	kF1 = TMath::Power(3*kPi2*rhon, 1.0/3.0) *fhbarc;
+	kF2 = TMath::Power(3*kPi2*rhop, 1.0/3.0) *fhbarc;
+      }
     }else{
-      kF1 = TMath::Power(3*kPi2*rhon, 1.0/3.0) *fhbarc;
-      kF2 = TMath::Power(3*kPi2*rhop, 1.0/3.0) *fhbarc;
+      int tgt_pdgc = target.Pdg();
+      if(pdg::IsProton(target->HitNucPdg())){
+	kF1 = fKFTable->FindClosestKF(tgt_pdgc, kPdgProton);
+	kF2 = fKFTable->FindClosestKF(tgt_pdgc, kPdgNeutron);
+      }else{
+	kF1 = fKFTable->FindClosestKF(tgt_pdgc, kPdgNeutron);
+	kF2 = fKFTable->FindClosestKF(tgt_pdgc, kPdgProton);	
+      }
     }
-      //}
-    //LOG("Nieves",pDEBUG) << "r=" << r << ", rmaxfm = " << rmaxfm 
-    // << ",kF1=" << kF1 << ",kF2=" << kF2;
+    //LOG("Nieves",pDEBUG) << "r=" << r << ",kF1=" << kF1 << ",kF2=" << kF2;
     double kF = kF1 + kF2;
 
     std::complex<double> imU(relLindhardIm(qVec.E(),dq,kF1,kF2,
@@ -891,9 +880,8 @@ std::complex<double> NievesQELCCPXSec::deltaLindhard(double q0,
 
 //____________________________________________________________________________
 // Gives coulomb potential in units of GeV
-double NievesQELCCPXSec::vcr(const Target * target) const{
+double NievesQELCCPXSec::vcr(const Target * target, double Rcurr) const{
   if(target->IsNucleus()){
-    double Rcurr = target->GetHitNucRadius();
     int A = target->A();
     int Z = target->Z();
     // RMax calculated using formula from Nieves' fortran code and default
@@ -1144,9 +1132,15 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
   double a4 = -8.0*q2_M2*xiF2V2*(M2/q2+1.0/4.0) - 
     8.0*M2*FA2/(kPionMass2-q2)*(q2/(kPionMass2-q2)+2.0) - 16.0*F1V*xiF2V;
 
+  double r;
+  if(kinematics.KVSet(kKVSelRad))
+    r = kinematics.GetKV(kKVSelRad);
+  else
+    r = 0.0;
+  
   double t0,r00;
   double CN,CT,CL,imU;
-  CNCTCLimUcalc(& target,qVec,q2,is_neutrino,CN,CT,CL,imU,t0,r00);
+  CNCTCLimUcalc(& target,r,qVec,q2,is_neutrino,CN,CT,CL,imU,t0,r00);
 
   if(! fRPA){
     CN=1.0;

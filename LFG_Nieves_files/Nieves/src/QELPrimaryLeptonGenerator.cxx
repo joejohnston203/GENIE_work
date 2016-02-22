@@ -12,6 +12,9 @@
  Important revisions after version 2.0.0 :
  @ Mar 03, 2009 - CA
    Moved into the new QEL package from its previous location (EVGModules)
+ @ Feb 18, 2016 - JJ (SD)
+   A lepton is now generated and saved by the QELKinematicsGenerator.
+   Updated this class to access and store that lepton.
 
 */
 //____________________________________________________________________________
@@ -60,63 +63,27 @@ void QELPrimaryLeptonGenerator::ProcessEventRecord(GHepRecord * evrec) const
 {
   //PrimaryLeptonGenerator::ProcessEventRecord(evrec);
   Interaction * interaction = evrec->Summary();
+  Kinematics * kine = interaction->KinePtr();
 
-  // Boost vector for [LAB] <-> [Nucleon Rest Frame] transforms
-  TVector3 beta = this->NucRestFrame2Lab(evrec);
-
-  // Neutrino 4p
-  TLorentzVector * p4v = evrec->Probe()->GetP4(); // v 4p @ LAB
-  p4v->Boost(-1.*beta);                           // v 4p @ Nucleon rest frame
+  // Check that a lepton was stored. If not, call the parent method.
+  if(!(kine->KVSet(kKVSelTl) && kine->KVSet(kKVSelctl) 
+       && kine->KVSet(kKVSelphikq))){
+    // CHECK THIS LINE TO MAKE SURE IT'S WORKING
+    this->PrimaryLeptonGenerator::ProcessEventRecord(evrec);
+    return;
+  }
 
   // Get the final state primary lepton energy and momentum components
   // along and perpendicular to the neutrino direction 
-  double Q2  = interaction->Kine().Q2(true);
-  double y   = interaction->Kine().y(true);
-  double Ev  = p4v->E(); 
   double ml  = interaction->FSPrimLepton()->Mass();
   double ml2 = TMath::Power(ml,2);
 
-  LOG("LeptonicVertex", pNOTICE)
-    << "Ev = " << Ev << ", Q2 = " << Q2 << ", y = " << y;
+  // Get the components stored by the QEL kinematics generator
+  double Tl = kine->GetKV(kKVSelTl);
+  double ctl = kine->GetKV(kKVSelctl);
+  double phi = kine->GetKV(kKVSelphikq);
 
-  double El  = (1-y)*Ev;
-  double plp = El - 0.5*(Q2+ml2)/Ev;                          // p(//)
-  double plt = TMath::Sqrt(TMath::Max(0.,El*El-plp*plp-ml2)); // p(-|)
-
-
-  LOG("LeptonicVertex", pNOTICE)
-      << "fsl: E = " << El << ", |p//| = " << plp << ", [pT] = " << plt;
-    
-  double phi;
-  if(interaction->Kine().KVSet(kKVSelphil)){
-    // Get stored angle of transverse components
-    LOG("LeptonicVertex",pNOTICE) << "Getting phi";
-    phi  = interaction->Kine().GetKV(kKVSelphil);
-  }else{
-    // Randomize transverse components
-    LOG("LeptonicVertex",pNOTICE) << "Generating phi";
-    RandomGen * rnd = RandomGen::Instance();
-    phi  = 2*kPi * rnd->RndLep().Rndm();
-  }
-  double pltx = plt * TMath::Cos(phi);
-  double plty = plt * TMath::Sin(phi);
-
-  // Take a unit vector along the neutrino direction @ the nucleon rest frame
-  TVector3 unit_nudir = p4v->Vect().Unit(); 
-
-  // Rotate lepton momentum vector from the reference frame (x'y'z') where 
-  // {z':(neutrino direction), z'x':(theta plane)} to the nucleon rest frame
-  TVector3 p3l(pltx,plty,plp);
-  p3l.RotateUz(unit_nudir);
-
-  // Lepton 4-momentum in the nucleon rest frame
-  TLorentzVector p4l(p3l,El);
-
-  LOG("LeptonicVertex", pNOTICE)
-       << "fsl @ NRF: " << utils::print::P4AsString(&p4l);
-
-  // Boost final state primary lepton to the lab frame
-  p4l.Boost(beta); // active Lorentz transform
+  double p4l2 = Tl + ml
 
   LOG("LeptonicVertex", pNOTICE)
        << "fsl @ LAB: " << utils::print::P4AsString(&p4l);

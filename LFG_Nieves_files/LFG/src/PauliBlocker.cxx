@@ -93,7 +93,7 @@ void PauliBlocker::ProcessEventRecord(GHepRecord * evrec) const
   
   // get the Fermi momentum
   double kf;
-  if(lfg){
+  if(fLFG){
     int nucleon_pdgc = hit->Pdg();
     assert(pdg::IsProton(nucleon_pdgc) || pdg::IsNeutron(nucleon_pdgc));
     Target* tgt = interaction->InitStatePtr()->TgtPtr();
@@ -165,9 +165,9 @@ void PauliBlocker::LoadModelType(void){
     dynamic_cast<const NuclearModelI*>(
 			     algf->GetAlgorithm(nuclalg.name,nuclalg.config));
   // Check if the model is a local Fermi gas
-  lfg = (nuclModel && nuclModel->ModelType(Target()) == kNucmLocalFermiGas);
+  fLFG = (nuclModel && nuclModel->ModelType(Target()) == kNucmLocalFermiGas);
   
-  if(!lfg){
+  if(!fLFG){
     // get the Fermi momentum table for relativistic Fermi gas
     fKFTableName = fConfig->GetStringDef ("FermiMomentumTable",
 					  gc->GetString("FermiMomentumTable"));
