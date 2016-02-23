@@ -68,22 +68,26 @@ void QELPrimaryLeptonGenerator::ProcessEventRecord(GHepRecord * evrec) const
   // Check that a lepton was stored. If not, call the parent method.
   if(!(kine->KVSet(kKVSelTl) && kine->KVSet(kKVSelctl) 
        && kine->KVSet(kKVSelphikq))){
-    // CHECK THIS LINE TO MAKE SURE IT'S WORKING
     this->PrimaryLeptonGenerator::ProcessEventRecord(evrec);
     return;
   }
-
   // Get the final state primary lepton energy and momentum components
   // along and perpendicular to the neutrino direction 
   double ml  = interaction->FSPrimLepton()->Mass();
   double ml2 = TMath::Power(ml,2);
 
   // Get the components stored by the QEL kinematics generator
-  double Tl = kine->GetKV(kKVSelTl);
+  double Tl = kine->GetKV(kKVSelTl); // Used to store momentum magnitude
   double ctl = kine->GetKV(kKVSelctl);
   double phi = kine->GetKV(kKVSelphikq);
 
-  double p4l2 = Tl + ml
+  double El = TMath::Sqrt(Tl*Tl + ml2);
+  double stl = TMath::Sqrt(1-ctl*ctl);
+  double plp = Tl * ctl;
+  double pltx = Tl * stl * TMath::Cos(phi);
+  double plty = Tl * stl * TMath::Sin(phi);
+
+  TLorentzVector p4l(pltx,plty,plp,El);
 
   LOG("LeptonicVertex", pNOTICE)
        << "fsl @ LAB: " << utils::print::P4AsString(&p4l);
@@ -96,7 +100,5 @@ void QELPrimaryLeptonGenerator::ProcessEventRecord(GHepRecord * evrec) const
 
   // Set final state lepton polarization
   this->SetPolarization(evrec);
-
-  delete p4v;  
 }
 //___________________________________________________________________________

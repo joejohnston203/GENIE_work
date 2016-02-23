@@ -23,7 +23,7 @@
  @ Feb 18, 2016 - JJ (SD)
    Generate a lepton in each iteration before calculating the cross
    section. Save the chosen lepton for use by the QELPrimaryLeptonGenerator
-   when a cross section is chosen.
+   when a Q2 value is selected.
    Catch NievesQELExceptions when calculating the cross section.
 */
 //____________________________________________________________________________
@@ -38,15 +38,17 @@
 #include "EVGCore/EVGThreadException.h"
 #include "EVGCore/EventGeneratorI.h"
 #include "EVGCore/RunningThreadInfo.h"
+#include "GHEP/GHepParticle.h"
 #include "GHEP/GHepRecord.h"
 #include "GHEP/GHepFlags.h"
-#include "LlewellynSmith/NievesQELException.h"
+//#include "LlewellynSmith/NievesQELException.h"
 #include "Messenger/Messenger.h"
 #include "Numerical/RandomGen.h"
 #include "PDG/PDGLibrary.h"
 #include "QEL/QELKinematicsGenerator.h"
 #include "Utils/MathUtils.h"
 #include "Utils/KineUtils.h"
+#include "Utils/PrintUtils.h"
 
 using namespace genie;
 using namespace genie::controls;
@@ -132,8 +134,8 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
   double gQ2    =  0.;
 
   // Store the struck nucleon position for use by the xsec method
-  double radius = evrec->HitNucleon()->X4()->Vect().Mag();
-  interaction->KinePtr->SetKV(kKVSelRad,r);
+  double radius = evrec->HitNucleon()->GetX4()->Vect().Mag();
+  interaction->KinePtr()->SetKV(kKVSelRad,radius);
   
   unsigned int iter = 0;
   bool accept = false;
@@ -167,14 +169,14 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
      SetRunningLepton(evrec);
 
      //-- Computing cross section for the current kinematics
-     try{
-       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     }catch(exceptions::NievesQELException exception) {
-       LOG("QELKinematics",pINFO) << exception;
-       LOG("QELKinematics",pINFO) << "rewinding";
-       xsec = -1.0; // Do not accept
-     }
-
+     //try{
+     xsec = fXSecModel->XSec(interaction, kPSQ2fE);
+     //}catch(exceptions::NievesQELException exception) {
+     //LOG("QELKinematics",pINFO) << exception;
+     //LOG("QELKinematics",pINFO) << "rewinding";
+     //xsec = -1.0; // Do not accept
+     //}
+     
      //-- Decide whether to accept the current kinematics
      if(!fGenerateUniformly) {
         this->AssertXSecLimits(interaction, xsec, xsec_max);
@@ -339,6 +341,10 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
   double gx     =  0.;
   double gy     =  0.;
 
+  // Store the struck nucleon position for use by the xsec method
+  double radius = evrec->HitNucleon()->X4()->Vect().Mag();
+  interaction->KinePtr()->SetKV(kKVSelRad,radius);
+
   unsigned int iter = 0;
   bool accept = false;
   while(1) {
@@ -399,13 +405,13 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
      SetRunningLepton(evrec);
 
      //-- Computing cross section for the current kinematics
-     try{
-       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     }catch(exceptions::NievesQELException exception) {
-       LOG("QELKinematics",pINFO) << exception;
-       LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
-       xsec = 0.0;
-     }
+     //try{
+     xsec = fXSecModel->XSec(interaction, kPSQ2fE);
+     //}catch(exceptions::NievesQELException exception) {
+     //LOG("QELKinematics",pINFO) << exception;
+     //LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
+     //xsec = 0.0;
+     //}
 
      //-- Decide whether to accept the current kinematics
 //     if(!fGenerateUniformly) {
@@ -539,13 +545,13 @@ double QELKinematicsGenerator::ComputeMaxXSec(
      interaction->KinePtr()->SetQ2(Q2);
      double xsec;
      //-- Computing cross section for the current kinematics
-     try{
-       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     }catch(exceptions::NievesQELException exception) {
-       LOG("QELKinematics",pINFO) << exception;
-       LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
-       xsec = 0.0;
-     }
+     //try{
+     xsec = fXSecModel->XSec(interaction, kPSQ2fE);
+     //}catch(exceptions::NievesQELException exception) {
+     //LOG("QELKinematics",pINFO) << exception;
+     //LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
+     //xsec = 0.0;
+     //}
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
      LOG("QELKinematics", pDEBUG)  << "xsec(Q2= " << Q2 << ") = " << xsec;
 #endif
@@ -562,13 +568,13 @@ double QELKinematicsGenerator::ComputeMaxXSec(
 	 Q2 = TMath::Exp(TMath::Log(Q2) - dlogQ2);
          if(Q2 < rQ2.min) continue;
          interaction->KinePtr()->SetQ2(Q2);
-	 try{
-	   xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-	 }catch(exceptions::NievesQELException exception) {
-	   LOG("QELKinematics",pINFO) << exception;
-	   LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
-	   xsec = 0.0;
-	 }
+	 //try{
+	 xsec = fXSecModel->XSec(interaction, kPSQ2fE);
+	 //}catch(exceptions::NievesQELException exception) {
+	 //LOG("QELKinematics",pINFO) << exception;
+	 //LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
+	 //xsec = 0.0;
+	 //}
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
          LOG("QELKinematics", pDEBUG)  << "xsec(Q2= " << Q2 << ") = " << xsec;
 #endif
@@ -592,20 +598,30 @@ double QELKinematicsGenerator::ComputeMaxXSec(
 }
 //___________________________________________________________________________
 // Generate a lepton and store it by using the KineVar construct with
-// the Kinematics class (variables kKVSelTl, kKVSelctl, kKVSelphikq).
+// the Kinematics class (variables kKVTl, kKVctl, kKVphikq).
 // Stored lepton is in the LAB FRAME.
-void SetRunningLepton(GHepRecord * evrec) const{
+void QELKinematicsGenerator::SetRunningLepton(GHepRecord * evrec) const{
   Interaction * interaction = evrec->Summary();
 
-  // Boost vector for [LAB] <-> [Nucleon Rest Frame] transforms
-  TVector3 beta = this->NucRestFrame2Lab(evrec);
+  // Velocity for an active Lorentz transform taking the final state primary
+  // lepton from the [nucleon rest frame] --> [LAB]
+  const InitialState & init_state = interaction->InitState();
+  const TLorentzVector & pnuc4 = init_state.Tgt().HitNucP4(); //[@LAB]
+  TVector3 beta = pnuc4.BoostVector();
+
 
   // Neutrino 4p
   TLorentzVector * p4v = evrec->Probe()->GetP4(); // v 4p @ LAB
   p4v->Boost(-1.*beta);                           // v 4p @ Nucleon rest frame
 
   // Look-up selected kinematics & other needed kinematical params
-  double Q2  = interaction->Kine().Q2(true);
+  double Q2  = interaction->Kine().Q2(false);
+
+  // get neutrino energy at struck nucleon rest frame and the
+  // struck nucleon mass (can be off the mass shell)
+  double E  = init_state.ProbeE(kRfHitNucRest);
+  double M = init_state.Tgt().HitNucP4().M();
+
   const XclsTag & xcls = interaction->ExclTag();
   int rpdgc = 0;
   if(xcls.IsCharmEvent()) { rpdgc = xcls.CharmHadronPdg();           }
@@ -629,7 +645,7 @@ void SetRunningLepton(GHepRecord * evrec) const{
   double plt = TMath::Sqrt(TMath::Max(0.,El*El-plp*plp-ml2)); // p(-|)
 
   LOG("QELKinematics", pINFO)
-        << "fsl: E = " << El << ", |p//| = " << plp << ", [pT] = " << plt;
+        << "trying fsl: E = " << El << ", |p//| = " << plp << ", [pT] = " << plt;
 
   // Randomize transverse components
   RandomGen * rnd = RandomGen::Instance();
@@ -650,22 +666,25 @@ void SetRunningLepton(GHepRecord * evrec) const{
   TLorentzVector p4l(p3l,El);
 
   LOG("QELKinematics", pINFO)
-       << "fsl @ NRF: " << utils::print::P4AsString(&p4l);
+       << "trying fsl @ NRF: " << utils::print::P4AsString(&p4l);
 
   // Boost final state primary lepton to the lab frame
   p4l.Boost(beta); // active Lorentz transform
 
   LOG("QELKinematics", pINFO)
-       << "fsl @ LAB: " << utils::print::P4AsString(&p4l);
+       << "trying fsl @ LAB: " << utils::print::P4AsString(&p4l);
 
   // Store the outgoing lepton components in the lab frame
-  // Assume El = Tl + ml^2
-  double Tl = p4l.Vect().Mag2(); // kinetic energy
-  double ctl = p4l.CosTheta();
-  double phi = p4l.Phi();
+  // Assume El^2 = Tl^2 + ml^2
+  double Tl = p4l.Vect().Mag(); // used to store 3-vector magnitude
+  LOG("QELKinematics",pDEBUG) << "ml = " << ml << ", Tl = " << Tl;
+  double ctl = p4l.CosTheta(); // cos(theta) in the lab frame
+  phi = p4l.Phi(); // get phi in the lab fram
   interaction->KinePtr()->SetKV(kKVTl,Tl);
   interaction->KinePtr()->SetKV(kKVctl,ctl);
   interaction->KinePtr()->SetKV(kKVphikq,phi);
+
+  delete p4v;
 }
 //___________________________________________________________________________
 
