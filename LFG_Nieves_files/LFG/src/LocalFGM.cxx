@@ -20,7 +20,7 @@
 #include "Conventions/Constants.h"
 #include "Conventions/Units.h"
 #include "Messenger/Messenger.h"
-#include "Nuclear/LFGNuclearModel.h"
+#include "Nuclear/LocalFGM.h"
 #include "PDG/PDGCodes.h"
 #include "PDG/PDGUtils.h"
 #include "Numerical/RandomGen.h"
@@ -33,24 +33,24 @@ using namespace genie::units;
 using namespace genie::utils;
 
 //____________________________________________________________________________
-LFGNuclearModel::LFGNuclearModel() :
-NuclearModelI("genie::LFGNuclearModel")
+LocalFGM::LocalFGM() :
+NuclearModelI("genie::LocalFGM")
 {
 
 }
 //____________________________________________________________________________
-LFGNuclearModel::LFGNuclearModel(string config) :
-NuclearModelI("genie::LFGNuclearModel", config)
+LocalFGM::LocalFGM(string config) :
+NuclearModelI("genie::LocalFGM", config)
 {
 
 }
 //____________________________________________________________________________
-LFGNuclearModel::~LFGNuclearModel()
+LocalFGM::~LocalFGM()
 {
 
 }
 //____________________________________________________________________________
-bool LFGNuclearModel::GenerateNucleon(const Target & target, 
+bool LocalFGM::GenerateNucleon(const Target & target, 
 				      double hitNucleonRadius) const
 {
   assert(target.HitNucIsSet());
@@ -62,13 +62,13 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target,
   //
   TH1D * prob = this->ProbDistro(target,hitNucleonRadius);
   if(!prob) {
-    LOG("LFGNuclearModel", pNOTICE)
+    LOG("LocalFGM", pNOTICE)
               << "Null nucleon momentum probability distribution";
     exit(1);
   }
   double p = prob->GetRandom();
   delete prob;
-  LOG("LFGNuclearModel", pINFO) << "|p,nucleon| = " << p;
+  LOG("LocalFGM", pINFO) << "|p,nucleon| = " << p;
 
   RandomGen * rnd = RandomGen::Instance();
 
@@ -94,7 +94,7 @@ bool LFGNuclearModel::GenerateNucleon(const Target & target,
   return true;
 }
 //____________________________________________________________________________
-double LFGNuclearModel::Prob(double p, double w, const Target & target,
+double LocalFGM::Prob(double p, double w, const Target & target,
 			     double hitNucleonRadius) const
 {
   if(w<0) {
@@ -110,12 +110,12 @@ double LFGNuclearModel::Prob(double p, double w, const Target & target,
 }
 //____________________________________________________________________________
 // *** The TH1D object must be deleted after it is used ***
-TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
+TH1D * LocalFGM::ProbDistro(const Target & target, double r) const
 {
-  LOG("LFGNuclearModel", pNOTICE)
+  LOG("LocalFGM", pNOTICE)
              << "Computing P = f(p_nucleon) for: " << target.AsString()
 	     << ", Nucleon Radius = " << r;
-  LOG("LFGNuclearModel", pNOTICE)
+  LOG("LocalFGM", pNOTICE)
              << ", P(max) = " << fPMax;
 
   //-- get information for the nuclear target
@@ -127,12 +127,12 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
   bool is_p = pdg::IsProton(nucleon_pdgc);
   double numNuc = (is_p) ? (double)target.Z():(double)target.N();
 
-  // Calculate Fermi Momentum using LFG model
+  // Calculate Fermi Momentum using Local FG equations
   double hbarc = kLightSpeed*kPlankConstant/fermi;
   double KF= TMath::Power(3*kPi2*numNuc*genie::utils::nuclear::Density(r,A),
 			    1.0/3.0) *hbarc;
 
-  LOG("LFGNuclearModel",pNOTICE) << "KF = " << KF;
+  LOG("LocalFGM",pNOTICE) << "KF = " << KF;
 
   double a  = 2.0;
   double C  = 4. * kPi * TMath::Power(KF,3) / 3.;
@@ -140,9 +140,9 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
   // Do not include nucleon correlation tail
   //double R  = 1. / (1.- KF/4.);
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
-  LOG("LFGNuclearModel", pDEBUG) << "a  = " << a;
-  LOG("LFGNuclearModel", pDEBUG) << "C  = " << C;
-  //LOG("LFGNuclearModel", pDEBUG) << "R  = " << R;
+  LOG("LocalFGM", pDEBUG) << "a  = " << a;
+  LOG("LocalFGM", pDEBUG) << "C  = " << C;
+  //LOG("LocalFGM", pDEBUG) << "R  = " << R;
 #endif
 
   //-- create the probability distribution
@@ -171,7 +171,7 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
      // calculate probability density : dProbability/dp
      double dP_dp = 4*kPi * p2 * phi2;
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
-     LOG("LFGNuclearModel", pDEBUG) << "p = " << p << ", dP/dp = " << dP_dp;
+     LOG("LocalFGM", pDEBUG) << "p = " << p << ", dP/dp = " << dP_dp;
 #endif
      prob->Fill(p, dP_dp);
   }
@@ -182,19 +182,19 @@ TH1D * LFGNuclearModel::ProbDistro(const Target & target, double r) const
   return prob; 
 }
 //____________________________________________________________________________
-void LFGNuclearModel::Configure(const Registry & config)
+void LocalFGM::Configure(const Registry & config)
 {
   Algorithm::Configure(config);
   this->LoadConfig();
 }
 //____________________________________________________________________________
-void LFGNuclearModel::Configure(string param_set)
+void LocalFGM::Configure(string param_set)
 {
   Algorithm::Configure(param_set);
   this->LoadConfig();
 }
 //____________________________________________________________________________
-void LFGNuclearModel::LoadConfig(void)
+void LocalFGM::LoadConfig(void)
 {
   fPMax    = fConfig->GetDoubleDef ("MomentumMax", 1.0);
   assert(fPMax > 0);
@@ -216,7 +216,7 @@ void LFGNuclearModel::LoadConfig(void)
       if (this->GetConfig().Exists(rgkey) || gc->Exists(gcrgkey)) {
         double eb = fConfig->GetDoubleDef(rgkey, gc->GetDouble(gcrgkey));
         eb = TMath::Max(eb, 0.);
-        LOG("LFGNuclearModel", pINFO)
+        LOG("LocalFGM", pINFO)
           << "Nucleus: " << pdgc << " -> using Eb =  " << eb << " GeV";
         fNucRmvE.insert(map<int,double>::value_type(Z,eb));
       }

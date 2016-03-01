@@ -1,7 +1,7 @@
 //____________________________________________________________________________
 /*!
 
-\class    genie::LFGNuclearModel
+\class    genie::LocalFGM
 
 \brief    local Fermi gas model. Implements the NuclearModelI 
           interface.
@@ -18,8 +18,8 @@
 */
 //____________________________________________________________________________
 
-#ifndef _LFG_NUCLEAR_MODEL_H_
-#define _LFG_NUCLEAR_MODEL_H_
+#ifndef _LOCAL_FGM_H_
+#define _LOCAL_FGM_H_
 
 #include <map>
 
@@ -30,12 +30,12 @@ using std::map;
 
 namespace genie {
 
-class LFGNuclearModel : public NuclearModelI {
+class LocalFGM : public NuclearModelI {
 
 public:
-  LFGNuclearModel();
-  LFGNuclearModel(string config);
-  virtual ~LFGNuclearModel();
+  LocalFGM();
+  LocalFGM(string config);
+  virtual ~LocalFGM();
 
   //-- allow methods to be called with a radius
   bool   GenerateNucleon (const Target & t, double hitNucleonRadius) const;
@@ -69,5 +69,5 @@ private:
 };
 
 }         // genie namespace
-#endif    // _LFG_NUCLEAR_MODEL_H_
+#endif    // _LOCAL_FGM_H_
 

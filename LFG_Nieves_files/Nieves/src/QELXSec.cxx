@@ -129,15 +129,28 @@ double QELXSec::Integrate(
        p4N->SetPy (p3N.Py());
        p4N->SetPz (p3N.Pz());
        p4N->SetE  (EN);
-
-       double xsec = this->IntegrateOnce(model,&in_curr);
-       xsec_sum += xsec;
+       try{
+	 double xsec = this->IntegrateOnce(model,&in_curr);
+	 xsec_sum += xsec;
+       }catch(exceptions::NievesQELException exception) {
+	 LOG("QELXSec",pINFO) << exception;
+	 LOG("QELXSec",pINFO) << "recalculating";
+	 // Do not include this event in the average
+	 inuc--;
+       }
      }
+
      double xsec_avg = xsec_sum / nnuc;
      return xsec_avg;
 
   } else {
-    return this->IntegrateOnce(model,in);
+    try{
+      return this->IntegrateOnce(model,in);
+    }catch(exceptions::NievesQELException exception) {
+      LOG("QELXSec",pINFO) << exception;
+      LOG("QELXSec",pINFO) << "Setting xsec = 0";
+      return 0;
+    }
   }
 
   return 0;

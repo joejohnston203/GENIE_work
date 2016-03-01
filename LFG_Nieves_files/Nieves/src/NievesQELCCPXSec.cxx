@@ -21,6 +21,7 @@
 #include <TLorentzVector.h>
 #include <ctype.h>
 
+#include "Algorithm/AlgFactory.h"
 #include "Algorithm/AlgConfigPool.h"
 #include "Base/XSecIntegratorI.h"
 #include "Base/QELFormFactors.h"
@@ -31,6 +32,9 @@
 #include "Conventions/KineVar.h"
 #include "Conventions/Units.h"
 #include "Messenger/Messenger.h"
+#include "Nuclear/NuclearModelI.h"
+#include "Nuclear/FermiMomentumTablePool.h"
+#include "Nuclear/FermiMomentumTable.h"
 #include "LlewellynSmith/NievesQELCCPXSec.h"
 #include "LlewellynSmith/NievesQELException.h"
 #include "Numerical/RandomGen.h"
@@ -86,7 +90,7 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
     LOG("Nieves", pWARN) << "q2>=0";
     exceptions::NievesQELException exception;
     exception.SetReason("Invalid q, q2>=0.0");
-    exception.SetUnphysicalQ2(true);
+    //exception.SetUnphysicalQ2(true);
     throw exception;
   }
 
@@ -110,32 +114,39 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
  // Initial neutrino
   TVector3 k3Vec(0,0,E);
 
-  // Generate outgoing lepton, and store for use by primary lepton generator
-  TLorentzVector * probe = new TLorentzVector(k3Vec,E);
-  try{
-    SetRunningOutgoingLepton(interaction, probe);
-    delete probe;
-  }catch(exceptions::NievesQELException exception) {
-    // Invalid kinematics
-    // delete the probe, then pass the exception to the calling class
-    delete probe;
-    throw exception;
+  // The kinematics generator should take of generating the lepton
+  if(!(kinematics.KVSet(kKVSelTl) &&
+       kinematics.KVSet(kKVSelctl) && 
+       kinematics.KVSet(kKVSelphikq))){
+    LOG("Nieves",pINFO) << "Generating lepton inside xsec method";
+    // Generate outgoing lepton, and store for use by primary lepton generator
+    TLorentzVector * probe = new TLorentzVector(k3Vec,E);
+    try{
+      SetRunningOutgoingLepton(interaction, probe);
+      delete probe;
+    }catch(exceptions::NievesQELException exception) {
+      // Invalid kinematics
+      // delete the probe, then pass the exception to the calling class
+      delete probe;
+      throw exception;
+    }
   }
 
-  double El = ml + kinematics.GetKV(kKVTl);
+  double pl = kinematics.GetKV(kKVTl);
+  double El = TMath::Sqrt(pl*pl+ml2);
   double ctl = kinematics.GetKV(kKVctl);
   double stl = TMath::Sqrt(1-ctl*ctl); // Sin of polar angle
   double phi = kinematics.GetKV(kKVphikq);
-  double pl = TMath::Sqrt(El*El-ml*ml);
 
   // Coulomb Effects
   if(fCoulomb){
+    double r;
     if(kinematics.KVSet(kKVSelRad))
       r = kinematics.GetKV(kKVSelRad);
     else
       r = 0.0;
     // Coulomb potential
-    double Vc = vcr(& target, double r);
+    double Vc = vcr(& target, r);
 
     // Outgoing lepton energy and momentum including coulomb potential
     int sign = (pdg::IsNeutrino(init_state.ProbePdg())) ? 1 : -1;
@@ -145,7 +156,7 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 			    << "push kinematics below threshold";
       exceptions::NievesQELException exception;
       exception.SetReason("Outgoing lepton energy below threshold after coulomb effects");
-      exception.SetUnphysicalQ2(true);
+      //exception.SetUnphysicalQ2(true);
       throw exception;
     }
     double plLocal = TMath::Sqrt(ElLocal*ElLocal-ml2);
@@ -221,7 +232,6 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 
   LOG("Nieves",pDEBUG) << "RPA=" << fRPA 
 		       << ", Coulomb=" << fCoulomb 
-		       << ", Nieves Suppression=" << fNievesSuppression
 		       << ", q2 = " << q2 << ", xsec = " << xsec;
 
   ofstream uhoh;
@@ -257,28 +267,21 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
   //      the xsec will still include RPA corrections
   if( interaction->TestBit(kIAssumeFreeNucleon) ) return xsec;
 
-  // Suppression commented out here because if fNievesSuppression is false,
-  // no suppression is used
-  /*
   //----- compute nuclear suppression factor
   //      (R(Q2) is adapted from NeuGEN - see comments therein)
   double R;
-  if(fNievesSuppression)
-    R = 1.0; //Suppresssion factor accounted for by theta functions
-  else
-    R = nuclear::NuclQELXSecSuppression("Default", 0.5, interaction);
-  */
+  R = nuclear::NuclQELXSecSuppression("Default", 0.5, interaction);
 
   //----- number of scattering centers in the target
   int nucpdgc = target.HitNucPdg();
   int NNucl = (pdg::IsProton(nucpdgc)) ? target.Z() : target.N(); 
-  /*
+
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
   LOG("Nieves", pDEBUG) 
        << "Nuclear suppression factor R(Q2) = " << R << ", NNucl = " << NNucl;
 #endif
-xsec *= (R*NNucl); // nuclear xsec*/
-  xsec *= NNucl;
+
+  xsec *= (R*NNucl); // nuclear xsec*/
 
   return xsec;
 }//____________________________________________________________________________
@@ -470,7 +473,7 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
     LOG("Nieves", pNOTICE) << "El < ml";
     exceptions::NievesQELException exception;
     exception.SetReason("Q2 and initial nucleon give El < ml");
-    exception.SetUnphysicalQ2(true);
+    //exception.SetUnphysicalQ2(true);
     throw exception;
   }
   double plp = El - 0.5*(gQ2+ml2)/Ev;                          // p(//)
@@ -533,7 +536,7 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
     LOG("Nieves", pNOTICE) << "Tl < 0 in lab frame";
     exceptions::NievesQELException exception;
     exception.SetReason("Q2 and initial nucleon give El < ml");
-    exception.SetUnphysicalQ2(true);
+    //exception.SetUnphysicalQ2(true);
     delete probelab;
     throw exception;
   }
@@ -553,7 +556,7 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
 }
 //___________________________________________________________________________
 void NievesQELCCPXSec::CNCTCLimUcalc(const Target * target,
-				     radius r,
+				     double r,
 				     TLorentzVector qVec,double q2,
 				     bool is_neutrino,
 				     double & CN, double & CT, double & CL,
@@ -592,7 +595,7 @@ void NievesQELCCPXSec::CNCTCLimUcalc(const Target * target,
 	kF2 = TMath::Power(3*kPi2*rhop, 1.0/3.0) *fhbarc;
       }
     }else{
-      int tgt_pdgc = target.Pdg();
+      int tgt_pdgc = target->Pdg();
       if(pdg::IsProton(target->HitNucPdg())){
 	kF1 = fKFTable->FindClosestKF(tgt_pdgc, kPdgProton);
 	kF2 = fKFTable->FindClosestKF(tgt_pdgc, kPdgNeutron);

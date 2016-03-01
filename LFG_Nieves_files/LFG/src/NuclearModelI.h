@@ -19,8 +19,8 @@
  Important revisions after version 2.0.0 :
  @ Dec 11, 2015 - JJ (SD)
    Added option for GenerateNucleon() to be called with a target and a radius
-   as the arguments. Currently used by LFGNuclearModel. Calls 
-   GenerateNucleon() with only the target for all other NuclearModelI
+   as the arguments. Currently used by LocalFGM. Calls 
+   GenerateNucleon() with the radius set to 0 for all other NuclearModelI
    implementations.
 
 */

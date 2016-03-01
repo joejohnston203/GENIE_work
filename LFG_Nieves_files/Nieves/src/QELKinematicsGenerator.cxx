@@ -169,13 +169,13 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
      SetRunningLepton(evrec);
 
      //-- Computing cross section for the current kinematics
-     //try{
-     xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     //}catch(exceptions::NievesQELException exception) {
-     //LOG("QELKinematics",pINFO) << exception;
-     //LOG("QELKinematics",pINFO) << "rewinding";
-     //xsec = -1.0; // Do not accept
-     //}
+     try{
+       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
+     }catch(exceptions::NievesQELException exception) {
+       LOG("QELKinematics",pINFO) << exception;
+       LOG("QELKinematics",pINFO) << "rewinding";
+       xsec = -1.0; // Do not accept
+     }
      
      //-- Decide whether to accept the current kinematics
      if(!fGenerateUniformly) {
@@ -675,8 +675,8 @@ void QELKinematicsGenerator::SetRunningLepton(GHepRecord * evrec) const{
        << "trying fsl @ LAB: " << utils::print::P4AsString(&p4l);
 
   // Store the outgoing lepton components in the lab frame
-  // Assume El^2 = Tl^2 + ml^2
-  double Tl = p4l.Vect().Mag(); // used to store 3-vector magnitude
+  // Assume El^2 = pl^2 + ml^2
+  double Tl = p4l.Vect().Mag(); // used to store 3-vector magnitude pl
   LOG("QELKinematics",pDEBUG) << "ml = " << ml << ", Tl = " << Tl;
   double ctl = p4l.CosTheta(); // cos(theta) in the lab frame
   phi = p4l.Phi(); // get phi in the lab fram

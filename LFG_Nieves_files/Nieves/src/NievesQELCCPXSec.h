@@ -24,6 +24,7 @@
 
 #include "Base/XSecAlgorithmI.h"
 #include "Base/QELFormFactors.h"
+#include "Nuclear/FermiMomentumTable.h"
 
 #include <complex>
 

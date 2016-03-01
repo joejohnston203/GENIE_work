@@ -44,7 +44,7 @@ public :
 private:
    void LoadModelType(void);
 
-   bool fLFG;
+   bool lfg;
    const FermiMomentumTable * fKFTable;
    string fKFTableName;
 };

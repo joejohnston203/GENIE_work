@@ -19,6 +19,8 @@
  @ Jan 26, 2016 - JJ
    Choose a radius for the struck nucleon before choosing the momentum, and
    save that radius for use by the XSec method
+ @ Feb 16, 2016 - JJ
+   Catch NievesQELException thrown by the XSec method
 */
 //____________________________________________________________________________
 
@@ -35,6 +37,7 @@
 #include "Conventions/RefFrame.h"
 #include "CrossSections/QELXSec.h"
 #include "CrossSections/GSLXSecFunc.h"
+#include "LlewellynSmith/NievesQELException.h"
 #include "Messenger/Messenger.h"
 #include "Nuclear/NuclearModelI.h"
 #include "Numerical/RandomGen.h"
@@ -69,6 +72,8 @@ QELXSec::~QELXSec()
 double QELXSec::Integrate(
                   const XSecAlgorithmI * model, const Interaction * in) const
 {
+  LOG("QELXSec",pDEBUG) << "Beginning integrate";
+
   if(! model->ValidProcess(in)) return 0.;
 
   bool nuclear_target = in->InitState().Tgt().IsNucleus();
@@ -81,6 +86,8 @@ double QELXSec::Integrate(
   // Also average over positions in the nucleus if model == lfg
   bool lfg = (fNuclModel && fNuclModel->ModelType(Target()) == kNucmLocalFermiGas);
   if(E < fEnergyCutOff || lfg) {
+    LOG("QELXSec",pDEBUG) << "averaging over nucleons";
+
      // clone the input interaction so as to tweak the
      // hit nucleon 4-momentum in the averaging loop
      Interaction in_curr(*in);
@@ -113,10 +120,12 @@ double QELXSec::Integrate(
      double xsec_sum = 0.;
      const int nnuc = 2000;
      for(int inuc=0; inuc<nnuc; inuc++) {
+       LOG("QELXSec",pDEBUG) << "nucleon # " << inuc;
        // Generate a radius, as in VertexGenerator.cxx
        double r = GenerateRadius(in_curr);
        // Save the radius in the interaction for use by the XSec method
-       in_curr.KinePtr()->SetKV(kKVSelRad,r);
+       TLorentzVector* x4N = in_curr.InitStatePtr()->TgtPtr()->HitNucX4Ptr();
+       x4N->SetXYZT(r,0.,0.,0.);
 
        fNuclModel->GenerateNucleon(tgt, r);
        TVector3 p3N = fNuclModel->Momentum3();
@@ -127,15 +136,28 @@ double QELXSec::Integrate(
        p4N->SetPy (p3N.Py());
        p4N->SetPz (p3N.Pz());
        p4N->SetE  (EN);
-
-       double xsec = this->IntegrateOnce(model,&in_curr);
-       xsec_sum += xsec;
+       try{
+	 double xsec = this->IntegrateOnce(model,&in_curr);
+	 xsec_sum += xsec;
+       }catch(exceptions::NievesQELException exception) {
+	 LOG("QELXSec",pINFO) << exception;
+	 LOG("QELXSec",pINFO) << "recalculating";
+	 // Do not include this event in the average
+	 inuc--;
+       }
      }
+
      double xsec_avg = xsec_sum / nnuc;
      return xsec_avg;
 
   } else {
-    return this->IntegrateOnce(model,in);
+    try{
+      return this->IntegrateOnce(model,in);
+    }catch(exceptions::NievesQELException exception) {
+      LOG("QELXSec",pINFO) << exception;
+      LOG("QELXSec",pINFO) << "Setting xsec = 0";
+      return 0;
+    }
   }
 
   return 0;

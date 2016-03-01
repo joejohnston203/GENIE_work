@@ -1,4 +1,4 @@
-zc//____________________________________________________________________________
+//____________________________________________________________________________
 /*!
 
 \class    genie::Target
@@ -52,6 +52,7 @@ public:
   void SetId                  (int Z, int A);
   void SetHitNucPdg           (int pdgc);
   void SetHitNucP4            (const TLorentzVector & p4);
+  void SetHitNucX4            (const TLorentzVector & x4);
   void SetHitQrkPdg           (int pdgc);
   void SetHitSeaQrk           (bool tf);
   void ForceHitNucOnMassShell (void);
@@ -82,6 +83,9 @@ public:
 
   const TLorentzVector & HitNucP4    (void) const { return *this->HitNucP4Ptr(); }
   TLorentzVector *       HitNucP4Ptr (void) const;
+
+  const TLorentzVector & HitNucX4    (void) const { return *this->HitNucX4Ptr(); }
+  TLorentzVector *       HitNucX4Ptr (void) const;
   
   //-- Copy, reset, compare, print itself and build string code
   void   Reset    (void);
@@ -113,6 +117,7 @@ private:
   int  fHitQrkPDG;            ///< hit quark PDG code
   bool fHitSeaQrk;            ///< hit quark from sea?
   TLorentzVector * fHitNucP4; ///< hit nucleon 4p
+  TLorentzVector * fHitNucX4; ///< hit nucleon 4x
 
 ClassDef(Target,1)
 };

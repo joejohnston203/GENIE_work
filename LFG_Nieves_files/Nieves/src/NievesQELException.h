@@ -63,4 +63,4 @@ private:
 }      // exceptions namespace
 }      // genie namespace
 
-#endif // _INUKE_EXCEPTION_H_
+#endif // _NIEVES_QEL_EXCEPTION_H_

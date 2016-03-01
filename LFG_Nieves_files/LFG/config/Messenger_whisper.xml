@@ -99,7 +99,7 @@
   <priority msgstream="KineLimits">          FATAL   </priority>
   <priority msgstream="Kinematics">          FATAL   </priority>
   <priority msgstream="LeptonicVertex">      FATAL   </priority>
-  <priority msgstream="LFGNuclearModel">     FATAL   </priority>
+  <priority msgstream="LocalFGM">            FATAL   </priority>
   <priority msgstream="LwlynSmith">          FATAL   </priority>
   <priority msgstream="Math">                FATAL   </priority>
   <priority msgstream="MEC">                 FATAL   </priority>

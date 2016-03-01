@@ -21,10 +21,16 @@ src/Nuclear/NuclearModelMap.h
 src/Nuclear/NuclearModelMap.cxx
 
 Files modified to use LFG when determining suppression factors:
-src/Conventions/KineVar.h
+src/Interaction/InitialState.cxx
+src/Interaction/Target.h
+src/Interaction/Target.cxx
+src/Utils/NuclearUtils.cxx
+
+Files modified to properly average over initial nucleons when integrating:
+config/LwlynSmithQELCCPXSec.xml
+src/LwlynSmith/LwlynSmithQELCCPXSec.cxx
 src/CrossSections/QELXSec.h
 src/CrossSections/QELXSec.cxx
-src/Utils/NuclearUtils.cxx
 
 
 Summary:
@@ -71,17 +77,27 @@ Updated to allow GenerateNucleon() to be called with a radius.
 FermiMover calls NuclearModelMap::GenerateNucleon(), which in 
 turn calls LFGNuclearModel::GenerateNucleon().
 
-src/Interaction/KineVar.h
-Added kinematic variable kKVSelRad, to temporarily store the 
-radius of the struck particle when calling the XSec model.
+config/LwlynSmithQELCCPXSec.xml
+src/LwlynSmith/LwlynSmithQELCCPXSec.cxx
+Updated Integral() method to decide whether to average over initial
+nucleons, and to choose a radius and then a nucleon if averaging over
+initial nucleons. (This removes physics from the QELXSec class, so that
+class can serve only as an interface between numerical packages and
+physics packages). 
 
-src/CrossSections/QELXSec.h
+*** This needs to be updated ***
+(src/Interaction/KineVar.h
+Added kinematic variable kKVSelRad, to temporarily store the 
+radius of the struck particle when calling the XSec model.)
+
+*** This needs to be updated ***
+(src/CrossSections/QELXSec.h
 src/CrossSections/QELXSec.cxx
 Updated to choose a random position before choosing a random 
 initial nucleon when averaging over initial nucleons. This way,
 the initial nucleon does depend on radius, and the 
 NuclQELXSecSupression() method can use the radius when 
-calculating the suppression factor.
+calculating the suppression factor.)
 
 src/Utils/NuclearUtils.cxx
 Updated NuclQELXSecSuppression() to get the radius and use the

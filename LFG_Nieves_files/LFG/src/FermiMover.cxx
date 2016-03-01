@@ -116,7 +116,7 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
   assert(nucleus);
 
   // generate a Fermi momentum & removal energy
-  // call GenerateNucleon with a radius in case the model is LFG
+  // call GenerateNucleon with a radius in case the model is LocalFGM
   double radius = nucleon->X4()->Vect().Mag();
   fNuclModel->GenerateNucleon(*tgt,radius);
 
@@ -199,7 +199,7 @@ void FermiMover::KickHitNucleon(GHepRecord * evrec) const
       const int nucleon_pdgc = nucleon->Pdg();
 
       // Calculate the Fermi momentum, using a local Fermi gas if the
-      // nuclear model is LFG, and RFG otherwise
+      // nuclear model is LocalFGM, and RFG otherwise
       double kF;
       if(fNuclModel->ModelType(*tgt) == kNucmLocalFermiGas){
 	assert(pdg::IsProton(nucleon_pdgc) || pdg::IsNeutron(nucleon_pdgc));

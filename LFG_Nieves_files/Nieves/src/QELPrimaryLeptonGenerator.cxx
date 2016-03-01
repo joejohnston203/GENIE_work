@@ -77,7 +77,7 @@ void QELPrimaryLeptonGenerator::ProcessEventRecord(GHepRecord * evrec) const
   double ml2 = TMath::Power(ml,2);
 
   // Get the components stored by the QEL kinematics generator
-  double Tl = kine->GetKV(kKVSelTl); // Used to store momentum magnitude
+  double Tl = kine->GetKV(kKVSelTl); // Used to store momentum magnitude pl
   double ctl = kine->GetKV(kKVSelctl);
   double phi = kine->GetKV(kKVSelphikq);
 

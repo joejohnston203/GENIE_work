@@ -161,7 +161,7 @@ double genie::utils::nuclear::NuclQELXSecSuppression(
      final_nucleon_pdgc = pdg::SwitchProtonNeutron(struck_nucleon_pdgc);
   }
 
-  // Check if an LFG model should be used for Fermi momentum
+  // Check if an Local FG model should be used for Fermi momentum
   // Create a nuclear model object to check the model type
   AlgConfigPool * confp = AlgConfigPool::Instance();
   const Registry * gc = confp->GlobalParameterList();
@@ -176,11 +176,7 @@ double genie::utils::nuclear::NuclQELXSecSuppression(
 
   double kFi, kFf;
   if(lfg){
-    double radius;
-    if(interaction->Kine().KVSet(kKVSelRad))
-      radius = interaction->Kine().GetKV(kKVSelRad);
-    else
-      radius = 0.0;
+    double radius = target.HitNucX4().Vect().Mag();
 
     double hbarc = kLightSpeed*kPlankConstant/fermi;
     Target* tgt = interaction->InitStatePtr()->TgtPtr();

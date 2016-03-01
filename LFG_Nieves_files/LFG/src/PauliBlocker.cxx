@@ -12,9 +12,9 @@
  Important revisions after version 2.0.0 :
 
  @ Dec 03, 2015- Joe Johnston (SD)
-   Added checks to see if the nuclear model is a local Fermi gas model, 
-   and in that case use LFG for Pauli blocking. Replaced LoadKFTable() with
-   LoadConfig(), to detect the nuclear model type and only load a Fermi 
+   Added checks to see if the nuclear model is a LocalFGM object, 
+   and in that case use Local FG for Pauli blocking. Replaced LoadKFTable()
+   with LoadConfig(), to detect the nuclear model type and only load a Fermi
    momentum table if the nuclear model is a relativistic Fermi gas.
 
 */
@@ -93,7 +93,7 @@ void PauliBlocker::ProcessEventRecord(GHepRecord * evrec) const
   
   // get the Fermi momentum
   double kf;
-  if(fLFG){
+  if(lfg){
     int nucleon_pdgc = hit->Pdg();
     assert(pdg::IsProton(nucleon_pdgc) || pdg::IsNeutron(nucleon_pdgc));
     Target* tgt = interaction->InitStatePtr()->TgtPtr();
@@ -165,9 +165,9 @@ void PauliBlocker::LoadModelType(void){
     dynamic_cast<const NuclearModelI*>(
 			     algf->GetAlgorithm(nuclalg.name,nuclalg.config));
   // Check if the model is a local Fermi gas
-  fLFG = (nuclModel && nuclModel->ModelType(Target()) == kNucmLocalFermiGas);
+  lfg = (nuclModel && nuclModel->ModelType(Target()) == kNucmLocalFermiGas);
   
-  if(!fLFG){
+  if(!lfg){
     // get the Fermi momentum table for relativistic Fermi gas
     fKFTableName = fConfig->GetStringDef ("FermiMomentumTable",
 					  gc->GetString("FermiMomentumTable"));

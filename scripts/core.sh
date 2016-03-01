@@ -212,7 +212,7 @@ function mkspl() {
     date >> "status_"$newdir".txt"
     echo -e "\n" >> "status_"$newdir".txt"
 
-    messenger="$GENIE/config/Messenger.xml"
+    messenger="$GENIE/config/Messenger_inuke_verbose.xml"
     if [ -n "$11" ]
 	then
 	messenger=$11
