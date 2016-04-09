@@ -29,8 +29,8 @@ c     muon kinetic energy (GeV)
 c     Iterate over muon kinetic energy- check to maker sure these bounds are good
 c      do tmugev = 0.001,eingev,0.001
 c        Integrate over omega = cos(theta_lepton) using DSG20R and DRG20R
-         cosMin = -1.d0
-         cosMax = 1.d0
+c         cosMin = -1.d0
+c         cosMax = 1.d0
          CALL DSG20R(cosMin,cosMax,5,cosTheta,NP)
          do i = 1,NP
             ct = cosTheta(i)
