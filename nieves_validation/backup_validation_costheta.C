@@ -8,17 +8,18 @@ this will require setting nuclear parameters in fort.4). Use the version that al
 you to set bounds on values of costheta to integrate over. The output will be stored
 in fort.60. Next, get a root file which has gevgen data created with the Nieves' cross
 section, preferably with the LFG model. Then run root, load this file (.L validation.C),
-and call validation plot with the proper parameters. If you want a legend on the graph,
-right click on the edge and select build legend. The range of the y-axis may also need
+and call validation plot with the proper parameters. The range of the y-axis may also need
 to be edited if the output from Nieves is larger than that from the root file.
 */
 
 /*
-Make a validation plot using one file that contains the output from Nieves' code and another
+This makes a validation plot using one file that contains the output from Nieves' code 
+and another
 that uses the results of a gevgen run. The Nieves text file should be generated from the
 code in qe-gen-integral-dOmega.f. The gevgen run should use Nieves' cross section.
 -rootFile is the name of the gevgen output file, stored as a .root.gst file
--spline is the .root file where the spline is stored that was used when running gevgen
+-spline is the .root file where the spline is stored that was used when running gevgen,
+ or a text files with the first column the energy and the second the xsec from the xml spline
 -target is of the form C12, Pb208, etc to describe the target
 -Enu is the neutrino beam energy in GeV
 -nievesData is the text file containing Tmu in the first column and dSigma/dEl in the second
@@ -29,9 +30,10 @@ code in qe-gen-integral-dOmega.f. The gevgen run should use Nieves' cross sectio
 */
 
 // Example call:
-// validation_plot("/data/jpj13/2015_05_19_validation/2015_06_21_partial/N_LFG_numu_C12_run3_noFSI.gst.root","/data/jpj13/splineTest/noR_noC_NS/data.txt","C12",1.0,-0.05,0.05,"C12_Enu_1.0_RPA0_coul0/C12_1.0GeV_ctmin-1.0_ctmax-0.9",false)
+// validation_plot("numu_C12_run1_noFSI.gst.root","data_noR_noC_S_spline.txt","C12",1.0,-0.05,0.05,"/data/jpj13/validation_Summer_2015/validation/C12_dir/C12_Enu_1.0_RPA0_coul0/C12_1.0GeV_ctmin-0.05_ctmax0.05",false)
 
-int validation_plot(TString rootFile,TString spline,TString target,double Enu,
+TH1D* validation_plot(double ymax, TString rootFile,TString spline,
+			TString target,double Enu,
 		    double cosThetaMin = -1.0,double cosThetaMax = 1.0,
 		    TString nievesData = "fort.60",
 		    bool same = false,
@@ -45,16 +47,19 @@ int validation_plot(TString rootFile,TString spline,TString target,double Enu,
 
   // Y will be T_lepton = El-0.106
   // Tmin will be 0 and Tmax will be El
-  xsec_vs_Y(rootFile,spline,target,Enu,"El-0.106",0.0,Enu,cosThetaMin,cosThetaMax,same,colorRoot,
-	    "GENIE Code",xlabel,ylabel,numBins);
+  TH1D* hst_Y = xsec_vs_Y(ymax,rootFile,spline,target,Enu,"El-0.106",0.0,Enu,cosThetaMin,cosThetaMax,same,colorRoot,
+	    "",xlabel,ylabel,numBins);
 
   TGraph *nieves = new TGraph(nievesData);
   
+  nieves->GetHistogram()->SetMinimum(0.0);
+  nieves->GetHistogram()->SetMaximum(ymax);
   nieves->Draw("C");
 
   // Place nicely formatted title
   gStyle->SetOptTitle(0);
   add_plot_label(title, 0.5, 0.96);
+  return hst_Y;
 }
 
 /*
@@ -68,7 +73,7 @@ Plot the differential cross section dSigma/dY where Y is some variable stored in
 -cmin and cmax are bounds on cos(theta), with theta the outoging lepton angle
 -color is the color of the line
 */
-int xsec_vs_Y(TString file,TString splineName,TString target,double Enu,
+TH1D* xsec_vs_Y(double ymax,TString file,TString splineName,TString target,double Enu,
 	      TString Y,double Ymin,double Ymax,
 	      double cmin = -1.0,double cmax = 1.0,
 	      bool same = false,int color = kBlack,
@@ -127,6 +132,7 @@ int xsec_vs_Y(TString file,TString splineName,TString target,double Enu,
   hst_Y->Scale(totalXSec/totalEvents/binWidth1);
 
   // Format the histogram
+  hst_Y->GetYaxis()->SetRangeUser(0.0,ymax);  
   hst_Y->SetLineColor(color);
 
   TAxis* xax = hst_Y->GetXaxis();
@@ -141,7 +147,7 @@ int xsec_vs_Y(TString file,TString splineName,TString target,double Enu,
   else
     yax->SetTitle(ylabel);
 
-  return 0;
+  return hst_Y;
 }
 
 // code to nicely format the plots
