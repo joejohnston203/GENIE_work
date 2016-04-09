@@ -2,7 +2,8 @@
 
 c     This program integrates over omega=cos(theta_lepton) and El in order
 c     to get total cross section for various neutrino energies
-      
+c     However, the splines have not become constant at high energies,
+c     so there is some problem.
       IMPLICIT REAL*8 (A-H,O-T,V-Z)
       dimension cosTheta(2000),sigArray(2000),tmugevArr(2000),
      f    dsigdel(2000)
