@@ -547,10 +547,12 @@ c          facl=facl*delfacl
 c     Print Q2, form factors, tensor elts
 c     No header is printed because this file is not meant to be read. A
 c     script will label and plot the results
-          write(61,15) -q2,q0,dq,f1v,xmuf2v,gaq,gpq,axx,azz,a0z,a00,axy,
-     f         fact,facl,f00,q2
+          write(61,15) -q2/hbarc**2*10**6,q0/hbarc*10**3,dq/hbarc*10**3,
+     f         f1v,xmuf2v,gaq,
+     f         gpq,axx,azz,a0z,a00,axy,
+     f         fact,facl,f00
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f         e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
+     f         e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
 c     End print
 
              DFXX(IR)=cte_r*R**2*axx*xlind*fema

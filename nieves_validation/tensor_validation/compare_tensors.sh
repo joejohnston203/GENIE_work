@@ -23,9 +23,9 @@ function compare_tensors() {
     autoGNUPlot "$files" $3'_a0z.png' 1 10 'Q2' 'a0z' 'Q2 vs a0z'
     autoGNUPlot "$files" $3'_a00.png' 1 11 'Q2' 'a00' 'Q2 vs a00'
     autoGNUPlot "$files" $3'_axy.png' 1 12 'Q2' 'axy' 'Q2 vs axy'
-    autoGNUPlot "$files" $3'_fact.png' 1 13 'Q2' 'fact' 'Q2 vs fact'
-    autoGNUPlot "$files" $3'_facl.png' 1 14 'Q2' 'facl' 'Q2 vs facl'
-    autoGNUPlot "$files" $3'_f00.png' 1 15 'Q2' 'f00' 'Q2 vs f00'
+    autoGNUPlot "$files" $3'_CT.png' 1 13 'Q2' 'CT' 'Q2 vs CT' # fact
+    autoGNUPlot "$files" $3'_CL.png' 1 14 'Q2' 'CL' 'Q2 vs CL' # facl
+    autoGNUPlot "$files" $3'_CN.png' 1 15 'Q2' 'CN' 'Q2 vs CN' # f00
 }
 
 # ---------------------------------------------------------------------------

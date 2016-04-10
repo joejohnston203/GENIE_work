@@ -35,7 +35,9 @@
 # $11 - gevgen run number
 # $12 - Number of events to generate
 # $13 - Neutrino energy
-# $14 - Messenger settings (same default as gevgenScript)
+# $14,$15 - change xsec model from $15 to $16
+# $16 - Messenger settings (same default as gevgenScript)
+
 #
 # Sample call:
 # mkspl_rungevgen noR_noC_RFG true false true false \
@@ -43,7 +45,7 @@
 #     1 1000000 1.0
 
 function mkspl_rungevgen() {
-    mkspl $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${14} 
+    mkspl $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${14} ${15} ${16}
 
     # Return to the new directory
     CWD=$(pwd)
@@ -55,12 +57,13 @@ function mkspl_rungevgen() {
     echo -e "\n" >> "status_"$newdir".txt"
 
     messenger="$GENIE/config/Messenger_inuke_verbose.xml"
-    if [ -n "${14}" ]
+    if [ -n "${16}" ]
 	then
-	messenger=${14}
+	messenger=${16}
     fi
     set_RPA_Coul_FG $2 $3 $4 $5 $6 $7
-    gevgenScript ${10} $9 ${11} ${12} ${13} $8 $1'.xml' ${14}
+    setVar 'QEL-CC' ${14} ${15} UserPhysicsOptions.xml
+    gevgenScript ${10} $9 ${11} ${12} ${13} $8 $1'.xml' ${16}
 
     echo -e 'gevgen and gntpc finished' >> "status_"$newdir".txt"
     date >> "status_"$newdir".txt"
@@ -195,7 +198,8 @@ gevgenScript() {
 # $8 - type of spline to create (eg CC, CCQE)
 # $9 - target PDG code, eg 1000060120
 # $10 - target name, eg C12
-# $11 - Messenger config file (Messenger_inuke_verbose.xml by default);
+# $11,$12 - change xsec model from $11 to $12
+# $13 - Messenger config file (Messenger_inuke_verbose.xml by default);
 #
 # created spline is named $1.xml
 
@@ -212,13 +216,14 @@ function mkspl() {
     date >> "status_"$newdir".txt"
     echo -e "\n" >> "status_"$newdir".txt"
 
-    messenger="$GENIE/config/Messenger_inuke_verbose.xml"
-    if [ -n "$11" ]
+    messenger="$GENIE/config/Messenger.xml"
+    if [ -n "$13" ]
 	then
-	messenger=$11
+	messenger=${13}
     fi
 
     set_RPA_Coul_FG $2 $3 $4 $5 $6 $7
+    setVar 'QEL-CC' ${11} ${12} UserPhysicsOptions.xml
     gmkspl -p 14 -t $9 --event-generator-list $8 \
 	--message-thresholds $messenger
     mv xsec_splines.xml $1".xml"
