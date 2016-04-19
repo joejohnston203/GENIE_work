@@ -18,9 +18,20 @@ config/master_config.xml
 config/UserPhysicsOptions.xml 
 config/ Messenger files
 src/LlewelynSmith/LinkDef.h
-src/QEL/QELKinematicsGenerator.h
-src/QEL/QELKinematicsGenerator.cxx
-src/QEL/QELPrimaryLeptonGenerator.cxx
+src/QEL/QELKinematicsGenerator.h # (Maybe- QELEventGenerator replaces)
+src/QEL/QELKinematicsGenerator.cxx # (Maybe- QELEventGenerator replaces)
+src/QEL/QELPrimaryLeptonGenerator.cxx # (Maybe- QELEventGenerator replaces)
+
+Files modified to generate all kinematics before calculating XSec:
+config/EventGenerator.xml
+config/QELEventGenerator.xml
+src/Conventions/KinePhaseSpace.h
+src/Interaction/InitialState.cxx
+src/Interaction/InitialState.h
+src/QEL/LinkDef.h
+src/QEL/QELEventGenerator.cxx
+src/QEL/QELEventGenerator.h
+
 
 Files from LFGNuclearModel:
 config/LocalFGM.xml
@@ -87,6 +98,17 @@ if the temporary kinematics are accepted. Also updated
 to catch NievesQELCCPXSecException.
 QELPrimaryLeptonGenerator accesses the stored lepton and
 adds it to the event record.
+
+config/EventGenerator.xml
+src/Conventions/KinePhaseSpace.h
+src/Interaction/InitialState.cxx
+src/Interaction/InitialState.h
+src/QEL/QELEventGenerator.cxx
+src/QEL/QELEventGenerator.h
+Replaces FermiMover, QELKinematicsGenerator, QELPrimaryLeptonGenerator,
+and QELHadronicSystemGenerator in order to generate all kinematics
+before calculating the cross section.
+Adaptation of Andrew Furmanski's code.
 
 -----------------------------------------------------------------------
 LocalFGM:

@@ -1,0 +1,11 @@
+K 10
+svn:ignore
+V 43
+.DS_Store
+*.log
+*.root
+*.status
+*.xml
+*.ps
+
+END

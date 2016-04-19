@@ -13,7 +13,7 @@ FormFactorsAlg     alg      No         QEL form factors algorithm
 XSec-Integrator    alg      No
 CabbiboAngle       double   Yes        Cabbibo angle                    GPL value: CabbiboAngle
 RPA                bool     Yes        Turn RPA effects on or off       true
-Coulomb            bool     Yes        Turn coulomb effects on or off   true
+Coulomb            bool     Yes        Turn coulomb effects on or off   false
 .....................................................................................................
 Parameters needed when Integrating with this model to generate splines:
 .....................................................................................................
@@ -26,10 +26,11 @@ IntegralNuclearInfluenceCutoffEnergy double   No
 
   <param_set name="Default"> 
      <param type="alg"  name="FormFactorsAlg">  genie::LwlynSmithFFCC/Default </param>
-     <param type="alg"  name="XSec-Integrator"> genie::QELXSec/Default  </param>
+     <param type="alg"  name="XSec-Integrator"> genie::QELXSec/Default        </param>
      <param type="bool" name="RPA">             true                          </param>
-     <param type="bool" name="Coulomb">         true                          </param>
-     <param type="bool" name = "IntegralAverageOverNucleonMomentum">     true   </param>
+     <param type="bool" name="Coulomb">         false                         </param>
+     <param type="bool" name="PrintData">       true                          </param>
+     <param type="bool" name = "IntegralAverageOverNucleonMomentum">   true   </param>
      <param type="alg"  name="IntegralNuclearModel">    genie::NuclearModelMap/Default        </param>
      <param type="double" name = "IntegralNuclearInfluenceCutoffEnergy">    2.0   </param>     
   </param_set>
@@ -37,7 +38,7 @@ IntegralNuclearInfluenceCutoffEnergy double   No
      <param type="alg"  name="FormFactorsAlg">  genie::LwlynSmithFFCC/Dipole  </param>
      <param type="alg"  name="XSec-Integrator"> genie::QELXSec/Default        </param>
      <param type="bool" name="RPA">             true                          </param>
-     <param type="bool" name="Coulomb">         true                          </param>
+     <param type="bool" name="Coulomb">         false                          </param>
      <param type="bool" name = "IntegralAverageOverNucleonMomentum">     true   </param>
      <param type="alg"  name="IntegralNuclearModel">    genie::NuclearModelMap/Default        </param>
      <param type="double" name = "IntegralNuclearInfluenceCutoffEnergy">    2.0   </param>     
@@ -46,7 +47,7 @@ IntegralNuclearInfluenceCutoffEnergy double   No
      <param type="alg"  name="FormFactorsAlg">  genie::LwlynSmithFFCC/BBA2003 </param>
      <param type="alg"  name="XSec-Integrator"> genie::QELXSec/Default        </param>
      <param type="bool" name="RPA">             true                          </param>
-     <param type="bool" name="Coulomb">         true                          </param>
+     <param type="bool" name="Coulomb">         false                          </param>
      <param type="bool" name = "IntegralAverageOverNucleonMomentum">     true   </param>
      <param type="alg"  name="IntegralNuclearModel">    genie::NuclearModelMap/Default        </param>
      <param type="double" name = "IntegralNuclearInfluenceCutoffEnergy">    2.0   </param>     
@@ -55,7 +56,7 @@ IntegralNuclearInfluenceCutoffEnergy double   No
      <param type="alg"  name="FormFactorsAlg">  genie::LwlynSmithFFCC/BBA2005 </param>
      <param type="alg"  name="XSec-Integrator"> genie::QELXSec/Default        </param>
      <param type="bool" name="RPA">             true                          </param>
-     <param type="bool" name="Coulomb">         true                          </param>
+     <param type="bool" name="Coulomb">         false                          </param>
      <param type="bool" name = "IntegralAverageOverNucleonMomentum">     true   </param>
      <param type="alg"  name="IntegralNuclearModel">    genie::NuclearModelMap/Default        </param>
      <param type="double" name = "IntegralNuclearInfluenceCutoffEnergy">    2.0   </param>     

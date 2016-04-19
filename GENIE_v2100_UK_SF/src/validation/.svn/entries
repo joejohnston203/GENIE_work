@@ -1,0 +1,52 @@
+10
+
+dir
+6054
+svn+ssh://dytman@svn.hepforge.org/hepforge/svn/genie/generator/devel/branches/spectral_func_uk-v2_10_00/src/validation
+svn+ssh://dytman@svn.hepforge.org/hepforge/svn/genie
+
+
+
+2015-02-11T15:56:22.059491Z
+4573
+candreop
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+cc9776de-3512-45ca-aafc-e2d9ed43c22c
+
+EvScan
+dir
+
+Intranuke
+dir
+
+StructFunc
+dir
+
+NuXSec
+dir
+
+eA
+dir
+
+MCx
+dir
+
+Merenyi
+dir
+
+Hadronization
+dir
+

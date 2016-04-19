@@ -25,6 +25,7 @@
    <config alg="genie::COHPrimaryLeptonGenerator">   COHPrimaryLeptonGenerator.xml   </config>
    <config alg="genie::DFRPrimaryLeptonGenerator">   DFRPrimaryLeptonGenerator.xml   </config>
    <config alg="genie::SKPrimaryLeptonGenerator">    SKPrimaryLeptonGenerator.xml    </config>   
+   <config alg="genie::QELEventGenerator">           QELEventGenerator.xml           </config>
    <config alg="genie::QELKinematicsGenerator">      QELKinematicsGenerator.xml      </config>
    <config alg="genie::DISKinematicsGenerator">      DISKinematicsGenerator.xml      </config>
    <config alg="genie::RESKinematicsGenerator">      RESKinematicsGenerator.xml      </config>

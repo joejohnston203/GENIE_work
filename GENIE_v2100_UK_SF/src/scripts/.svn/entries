@@ -1,0 +1,77 @@
+10
+
+dir
+6054
+svn+ssh://dytman@svn.hepforge.org/hepforge/svn/genie/generator/devel/branches/spectral_func_uk-v2_10_00/src/scripts
+svn+ssh://dytman@svn.hepforge.org/hepforge/svn/genie
+
+
+
+2015-04-15T17:58:27.434002Z
+4871
+gnperdue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cc9776de-3512-45ca-aafc-e2d9ed43c22c
+
+build
+dir
+
+setup
+dir
+
+gcint
+dir
+
+production
+dir
+
+dox
+dir
+
+Makefile
+file
+
+
+
+
+2016-04-11T18:44:26.264153Z
+787e3f4bfb66f065ed944805eff2c405
+2012-05-03T17:12:00.240974Z
+3606
+candreop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+894
+

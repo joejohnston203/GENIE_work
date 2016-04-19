@@ -12,20 +12,20 @@
 function compare_tensors() {
     files="$1 $2"
     # Add a line for each stored variable to make a plot
-    autoGNUPlot "$files" $3'_q0.png' 1 2 'Q2' 'q0' 'Q2 vs q0'
-    autoGNUPlot "$files" $3'_dq.png' 1 3 'Q2' 'dq' 'Q2 vs dq'
-    autoGNUPlot "$files" $3'_f1v.png' 1 4 'Q2' 'f1v' 'Q2 vs f1v'
-    autoGNUPlot "$files" $3'_xmuf2v.png' 1 5 'Q2' 'xmuf2v' 'Q2 vs xmuf2v'
-    autoGNUPlot "$files" $3'_gaq.png' 1 6 'Q2' 'gaq' 'Q2 vs gaq'
-    autoGNUPlot "$files" $3'_gpq.png' 1 7 'Q2' 'gpq' 'Q2 vs gpq'
-    autoGNUPlot "$files" $3'_axx.png' 1 8 'Q2' 'axx' 'Q2 vs axx'
-    autoGNUPlot "$files" $3'_azz.png' 1 9 'Q2' 'azz' 'Q2 vs azz'
-    autoGNUPlot "$files" $3'_a0z.png' 1 10 'Q2' 'a0z' 'Q2 vs a0z'
-    autoGNUPlot "$files" $3'_a00.png' 1 11 'Q2' 'a00' 'Q2 vs a00'
-    autoGNUPlot "$files" $3'_axy.png' 1 12 'Q2' 'axy' 'Q2 vs axy'
-    autoGNUPlot "$files" $3'_CT.png' 1 13 'Q2' 'CT' 'Q2 vs CT' # fact
-    autoGNUPlot "$files" $3'_CL.png' 1 14 'Q2' 'CL' 'Q2 vs CL' # facl
-    autoGNUPlot "$files" $3'_CN.png' 1 15 'Q2' 'CN' 'Q2 vs CN' # f00
+    autoGNUPlot "$files" 'kine_'$3'_q0.png' 1 2 'Q2' 'q0' 'Q2 vs q0'
+    autoGNUPlot "$files" 'kine_'$3'_dq.png' 1 3 'Q2' 'dq' 'Q2 vs dq'
+    autoGNUPlot "$files" 'ff_'$3'_f1v.png' 1 4 'Q2' 'f1v' 'Q2 vs f1v'
+    autoGNUPlot "$files" 'ff_'$3'_xmuf2v.png' 1 5 'Q2' 'xmuf2v' 'Q2 vs xmuf2v'
+    autoGNUPlot "$files" 'ff_'$3'_gaq.png' 1 6 'Q2' 'gaq' 'Q2 vs gaq'
+    autoGNUPlot "$files" 'ff_'$3'_gpq.png' 1 7 'Q2' 'gpq' 'Q2 vs gpq'
+    autoGNUPlot "$files" 'Amunu_'$3'_axx.png' 1 8 'Q2' 'axx' 'Q2 vs axx'
+    autoGNUPlot "$files" 'Amunu_'$3'_azz.png' 1 9 'Q2' 'azz' 'Q2 vs azz'
+    autoGNUPlot "$files" 'Amunu_'$3'_a0z.png' 1 10 'Q2' 'a0z' 'Q2 vs a0z'
+    autoGNUPlot "$files" 'Amunu_'$3'_a00.png' 1 11 'Q2' 'a00' 'Q2 vs a00'
+    autoGNUPlot "$files" 'Amunu_'$3'_axy.png' 1 12 'Q2' 'axy' 'Q2 vs axy'
+    autoGNUPlot "$files" 'pc_'$3'_CT.png' 1 13 'Q2' 'CT' 'Q2 vs CT' # fact
+    autoGNUPlot "$files" 'pc_'$3'_CL.png' 1 14 'Q2' 'CL' 'Q2 vs CL' # facl
+    autoGNUPlot "$files" 'pc_'$3'_CN.png' 1 15 'Q2' 'CN' 'Q2 vs CN' # f00
 }
 
 # ---------------------------------------------------------------------------

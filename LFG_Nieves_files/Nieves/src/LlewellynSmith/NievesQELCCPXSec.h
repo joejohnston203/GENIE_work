@@ -10,10 +10,11 @@
 \ref      Physical Review C 70, 055503 (2004)
 
 \author   Joe Johnston, University of Pittsburgh
+          Steven Dytman, University of Pittsburgh
 
-\created  June 2014
+\created  April 2016
 
-\cpright  Copyright (c) 2003-2013, GENIE Neutrino MC Generator Collaboration
+\cpright  Copyright (c) 2003-2016, GENIE Neutrino MC Generator Collaboration
           For the full text of the license visit http://copyright.genie-mc.org
           or see $GENIE/LICENSE
 */
@@ -45,6 +46,7 @@ public:
   double XSec            (const Interaction * i, KinePhaseSpace_t k) const;
   double Integral        (const Interaction * i) const;
   bool   ValidProcess    (const Interaction * i) const;
+  double FullDifferentialXSec(const Interaction * i) const;
 
   // Override the Algorithm::Configure methods to load configuration
   // data to private data members

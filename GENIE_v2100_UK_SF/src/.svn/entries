@@ -1,0 +1,187 @@
+10
+
+dir
+6054
+svn+ssh://dytman@svn.hepforge.org/hepforge/svn/genie/generator/devel/branches/spectral_func_uk-v2_10_00/src
+svn+ssh://dytman@svn.hepforge.org/hepforge/svn/genie
+
+
+
+2016-04-08T19:03:57.118102Z
+6053
+furmanski
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+cc9776de-3512-45ca-aafc-e2d9ed43c22c
+
+DIS
+dir
+
+EVGDrivers
+dir
+
+ReinSehgal
+dir
+
+QEL
+dir
+
+Elastic
+dir
+
+PartonModel
+dir
+
+NuGamma
+dir
+
+scripts
+dir
+
+Messenger
+dir
+
+HadronTransport
+dir
+
+BaryonResonance
+dir
+
+Nuclear
+dir
+
+RES
+dir
+
+validation
+dir
+
+SingleKaon
+dir
+
+EVGCore
+dir
+
+Utils
+dir
+
+CrossSections
+dir
+
+BodekYang
+dir
+
+Conventions
+dir
+
+Coherent
+dir
+
+Ntuple
+dir
+
+Registry
+dir
+
+PDF
+dir
+
+EVGModules
+dir
+
+Base
+dir
+
+PDG
+dir
+
+GiBUU
+dir
+
+ElFF
+dir
+
+LlewellynSmith
+dir
+
+make
+dir
+
+ReWeight
+dir
+
+Numerical
+dir
+
+Interaction
+dir
+
+test
+dir
+
+VHE
+dir
+
+GHEP
+dir
+
+Decay
+dir
+
+VLE
+dir
+
+Diffractive
+dir
+
+Algorithm
+dir
+
+MuELoss
+dir
+
+NuE
+dir
+
+Charm
+dir
+
+stdapp
+dir
+
+Fragmentation
+dir
+
+Paschos
+dir
+
+contrib
+dir
+
+MEC
+dir
+
+NucleonDecay
+dir
+
+Geo
+dir
+
+support
+dir
+
+FluxDrivers
+dir
+

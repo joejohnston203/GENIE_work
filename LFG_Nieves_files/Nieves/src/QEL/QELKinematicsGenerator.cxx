@@ -48,6 +48,7 @@
 #include "Numerical/RandomGen.h"
 #include "PDG/PDGLibrary.h"
 #include "QEL/QELKinematicsGenerator.h"
+#include "QEL/QELPrimaryLeptonGenerator.h"
 #include "Utils/MathUtils.h"
 #include "Utils/KineUtils.h"
 #include "Utils/PrintUtils.h"
@@ -96,8 +97,8 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
   interaction->SetBit(kISkipKinematicChk);
 
   // Store the struck nucleon position for use by the xsec method
-  double radius = evrec->HitNucleon()->GetX4()->Vect().Mag();
-  interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(radius);
+  double hitNucPos = evrec->HitNucleon()->GetX4()->Vect().Mag();
+  interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(hitNucPos);
 
   //-- Note: The kinematic generator would be using the free nucleon cross
   //   section (even for nuclear targets) so as not to double-count nuclear
@@ -169,7 +170,9 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
      LOG("QELKinematics", pINFO) << "Trying: Q^2 = " << gQ2;
 
      // Generate a lepton before calculating the cross section
-     SetRunningLepton(evrec);
+     QELPrimaryLeptonGenerator * lepgen = new QELPrimaryLeptonGenerator();
+     lepgen->SetRunningLepton(evrec);
+     delete lepgen;
 
      //-- Computing cross section for the current kinematics
      try{
@@ -260,10 +263,12 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
         kine->ClearRunningValues();
 
 	// Lock outgoing lepton
-	kine->SetKV(kKVSelTl, kine->GetKV(kKVTl));
-	kine->SetKV(kKVSelctl, kine->GetKV(kKVctl));
-	kine->SetKV(kKVSelphikq, kine->GetKV(kKVphikq));
-	
+	if(kine->KVSet(kKVTl) && kine->KVSet(kKVctl)
+	   && kine->KVSet(kKVphikq)){
+	  kine->SetKV(kKVSelTl, kine->GetKV(kKVTl));
+	  kine->SetKV(kKVSelctl, kine->GetKV(kKVctl));
+	  kine->SetKV(kKVSelphikq, kine->GetKV(kKVphikq));
+	}
         return;
      }
   }// iterations
@@ -286,8 +291,8 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
   interaction->SetBit(kISkipKinematicChk);
 
   // Store the struck nucleon position for use by the xsec method
-  double radius = evrec->HitNucleon()->GetX4()->Vect().Mag();
-  interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(radius);
+  double hitNucPos = evrec->HitNucleon()->GetX4()->Vect().Mag();
+  interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(hitNucPos);
 
   //-- Note: The kinematic generator would be using the free nucleon cross
   //   section (even for nuclear targets) so as not to double-count nuclear
@@ -404,8 +409,10 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
      // Set updated Q2
      interaction->KinePtr()->SetQ2(gQ2tilde);
 
-     // Generate a lepton before calculating xsec
-     SetRunningLepton(evrec);
+     // Generate a lepton before calculating the cross section
+     QELPrimaryLeptonGenerator * lepgen = new QELPrimaryLeptonGenerator();
+     lepgen->SetRunningLepton(evrec);
+     delete lepgen;
 
      //-- Computing cross section for the current kinematics
      try{
@@ -600,96 +607,4 @@ double QELKinematicsGenerator::ComputeMaxXSec(
 
   return max_xsec;
 }
-//___________________________________________________________________________
-// Generate a lepton and store it by using the KineVar construct with
-// the Kinematics class (variables kKVTl, kKVctl, kKVphikq).
-// Stored lepton is in the LAB FRAME.
-void QELKinematicsGenerator::SetRunningLepton(GHepRecord * evrec) const{
-  LOG("QELKinematics",pFATAL) << "UPDATE THIS TO REUSE CODE";
-  Interaction * interaction = evrec->Summary();
-
-  // Velocity for an active Lorentz transform taking the final state primary
-  // lepton from the [nucleon rest frame] --> [LAB]
-  const InitialState & init_state = interaction->InitState();
-  const TLorentzVector & pnuc4 = init_state.Tgt().HitNucP4(); //[@LAB]
-  TVector3 beta = pnuc4.BoostVector();
-
-
-  // Neutrino 4p
-  TLorentzVector * p4v = evrec->Probe()->GetP4(); // v 4p @ LAB
-  p4v->Boost(-1.*beta);                           // v 4p @ Nucleon rest frame
-
-  // Look-up selected kinematics & other needed kinematical params
-  double Q2  = interaction->Kine().Q2(false);
-
-  // get neutrino energy at struck nucleon rest frame and the
-  // struck nucleon mass (can be off the mass shell)
-  double E  = init_state.ProbeE(kRfHitNucRest);
-  double M = init_state.Tgt().HitNucP4().M();
-
-  const XclsTag & xcls = interaction->ExclTag();
-  int rpdgc = 0;
-  if(xcls.IsCharmEvent()) { rpdgc = xcls.CharmHadronPdg();           }
-  else                    { rpdgc = interaction->RecoilNucleonPdg(); }
-  assert(rpdgc);
-  double W = PDGLibrary::Instance()->Find(rpdgc)->Mass();
-  // (W,Q2) -> (x,y)
-  double x=0, y=0;
-  kinematics::WQ2toXY(E,M,W,Q2,x,y);
-  double Ev  = p4v->E(); 
-  double ml  = interaction->FSPrimLepton()->Mass();
-  double ml2 = TMath::Power(ml,2);
-
-  LOG("QELKinematics", pINFO)
-             << "Ev = " << Ev << ", Q2 = " << Q2 << ", y = " << y;
-
-  // Compute the final state primary lepton energy and momentum components
-  // along and perpendicular the neutrino direction 
-  double El = (1-y)*Ev;
-  double plp = El - 0.5*(Q2+ml2)/Ev;                          // p(//)
-  double plt = TMath::Sqrt(TMath::Max(0.,El*El-plp*plp-ml2)); // p(-|)
-
-  LOG("QELKinematics", pINFO)
-        << "trying fsl: E = " << El << ", |p//| = " << plp << ", [pT] = " << plt;
-
-  // Randomize transverse components
-  RandomGen * rnd = RandomGen::Instance();
-  double phi  = 2*kPi * rnd->RndLep().Rndm();
-  double pltx = plt * TMath::Cos(phi);
-  double plty = plt * TMath::Sin(phi);
-
-
-  // Take a unit vector along the neutrino direction @ the nucleon rest frame
-  TVector3 unit_nudir = p4v->Vect().Unit(); 
-
-  // Rotate lepton momentum vector from the reference frame (x'y'z') where 
-  // {z':(neutrino direction), z'x':(theta plane)} to the nucleon rest frame
-  TVector3 p3l(pltx,plty,plp);
-  p3l.RotateUz(unit_nudir);
-
-  // Lepton 4-momentum in the nucleon rest frame
-  TLorentzVector p4l(p3l,El);
-
-  LOG("QELKinematics", pINFO)
-       << "trying fsl @ NRF: " << utils::print::P4AsString(&p4l);
-
-  // Boost final state primary lepton to the lab frame
-  p4l.Boost(beta); // active Lorentz transform
-
-  LOG("QELKinematics", pINFO)
-       << "trying fsl @ LAB: " << utils::print::P4AsString(&p4l);
-
-  // Store the outgoing lepton components in the lab frame
-  // Assume El^2 = pl^2 + ml^2
-  double Tl = p4l.Vect().Mag(); // used to store 3-vector magnitude pl
-  LOG("QELKinematics",pDEBUG) << "ml = " << ml << ", Tl = " << Tl;
-  double ctl = p4l.CosTheta(); // cos(theta) in the lab frame
-  phi = p4l.Phi(); // get phi in the lab fram
-  interaction->KinePtr()->SetKV(kKVTl,Tl);
-  interaction->KinePtr()->SetKV(kKVctl,ctl);
-  interaction->KinePtr()->SetKV(kKVphikq,phi);
-
-  delete p4v;
-}
-//___________________________________________________________________________
-
+//____________________________________________________________________________

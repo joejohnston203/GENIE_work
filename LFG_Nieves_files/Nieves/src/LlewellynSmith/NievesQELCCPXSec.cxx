@@ -1,10 +1,11 @@
 //____________________________________________________________________________
 /*
- Copyright (c) 2003-2013, GENIE Neutrino MC Generator Collaboration
+ Copyright (c) 2003-2016, GENIE Neutrino MC Generator Collaboration
  For the full text of the license visit http://copyright.genie-mc.org
  or see $GENIE/LICENSE
 
  Author: Joe Johnston, University of Pittsburgh
+         Steven Dytman, University of Pittsburgh
 
  For the class documentation see the corresponding header file.
 
@@ -80,6 +81,10 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 {
   if(! this -> ValidProcess    (interaction) ) return 0.;
   if(! this -> ValidKinematics (interaction) ) return 0.;
+
+  if(kps == kPSFullDiffQE){
+    return this->FullDifferentialXSec(interaction);
+  }
 
   // Get kinematics and init-state parameters
   const Kinematics &   kinematics = interaction -> Kine();
@@ -203,24 +208,14 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 
   // Check that the energy tranfer q0 is greater than 0, or else the
   // following equations do not apply. (Note also that the event would
-  // be Pauli blocked when suppression is on)
-  /*if(qVec.E()<=0){
+  // be Pauli blocked )
+  if(qVec.E()<=0){
     LOG("Nieves", pINFO) << "q0<=0.0";
     exceptions::NievesQELException exception;
     exception.SetReason("Invalid q, q0<=0.0");
 
-    // Assume this nucleon and q2 are certain to give an unphysical event
-    // Maybe they wouldn't, but is is unlikely that if this has happened
-    // that a different phi would give a non-negative q0
-    exception.SetUnphysicalQ2(true);
+    //exception.SetUnphysicalQ2(true);
     throw exception;
-    }*/
-
-  ofstream miscstream;
-  if(fPrintData){
-    miscstream.open("initVals.txt", std::ios_base::app);
-    miscstream << -q2 << "\t" << El << "\t" << ctl << "\t" << -qVec.Mag2() << "\n";
-    miscstream.close();
   }
 
   // pInit is the initial nucleon momentum in the coordinates where 
@@ -231,8 +226,9 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 
   double xsec = Gfactor*coulombFactor*LmunuAnumuResult;
 
-  LOG("Nieves",pDEBUG) << "RPA=" << fRPA 
+  LOG("Nieves",pDEBUG) << "TESTING: RPA=" << fRPA 
 		       << ", Coulomb=" << fCoulomb 
+                       << ", q2calc = " << qVec.Mag2()
 		       << ", q2 = " << q2 << ", xsec = " << xsec;
 
   ofstream uhoh;
@@ -264,6 +260,228 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 #endif
     xsec *= J;
   }
+  //----- if requested return the free nucleon xsec even for input nuclear tgt
+  //      the xsec will still include RPA corrections
+  if( interaction->TestBit(kIAssumeFreeNucleon) ) return xsec;
+
+  //----- compute nuclear suppression factor
+  //      (R(Q2) is adapted from NeuGEN - see comments therein)
+  double R;
+  R = nuclear::NuclQELXSecSuppression("Default", 0.5, interaction);
+
+  //----- number of scattering centers in the target
+  int nucpdgc = target.HitNucPdg();
+  int NNucl = (pdg::IsProton(nucpdgc)) ? target.Z() : target.N(); 
+
+#ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
+  LOG("Nieves", pDEBUG) 
+       << "Nuclear suppression factor R(Q2) = " << R << ", NNucl = " << NNucl;
+#endif
+
+  xsec *= (R*NNucl); // nuclear xsec*/
+
+  return xsec;
+}
+//____________________________________________________________________________
+double NievesQELCCPXSec::FullDifferentialXSec(
+			    const Interaction * interaction) const
+{
+  // Get kinematics and init-state parameters
+  const Kinematics &   kinematics = interaction -> Kine();
+  const InitialState & init_state = interaction -> InitState();
+
+  // I believe the four kinematics vectors are in the Lab frame
+  const TLorentzVector leptonMom = kinematics.FSLeptonP4();
+  const TLorentzVector outNucleonMom = kinematics.HadSystP4();
+
+  TLorentzVector * neutrinoMom = init_state.GetProbeP4();
+  TLorentzVector * inNucleonMom = init_state.TgtPtr()->HitNucP4Ptr();
+
+  //std::cout << "neutrino, target nucleon, lepton, outNucleon" << std::endl;
+  //neutrinoMom->Print();
+  //inNucleonMom->Print();
+  //leptonMom.Print();
+  //outNucleonMom.Print();
+
+  // Calculate q and qTilde
+  TLorentzVector qP4(0,0,0,0);
+  TLorentzVector qTildeP4(0,0,0,0);
+  qP4 = *neutrinoMom - leptonMom;
+  qTildeP4 = outNucleonMom - *inNucleonMom;
+  
+  double Q2tilde = -1 * qTildeP4.Mag2();
+  interaction->KinePtr()->SetQ2(Q2tilde);
+
+  std::cout << "Q2tilde = " << Q2tilde << std::endl;
+  std::cout << "Q2 (not tilde)= " << -1 * qP4.Mag2() << std::endl;
+  std::cout << "Q2 difference (tilde - not) = " << Q2tilde + qP4.Mag2() << std::endl;
+
+  /*const Target & target = init_state.Tgt();
+
+  double E  = init_state.ProbeE(kRfLab);//Incoming Neutrino Energy, Lab
+  double ml = interaction->FSPrimLepton()->Mass();
+  double M  = target.HitNucMass();*/
+
+  double q2 = -Q2tilde; // I'm not sure what the difference is...
+
+
+  if(q2>=0.0){
+    LOG("Nieves", pWARN) << "q2>=0";
+    exceptions::NievesQELException exception;
+    exception.SetReason("Invalid q, q2>=0.0");
+    //exception.SetUnphysicalQ2(true);
+    throw exception;
+  }
+
+  // Rotate vectors so q is in the z direction, to use Nieves'
+  // explicit form of the Amunu tensor
+  TVector3 k3Vec = neutrinoMom->Vect();
+  TVector3 kPrime3Vec = leptonMom.Vect();
+  TVector3 q3Vec = kPrime3Vec-k3Vec;
+  TVector3 in3Vec = inNucleonMom->Vect();
+  TVector3 rot = (k3Vec.Cross(kPrime3Vec)).Unit(); // Vector to rotate about
+  double angle = k3Vec.Angle(q3Vec); // Angle between the z direction and q
+
+  // Rotate if the rotation vector is not 0
+  if(rot.Mag() >= 0.0001){
+    k3Vec.Rotate(angle,rot);
+    kPrime3Vec.Rotate(angle,rot);
+    in3Vec.Rotate(angle,rot);
+  }
+  //else{
+    //    LOG("Nieves",pDEBUG) << "Rotation angle is 0, qx = " << q3Vec.x()
+    //		<< ", qy = " << q3Vec.y()
+    //		<< ", qz = " << q3Vec.z();
+  //}
+
+  TLorentzVector kVec(k3Vec,neutrinoMom->E());
+  TLorentzVector kPrimeVec(kPrime3Vec,leptonMom.E());
+  TLorentzVector iNuc(in3Vec,inNucleonMom->E());
+
+  // Calculate auxiliary parameters
+  const Target & target = init_state.Tgt();
+  double E  = init_state.ProbeE(kRfLab);//Incoming Neutrino Energy, Lab
+  double ml = interaction->FSPrimLepton()->Mass();
+  double M  = target.HitNucMass();
+
+  double ml2     = TMath::Power(ml,    2);
+  double M2      = TMath::Power(M,     2);
+
+  double s = (2*E+M)*M;
+  double num = TMath::Power(s-M2,2);
+  double Gfactor = kGF2 * fCos8c2 / (8*kPi*num);
+
+  double coulombFactor = 1.0;
+
+  // Compute nucleon differential cross section
+
+  // Lepton momenta in coordinate system with the nuetrino in the z dir
+  // (lab frame)
+
+  // Coulomb Effects
+  /*if(fCoulomb){
+    double r = target.HitNucPosition();
+    // Coulomb potential
+    double Vc = vcr(& target, r);
+
+    // Outgoing lepton energy and momentum including coulomb potential
+    int sign = (pdg::IsNeutrino(init_state.ProbePdg())) ? 1 : -1;
+    double ElLocal = El - sign*Vc;
+    if(ElLocal - ml <= 0.0){
+      LOG("Nieves",pINFO) << "Event should be rejected. Coulomb effects "
+			    << "push kinematics below threshold";
+      exceptions::NievesQELException exception;
+      exception.SetReason("Outgoing lepton energy below threshold after coulomb effects");
+      //exception.SetUnphysicalQ2(true);
+      throw exception;
+    }
+    double plLocal = TMath::Sqrt(ElLocal*ElLocal-ml2);
+
+    // Correction factor
+    coulombFactor= plLocal*ElLocal/pl/El;
+    
+    // Could use corrected outgoing momentum to calculate cross section
+    //pl = plLocal;
+    //El = ElLocal;
+    }*/
+  /*
+  // Rotate k and kPrime so q is in the z direction
+  TVector3 rot = (k3Vec.Cross(kPrime3Vec)).Unit(); // Vector to rotate about
+  double angle = k3Vec.Angle(q3Vec); // Angle between the z direction and q
+
+  // Rotate if the rotation vector is not 0
+  if(! rot.Mag() < 0.0001){
+    k3Vec.Rotate(angle,rot);
+    kPrime3Vec.Rotate(angle,rot);
+    q3Vec = k3Vec-kPrime3Vec;
+  }
+  //else{
+    //    LOG("Nieves",pDEBUG) << "Rotation angle is 0, qx = " << q3Vec.x()
+    //		<< ", qy = " << q3Vec.y()
+    //		<< ", qz = " << q3Vec.z();
+  //}
+
+  TLorentzVector kVec(k3Vec,E);
+  TLorentzVector kPrimeVec(kPrime3Vec,El);
+  TLorentzVector qVec = kVec - kPrimeVec;*/
+
+  // Substract the binding energy per nucleon from q0 to account for the
+  // energy needed to remove the outgoing particle from the nucleus
+  //double Qvalue = nuclear::BindEnergyPerNucleon(target);
+  //LOG("Nieves",pDEBUG) << "Binding Energy Per Nucleon = " << Qvalue;
+  //double Qvalue = 0.016827;
+  //qVec.SetE(qVec.E() - Qvalue);
+
+  // Check that the energy tranfer q0 is greater than 0, or else the
+  // following equations do not apply. (Note also that the event would
+  // be Pauli blocked )
+  /*if(qVec.E()<=0){
+    LOG("Nieves", pINFO) << "q0<=0.0";
+    exceptions::NievesQELException exception;
+    exception.SetReason("Invalid q, q0<=0.0");
+
+    //exception.SetUnphysicalQ2(true);
+    throw exception;
+    }*/
+
+
+  double LmunuAnumuResult = LmunuAnumu(interaction,iNuc,kVec,kPrimeVec);
+
+  double xsec = Gfactor*coulombFactor*LmunuAnumuResult;
+
+  /*LOG("Nieves",pDEBUG) << "TESTING: RPA=" << fRPA 
+		       << ", Coulomb=" << fCoulomb 
+                       << ", q2calc = " << qVec.Mag2()
+		       << ", q2 = " << q2 << ", xsec = " << xsec;
+  */
+  ofstream uhoh;
+  if( isnan(xsec)){
+    LOG("Nieves",pWARN) << "xsec is nan";
+    uhoh.open("uhoh.txt", std::ios_base::app);
+    uhoh << q2 << "\t" << xsec << "\n";
+    uhoh.close();
+    exceptions::NievesQELException exception;
+    exception.SetReason("xsec is nan");
+    throw exception;
+  }
+  
+  //#ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
+  //LOG("Nieves", pDEBUG)
+  //<< "dXSec[QEL]/dQ2 [FreeN](E = "<< E << ", Q2 = "<< -q2 << ") = "<< xsec;
+  //#endif
+
+  //----- The algorithm computes dxsec/dQ2
+  //      Check whether variable tranformation is needed
+  /*if(kps!=kPSQ2fE) {
+    double J = utils::kinematics::Jacobian(interaction,kPSQ2fE,kps);
+
+#ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
+    LOG("Nieves", pDEBUG)
+     << "Jacobian for transformation to: " 
+                  << KinePhaseSpace::AsString(kps) << ", J = " << J;
+#endif
+    xsec *= J;
+    }*/
   //----- if requested return the free nucleon xsec even for input nuclear tgt
   //      the xsec will still include RPA corrections
   if( interaction->TestBit(kIAssumeFreeNucleon) ) return xsec;
@@ -549,15 +767,6 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
 
   double gQ2  = interaction->Kine().Q2();
 
-  //if(fPrintData){
-  //ofstream nucstream;
-  //nucstream.open("nucleon_lab.txt", std::ios_base::app);
-  //nucstream << gQ2 << "\t" << pnuc4.E() << "\t" << pnuc4.Px() << "\t"
-  //	    << pnuc4.Py() << "\t" << pnuc4.Pz() << "\t"
-  //    << pnuc4.Vect().Mag() << "\n";
-  //nucstream.close();
-  //}
-
   // (W,Q2) -> (x,y)
   double gx=0, gy=0;
   kinematics::WQ2toXY(Ev,M,gW,gQ2,gx,gy);
@@ -624,22 +833,6 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
   
   TLorentzVector qLab = *probelab - p4l;
 
-  ofstream lepstream;
-  if(fPrintData){
-    lepstream.open("QELKinGenLep.txt", std::ios_base::app);
-    
-    lepstream << -qNRF.Mag2() << "\t" << -qLab.Mag2() << "\t" 
-	      << qNRF.E() << "\t" << qLab.E() << "\t"
-	      << qNRF.Px() << "\t" << qLab.Px() << "\t"
-	      << qNRF.Py() << "\t" << qLab.Py() << "\t"
-	      << qNRF.Pz() << "\t" << qLab.Pz() << "\t"
-	      << qNRF.Vect().Mag() << "\t" << qLab.Vect().Mag() << "\t"
-	      << pnuc4.E() << "\t" << pnuc4.Vect().Mag() << "\t"
-	      << pnuc4.Mag2() << "\t" << beta.Mag() << "\t";
-    qNRF.Boost(beta);
-    lepstream << qNRF.E() << "\t" << qNRF.Vect().Mag()/qNRF.E() << "\t";
-  }
-    
   // Store lab 4-momentum using SetKV
   double Tl = p4l.E() - ml;
   if(Tl < 0.0){
@@ -653,13 +846,6 @@ void NievesQELCCPXSec::SetRunningOutgoingLepton(
   interaction->KinePtr()->SetKV(kKVTl, p4l.E() - ml);
   interaction->KinePtr()->SetKV(kKVctl ,p4l.CosTheta());
   interaction->KinePtr()->SetKV(kKVphikq, p4l.Phi());
-
-  if(fPrintData){
-    lepstream << interaction->KinePtr()->GetKV(kKVTl) << "\t";
-    lepstream << interaction->KinePtr()->GetKV(kKVctl) << "\t";
-    lepstream << interaction->KinePtr()->GetKV(kKVphikq) << "\n";
-    lepstream.close();
-  }
 
   delete probelab;
 
@@ -1204,6 +1390,7 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
 
   double dq = TMath::Sqrt(TMath::Power(q[1],2)+
 			  TMath::Power(q[2],2)+TMath::Power(q[3],2));
+  LOG("Nieves",pDEBUG) << "q0^2-dq^2 = " << q0*q0-dq*dq;
 
   bool is_neutrino = pdg::IsNeutrino(init_state.ProbePdg());
   int sign = (is_neutrino) ? 1 : -1;
@@ -1319,35 +1506,10 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
   std::complex<double> Lmunu(0.0,0.0),Lnumu(0.0,0.0);
   std::complex<double> Amunu(0.0,0.0),Anumu(0.0,0.0);
   
-  // Write values to a file for testing purposes
-  ofstream ffstream;
-  if(fPrintData){
-    ffstream.open("formfactors.txt", std::ios_base::app);
-    ffstream << -q2 << "\t" << q[0] << "\t" << dq << "\t"
-	     << F1V << "\t" << xiF2V << "\t" << FA << "\t" 
-	     << Fp;
-    if(-qVec.Mag2() > 0)
-      ffstream << "\t" << -qVec.Mag2() << "\n";
-    else
-      ffstream << "\n";
-    ffstream.close();
-    
-    ffstream.open("cnctcl.txt", std::ios_base::app);
-    ffstream << -q2 << "\t" << CN << "\t" << CT << "\t" << CL << "\n";
-    ffstream.close();
-    
-    ffstream.open("tr.txt", std::ios_base::app);
-    ffstream << -q2 << "\t" << tulin[0] << "\t" << tulin[3] << "\t" << rulin[0][0] << "\t"
-	     << rulin[0][3] << "\t" << rulin[1][1] << "\t" << rulin[3][3] << "\n";
-    ffstream.close();
-    
-    ffstream.open("Amunu.txt", std::ios_base::app);
-    ffstream << -q2 << "\t";
-  }
-
   // Calculate LmunuAnumu by iterating over mu and nu
   // In each iteration, add LmunuAnumu to sum if mu=nu, and add
   // LmunuAnumu + LnumuAmunu if mu != nu, since we start nu at mu
+  double axx,azz,a0z,a00,axy; // Store elts if fPrintData == true
   for(int mu=0;mu<4;mu++){
     for(int nu=mu;nu<4;nu++){
       imaginaryPart = 0;
@@ -1379,7 +1541,7 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
 	  (4.0-4.0*rulin[0][0]/M2-4.0*q[0]*tulin[0]/M2-q02*(4.0/q2+1.0/M2)) +
 	  4.0*FA2*(2.0*rulin[0][0]+2.0*q[0]*tulin[0]+(q2/2.0-2.0*M2))-
 	  (2.0*CL*Fp2*q2+8.0*FA*Fp*CL*M)*q02-16.0*F1V*xiF2V*(-q2+q02)*CN;
-	if(fPrintData) ffstream << real(Amunu) << "\t";
+	if(fPrintData) a00 = real(Amunu);
 	sum += Lmunu*Amunu;
       }else if(mu == 0 && nu == 3){
 	Amunu = 16.0*F1V2*((2.0*rulin[0][3]+tulin[0]*dq)*CN+tulin[3]*q[0])+
@@ -1388,7 +1550,7 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
 	  4.0*FA2*((2.0*rulin[0][3]+dq*tulin[0])*CL+q[0]*tulin[3])-
 	  (2.0*CL*Fp2*q2+8.0*FA*Fp*CL*M)*dq*q[0]-
 	  16.0*F1V*xiF2V*dq*q[0];
-	if(fPrintData) ffstream << real(Amunu) << "\t";
+	if(fPrintData) a0z= real(Amunu);
 	Anumu = Amunu;
 	sum += Lmunu*Anumu + Lnumu*Amunu;
       }else if(mu == 3 && nu == 3){
@@ -1397,14 +1559,14 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
 	  4.0*FA2*(2.0*rulin[3][3]+2.0*dq*tulin[3]-(q2/2.0-2.0*CL*M2))-
 	  (2.0*CL*Fp2*q2+8.0*FA*Fp*CL*M)*dq2-
 	  16.0*F1V*xiF2V*(q2+dq2);
-	if(fPrintData) ffstream << real(Amunu) << "\t";
+	if(fPrintData) azz = real(Amunu);
 	sum += Lmunu*Amunu;
       }else if(mu ==1 && nu == 1){
 	Amunu = 16.0*F1V2*(2.0*rulin[1][1]-q2/2.0)+ 
 	  2.0*q2*xiF2V2*(-4.0*CT-4.0*rulin[1][1]/M2) +
 	  4.0*FA2*(2.0*rulin[1][1]-(q2/2.0-2.0*CT*M2))-
 	  16.0*F1V*xiF2V*CT*q2;
-	if(fPrintData) ffstream << real(Amunu) << "\t";
+	if(fPrintData) axx = real(Amunu);
 	sum += Lmunu*Amunu;
       }else if(mu == 2 && nu == 2){
 	// Ayy not explicitly listed in paper. This is included so rotating the
@@ -1417,7 +1579,7 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
       }else if(mu ==1 && nu == 2){
 	Amunu = sign*16.0*iNum*FA*(xiF2V+F1V)*(-dq*tulin[0]*CT + q[0]*tulin[3]);
 	Anumu = -Amunu; // Im(A) is antisymmetric
-	if(fPrintData) ffstream << imag(Amunu) << "\t";
+	if(fPrintData) axy = imag(Amunu);
 	sum += Lmunu*Anumu+Lnumu*Amunu;
       }else{
 	// No RPA corrections to the remaining terms, so A is not r dependent
@@ -1452,7 +1614,16 @@ double NievesQELCCPXSec::LmunuAnumu(const Interaction * interaction,
     } // End for loop over nu
   } // End for loop over mu
 
+
   if(fPrintData){
+  // Print Q2, form factors, and tensor elts
+    ofstream ffstream;
+    ffstream.open("tensors_gevgen.txt", std::ios_base::app);
+    ffstream << -q2 << "\t" << q[0] << "\t" << dq << "\t"
+	     << F1V << "\t" << xiF2V << "\t" << FA << "\t" << Fp
+	     << "\t" << axx << "\t" << azz << "\t" << a0z
+	     << "\t" << a00 << "\t" << axy << "\t"
+	     << CT << "\t" << CL << "\t" << CN;
     ffstream << "\n";
     ffstream.close();
   }

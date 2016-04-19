@@ -1,0 +1,16 @@
+K 10
+svn:ignore
+V 95
+.DS_Store
+*.log
+*.root
+*.status
+*.xml
+*.ps
+log.*
+do_configure.sh
+bin
+lib
+.syntastic_cpp_config
+
+END
