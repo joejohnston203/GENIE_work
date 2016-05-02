@@ -11,6 +11,4 @@
 #pragma link C++ class genie::LwlynSmithFFNC;
 #pragma link C++ class genie::LwlynSmithFF;
 
-#pragma link C++ class genie::NievesQELCCPXSec;
-
 #endif

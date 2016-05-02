@@ -53,6 +53,7 @@ public :
 private:
   
   double fQ2min;
+  double fEb; // Binding energy
 
   void   LoadConfig     (void);
   double  ComputeMaxXSec(const Interaction * in) const;

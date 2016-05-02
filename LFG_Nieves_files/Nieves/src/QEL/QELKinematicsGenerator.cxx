@@ -5,7 +5,7 @@
  or see $GENIE/LICENSE
 
  Author: Costas Andreopoulos <costas.andreopoulos \at stfc.ac.uk>
-         STFC, Rutherford Appleton Laboratory
+         University of Liverpool & STFC Rutherford Appleton Lab
 
  For the class documentation see the corresponding header file.
 
@@ -22,11 +22,7 @@
    dipole form from the dsigma/dQ2 p.d.f.
  @ Mar 18, 2016 - JJ (SD)
    Store the struck nucleon position in the Target object before calling
-   the xsec method for the first time.
-   Generate a lepton in each iteration before calculating the cross
-   section. Save the chosen lepton for use by the QELPrimaryLeptonGenerator
-   when a Q2 value is selected.
-   Catch NievesQELExceptions when calculating the cross section.
+   the xsec method for the first time
 */
 //____________________________________________________________________________
 
@@ -40,18 +36,15 @@
 #include "EVGCore/EVGThreadException.h"
 #include "EVGCore/EventGeneratorI.h"
 #include "EVGCore/RunningThreadInfo.h"
-#include "GHEP/GHepParticle.h"
 #include "GHEP/GHepRecord.h"
 #include "GHEP/GHepFlags.h"
-#include "LlewellynSmith/NievesQELException.h"
+#include "GHEP/GHepParticle.h"
 #include "Messenger/Messenger.h"
 #include "Numerical/RandomGen.h"
 #include "PDG/PDGLibrary.h"
 #include "QEL/QELKinematicsGenerator.h"
-#include "QEL/QELPrimaryLeptonGenerator.h"
 #include "Utils/MathUtils.h"
 #include "Utils/KineUtils.h"
-#include "Utils/PrintUtils.h"
 
 using namespace genie;
 using namespace genie::controls;
@@ -96,8 +89,8 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
   interaction->SetBit(kISkipProcessChk);
   interaction->SetBit(kISkipKinematicChk);
 
-  // Store the struck nucleon position for use by the xsec method
-  double hitNucPos = evrec->HitNucleon()->GetX4()->Vect().Mag();
+  // store the struck nucleon position for use by the xsec method
+  double hitNucPos = evrec->HitNucleon()->X4()->Vect().Mag();
   interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(hitNucPos);
 
   //-- Note: The kinematic generator would be using the free nucleon cross
@@ -140,7 +133,6 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
   double xsec   = -1.;
   double gQ2    =  0.;
 
-  
   unsigned int iter = 0;
   bool accept = false;
   while(1) {
@@ -169,20 +161,9 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
      interaction->KinePtr()->SetQ2(gQ2);
      LOG("QELKinematics", pINFO) << "Trying: Q^2 = " << gQ2;
 
-     // Generate a lepton before calculating the cross section
-     QELPrimaryLeptonGenerator * lepgen = new QELPrimaryLeptonGenerator();
-     lepgen->SetRunningLepton(evrec);
-     delete lepgen;
-
      //-- Computing cross section for the current kinematics
-     try{
-       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     }catch(exceptions::NievesQELException exception) {
-       LOG("QELKinematics",pINFO) << exception;
-       LOG("QELKinematics",pINFO) << "rewinding";
-       xsec = -1.0; // Do not accept
-     }
-     
+     xsec = fXSecModel->XSec(interaction, kPSQ2fE);
+
      //-- Decide whether to accept the current kinematics
      if(!fGenerateUniformly) {
         this->AssertXSecLimits(interaction, xsec, xsec_max);
@@ -209,32 +190,34 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
         interaction->ResetBit(kISkipKinematicChk);
         interaction->ResetBit(kIAssumeFreeNucleon);
 
-	// compute the rest of the kinematical variables
+        // compute the rest of the kinematical variables
 
-	// get neutrino energy at struck nucleon rest frame and the
-	// struck nucleon mass (can be off the mass shell)
-	const InitialState & init_state = interaction->InitState();
-	double E  = init_state.ProbeE(kRfHitNucRest);
-	double M = init_state.Tgt().HitNucP4().M();
+        // get neutrino energy at struck nucleon rest frame and the
+        // struck nucleon mass (can be off the mass shell)
+        const InitialState & init_state = interaction->InitState();
+        double E  = init_state.ProbeE(kRfHitNucRest);
+        double M = init_state.Tgt().HitNucP4().M();
 
-	LOG("QELKinematics", pNOTICE) << "E = " << E << ", M = "<< M;
+        LOG("QELKinematics", pNOTICE) << "E = " << E << ", M = "<< M;
 
-	// The hadronic inv. mass is equal to the recoil nucleon on-shell mass.
-	// For QEL/Charm events it is set to be equal to the on-shell mass of
-	// the generated charm baryon (Lamda_c+, Sigma_c+ or Sigma_c++)
-	//
-	const XclsTag & xcls = interaction->ExclTag();
-	int rpdgc = 0;
-	if(xcls.IsCharmEvent()) { rpdgc = xcls.CharmHadronPdg();           }
-	else                    { rpdgc = interaction->RecoilNucleonPdg(); }
-	assert(rpdgc);
-	double gW = PDGLibrary::Instance()->Find(rpdgc)->Mass();
+        // The hadronic inv. mass is equal to the recoil nucleon on-shell mass.
+        // For QEL/Charm events it is set to be equal to the on-shell mass of
+        // the generated charm baryon (Lamda_c+, Sigma_c+ or Sigma_c++)
+        // Similarly for strange baryons
+        //
+        const XclsTag & xcls = interaction->ExclTag();
+        int rpdgc = 0;
+        if(xcls.IsCharmEvent()) { rpdgc = xcls.CharmHadronPdg();           }
+        else if(xcls.IsStrangeEvent()) { rpdgc = xcls.StrangeHadronPdg();           }
+        else                    { rpdgc = interaction->RecoilNucleonPdg(); }
+        assert(rpdgc);
+        double gW = PDGLibrary::Instance()->Find(rpdgc)->Mass();
 
-	LOG("QELKinematics", pNOTICE) << "Selected: W = "<< gW;
+        LOG("QELKinematics", pNOTICE) << "Selected: W = "<< gW;
 
-	// (W,Q2) -> (x,y)
-	double gx=0, gy=0;
-	kinematics::WQ2toXY(E,M,gW,gQ2,gx,gy);
+        // (W,Q2) -> (x,y)
+        double gx=0, gy=0;
+        kinematics::WQ2toXY(E,M,gW,gQ2,gx,gy);
 
         // set the cross section for the selected kinematics
         evrec->SetDiffXSec(xsec,kPSQ2fE);
@@ -253,22 +236,13 @@ void QELKinematicsGenerator::ProcessEventRecord(GHepRecord * evrec) const
           evrec->SetWeight(wght);
         }
 
-
         // lock selected kinematics & clear running values
-	Kinematics * kine = interaction->KinePtr();
-        kine->SetQ2(gQ2, true);
-        kine->SetW (gW,  true);
-        kine->Setx (gx,  true);
-        kine->Sety (gy,  true);
-        kine->ClearRunningValues();
+        interaction->KinePtr()->SetQ2(gQ2, true);
+        interaction->KinePtr()->SetW (gW,  true);
+        interaction->KinePtr()->Setx (gx,  true);
+        interaction->KinePtr()->Sety (gy,  true);
+        interaction->KinePtr()->ClearRunningValues();
 
-	// Lock outgoing lepton
-	if(kine->KVSet(kKVTl) && kine->KVSet(kKVctl)
-	   && kine->KVSet(kKVphikq)){
-	  kine->SetKV(kKVSelTl, kine->GetKV(kKVTl));
-	  kine->SetKV(kKVSelctl, kine->GetKV(kKVctl));
-	  kine->SetKV(kKVSelphikq, kine->GetKV(kKVphikq));
-	}
         return;
      }
   }// iterations
@@ -290,8 +264,8 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
   interaction->SetBit(kISkipProcessChk);
   interaction->SetBit(kISkipKinematicChk);
 
-  // Store the struck nucleon position for use by the xsec method
-  double hitNucPos = evrec->HitNucleon()->GetX4()->Vect().Mag();
+  // store the struck nucleon position for use by the xsec method
+  double hitNucPos = evrec->HitNucleon()->X4()->Vect().Mag();
   interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(hitNucPos);
 
   //-- Note: The kinematic generator would be using the free nucleon cross
@@ -409,19 +383,8 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
      // Set updated Q2
      interaction->KinePtr()->SetQ2(gQ2tilde);
 
-     // Generate a lepton before calculating the cross section
-     QELPrimaryLeptonGenerator * lepgen = new QELPrimaryLeptonGenerator();
-     lepgen->SetRunningLepton(evrec);
-     delete lepgen;
-
      //-- Computing cross section for the current kinematics
-     try{
-       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     }catch(exceptions::NievesQELException exception) {
-       LOG("QELKinematics",pINFO) << exception;
-       LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
-       xsec = 0.0;
-     }
+     xsec = fXSecModel->XSec(interaction, kPSQ2fE);
 
      //-- Decide whether to accept the current kinematics
 //     if(!fGenerateUniformly) {
@@ -470,17 +433,11 @@ void QELKinematicsGenerator::SpectralFuncExperimentalCode(
 //        interaction->KinePtr()->Sety (gy,  true);
 //        interaction->KinePtr()->ClearRunningValues();
 
-	Kinematics * kine = evrec->Summary()->KinePtr();
-        kine->SetQ2(gQ2, true);
-        kine->SetW (gW,  true);
-        kine->Setx (gx,  true);
-        kine->Sety (gy,  true);
-        kine->ClearRunningValues();
-
-	// Lock outgoing lepton
-	kine->SetKV(kKVSelTl, kine->GetKV(kKVTl));
-	kine->SetKV(kKVSelctl, kine->GetKV(kKVctl));
-	kine->SetKV(kKVSelphikq, kine->GetKV(kKVphikq));
+        evrec->Summary()->KinePtr()->SetQ2(gQ2, true);
+        evrec->Summary()->KinePtr()->SetW (gW,  true);
+        evrec->Summary()->KinePtr()->Setx (gx,  true);
+        evrec->Summary()->KinePtr()->Sety (gy,  true);
+        evrec->Summary()->KinePtr()->ClearRunningValues();
 	delete interaction;
 
         return;
@@ -553,22 +510,13 @@ double QELKinematicsGenerator::ComputeMaxXSec(
   for(int i=0; i<N; i++) {
      double Q2 = TMath::Exp(logQ2min + i * dlogQ2);
      interaction->KinePtr()->SetQ2(Q2);
-     double xsec;
-     //-- Computing cross section for the current kinematics
-     try{
-       xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-     }catch(exceptions::NievesQELException exception) {
-       LOG("QELKinematics",pINFO) << exception;
-       LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
-       xsec = -1.0;
-     }
+     double xsec = fXSecModel->XSec(interaction, kPSQ2fE);
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
      LOG("QELKinematics", pDEBUG)  << "xsec(Q2= " << Q2 << ") = " << xsec;
 #endif
      max_xsec = TMath::Max(xsec, max_xsec);
-     // Only update values if the xsec method did not return an exception
-     increasing = xsec>=0. && xsec-xseclast>=0;
-     if(xsec>=0.) xseclast = xsec;
+     increasing = xsec-xseclast>=0;
+     xseclast   = xsec;
 
      // once the cross section stops increasing, I reduce the step size and
      // step backwards a little bit to handle cases that the max cross section
@@ -579,13 +527,7 @@ double QELKinematicsGenerator::ComputeMaxXSec(
 	 Q2 = TMath::Exp(TMath::Log(Q2) - dlogQ2);
          if(Q2 < rQ2.min) continue;
          interaction->KinePtr()->SetQ2(Q2);
-	 try{
-	   xsec = fXSecModel->XSec(interaction, kPSQ2fE);
-	 }catch(exceptions::NievesQELException exception) {
-	   LOG("QELKinematics",pINFO) << exception;
-	   LOG("QELKinematics",pINFO) << "Setting xsec = 0.0";
-	   xsec = 0.0;
-	 }
+         xsec = fXSecModel->XSec(interaction, kPSQ2fE);
 #ifdef __GENIE_LOW_LEVEL_MESG_ENABLED__
          LOG("QELKinematics", pDEBUG)  << "xsec(Q2= " << Q2 << ") = " << xsec;
 #endif
@@ -607,4 +549,5 @@ double QELKinematicsGenerator::ComputeMaxXSec(
 
   return max_xsec;
 }
-//____________________________________________________________________________
+//___________________________________________________________________________
+

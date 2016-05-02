@@ -26,6 +26,7 @@
 //____________________________________________________________________________
 
 #include <TMath.h>
+
 #include "Algorithm/AlgConfigPool.h"
 #include "Conventions/GBuild.h"
 #include "Conventions/Controls.h"
@@ -147,17 +148,15 @@ void QELEventGenerator::ProcessEventRecord(GHepRecord * evrec) const
 
         // Access the target from the interaction summary
         Target * tgt = interaction->InitState().TgtPtr();
-        TLorentzVector * p4 = tgt->HitNucP4Ptr();
+        //TLorentzVector * p4 = tgt->HitNucP4Ptr();
 
         // First, throw Fermi momentum & removal energy from the nuclear model pdfs
-	// Call GenerateNucleon with a radius in case the nuclear model is LFG
-	double radius = nucleon->X4()->Vect().Mag();
-        fNuclModel->GenerateNucleon(*tgt,radius);
-        TVector3 p3 = fNuclModel->Momentum3();
-        double w    = fNuclModel->RemovalEnergy();
-
-        double pF  = p3.Mag();  // (fermi momentum)
-        double pF2 = p3.Mag2(); // (fermi momentum)^2
+        fNuclModel->GenerateNucleon(*tgt);
+//        TVector3 p3 = fNuclModel->Momentum3();
+//        double w    = fNuclModel->RemovalEnergy();
+//
+//        double pF  = p3.Mag();  // (fermi momentum)
+//        double pF2 = p3.Mag2(); // (fermi momentum)^2
 
 //        LOG("QELEvent", pINFO)
 //            << "Generated nucleon momentum: ("
@@ -180,30 +179,6 @@ void QELEventGenerator::ProcessEventRecord(GHepRecord * evrec) const
                << ", pdgc = " << ipdgc << "] in PDGLibrary!";
            exit(1);
          }
-
-	double EN_offshell(0);
-	FermiMoverInteractionType_t interaction_type = fNuclModel->GetFermiMoverInteractionType(); // check the nuclear model essentially
-	//  if  (interaction_type == kFermiMoveBenharSF){
-	//  EN_offshell = Mn - w; 
-	//  std::cout << "Using FermiMoveBenharSF and defined energy" << std::endl;
-	//}
-	//else 
-	//if (interaction_type == kFermiMoveDefault){
-	double Mf  = fnucleus -> Mass(); // remnant nucleus mass
-	double Mi  = nucleus  -> Mass(); // initial nucleus mass
-	//TParticlePDG * p = PDGLibrary::Instance()->Find(1000060120);
-	//double Mi = p->Mass();
-	//p = PDGLibrary::Instance()->Find(1000060110);
-	//double Mf = p->Mass();
-	EN_offshell = Mi - TMath::Sqrt(pF2 + Mf*Mf);
-	std::cout << "Using FermiMoveDefault and defined energy" << std::endl;
-	//}
-	//  double EN_offshell = TMath::Sqrt(Mn*Mn + pF2) - w;
-	
-	p4->SetPx( p3.Px()    );
-	p4->SetPy( p3.Py()    );
-	p4->SetPz( p3.Pz()    );
-	p4->SetE ( EN_offshell );*/
 
         //
         // Calculate the on-shell and off-shell masses for the struck nucleon
@@ -266,7 +241,7 @@ void QELEventGenerator::ProcessEventRecord(GHepRecord * evrec) const
 //                  << "Event below threshold after generating Fermi momentum";
 //            double Ethr = kps.Threshold();
 //            double Ev   = interaction->InitState().ProbeE(kRfHitNucRest);
-//            LOG("QELEvent", pNOTICE)/
+//            LOG("QELEvent", pNOTICE)
 //                << "Ev (@ nucleon rest frame) = " << Ev << ", Ethr = " << Ethr;
 //            continue;
 //        }
@@ -356,7 +331,13 @@ void QELEventGenerator::ProcessEventRecord(GHepRecord * evrec) const
           TLorentzVector x4l(*(evrec->Probe())->X4());
           
           evrec->AddParticle(interaction->FSPrimLeptonPdg(), kIStStableFinalState, evrec->ProbePosition(),-1,-1,-1, interaction->KinePtr()->FSLeptonP4(), x4l);
-          evrec->AddParticle(interaction->RecoilNucleonPdg(), kIStStableFinalState, evrec->HitNucleonPosition(),-1,-1,-1, interaction->KinePtr()->HadSystP4(), x4l);
+          evrec->AddParticle(interaction->RecoilNucleonPdg(), kIStHadronInTheNucleus, evrec->HitNucleonPosition(),-1,-1,-1, interaction->KinePtr()->HadSystP4(), x4l); // Set status to kIStHadronInTheNucleus to enable hadron transport
+
+	  // Store struck nucleon momentum and binding energy
+	  GHepParticle * nucleon = evrec->HitNucleon();
+	  assert(nucleon);
+	  nucleon->SetMomentum(evrec->Summary()->InitStatePtr()->TgtPtr()->HitNucP4());
+	  nucleon->SetRemovalEnergy(Eb);
 
           // add a recoiled nucleus remnant
           this->AddTargetNucleusRemnant(evrec);
@@ -598,78 +579,75 @@ double QELEventGenerator::ComputeMaxXSec(const Interaction * in) const
 //____________________________________________________________________________
 double QELEventGenerator::ComputeXSec( Interaction * interaction, double costheta, double phi) const
 {
-   std::cout << "running ComputeXSec()" << std::endl;
-        Target * tgt = interaction->InitState().TgtPtr();
-   std::cout << "got target pointer"<< std::endl;
-        TLorentzVector * p4 = tgt->HitNucP4Ptr();
-   std::cout << "got hitNuc pointer"<< std::endl;
+  //std::cout << "running ComputeXSec()" << std::endl;
+  Target * tgt = interaction->InitState().TgtPtr();
+  // std::cout << "got target pointer"<< std::endl;
+  TLorentzVector * p4 = tgt->HitNucP4Ptr();
+  //std::cout << "got hitNuc pointer"<< std::endl;
 
-   std::cout << "do we have an fNucModel?"<< std::endl;
-   if (fNuclModel){std::cout << "yes!" << fNuclModel << std::endl;}
-   else{std::cout << "no :( " << fNuclModel << std::endl;}
-   std::cout << "do we have an fNucModel with stuff?"<< std::endl;
-   if (fNuclModel->Momentum3().X()){std::cout << "yes!" << std::endl;}
+  //std::cout << "do we have an fNucModel?"<< std::endl;
+  //if (fNuclModel){std::cout << "yes!" << fNuclModel << std::endl;}
+  //else{std::cout << "no :( " << fNuclModel << std::endl;}
+  //std::cout << "do we have an fNucModel with stuff?"<< std::endl;
+  //if (fNuclModel->Momentum3().X()){std::cout << "yes!" << std::endl;}
    
-        TVector3 p3 = fNuclModel->Momentum3();
-        double w = fNuclModel->RemovalEnergy();
-   std::cout << "found the nuclear model and retrieved the binding energy and Fermi momentum" << std::endl;
+  TVector3 p3 = fNuclModel->Momentum3();
+  double w = fNuclModel->RemovalEnergy();
+  //std::cout << "found the nuclear model and retrieved the binding energy and Fermi momentum" << std::endl;
 
   double xsec = 0;
   double pF2 = p3.Mag2(); // (fermi momentum)^2
   double lepMass = interaction->FSPrimLepton()->Mass();
-   std::cout << "found the lepton mass..." << std::endl;
+  //std::cout << "found the lepton mass..." << std::endl;
   
   TDatabasePDG *tb = TDatabasePDG::Instance();
   double Mn = tb->GetParticle(interaction->InitState().TgtPtr()->HitNucPdg())->Mass();// outgoing nucleon mass
   double Mp = tb->GetParticle(interaction->RecoilNucleonPdg())->Mass(); // incoming nucleon mass
    
-  std::cout << "found the nucleon masses..." << std::endl;
+  //std::cout << "found the nucleon masses..." << std::endl;
   
-  /*  double EN_offshell(0);
+  double EN_offshell(0);
   FermiMoverInteractionType_t interaction_type = fNuclModel->GetFermiMoverInteractionType(); // check the nuclear model essentially
-  //  if  (interaction_type == kFermiMoveBenharSF){
-  //  EN_offshell = Mn - w; 
-  //  std::cout << "Using FermiMoveBenharSF and defined energy" << std::endl;
+  //if  (interaction_type == kFermiMoveBenharSF){
+  //EN_offshell = Mn - w; 
+  //std::cout << "Using FermiMoveBenharSF and defined energy" << std::endl;
   //}
-  //else 
-  if (interaction_type == kFermiMoveDefault){
+  //else if (interaction_type == kFermiMoveDefault){
     //GHepParticle * nucleon = evrec->HitNucleon();
     //GHepParticle * nucleus = evrec->TargetNucleus();
     //assert(nucleon);
     //assert(nucleus);
-    int nucleon_pdgc = nucleon->Pdg();
-    bool is_p  = pdg::IsProton(nucleon_pdgc);
-    int A = nucleus->A() - 1;
-    int Z = (is_p) ? nucleus->Z()-1 : nucleus->Z();
-    TParticlePDG * fnucleus = 0;
-    int ipdgc = pdg::IonPdgCode(A, Z);
-    fnucleus = PDGLibrary::Instance()->Find(ipdgc);
+    //int nucleon_pdgc = nucleon->Pdg();
+    //bool is_p  = pdg::IsProton(nucleon_pdgc);
+    //int A = nucleus->A() - 1;
+    //int Z = (is_p) ? nucleus->Z()-1 : nucleus->Z();
+    //TParticlePDG * fnucleus = 0;
+    //int ipdgc = pdg::IonPdgCode(A, Z);
+    //fnucleus = PDGLibrary::Instance()->Find(ipdgc);
 
-    double Mf  = fnucleus -> Mass(); // remnant nucleus mass
-    double Mi  = nucleus  -> Mass(); // initial nucleus mass
-    //TParticlePDG * p = PDGLibrary::Instance()->Find(1000060120);
-    //double Mi = p->Mass();
-    //p = PDGLibrary::Instance()->Find(1000060110);
-    //double Mf = p->Mass();
+    //double Mf  = fnucleus -> Mass(); // remnant nucleus mass
+    //double Mi  = nucleus  -> Mass(); // initial nucleus mass
+    TParticlePDG * p = PDGLibrary::Instance()->Find(1000060120);
+    double Mi = p->Mass();
+    p = PDGLibrary::Instance()->Find(1000060110);
+    double Mf = p->Mass();
     EN_offshell = Mi - TMath::Sqrt(pF2 + Mf*Mf);
-    std::cout << "Using FermiMoveDefault and defined energy" << std::endl;
-  }
+    //std::cout << "Using FermiMoveDefault and defined energy" << std::endl;
+    //}
 //  double EN_offshell = TMath::Sqrt(Mn*Mn + pF2) - w;
-
+  double EN_onshell  = TMath::Sqrt(pF2+Mn*Mn);
   p4->SetPx( p3.Px()    );
   p4->SetPy( p3.Py()    );
   p4->SetPz( p3.Pz()    );
-  p4->SetE ( EN_offshell );*/
+  p4->SetE ( EN_offshell );
 
-  double EN_offshell = p4->E(); // p4 is set in ProcessEventRecord()
-
-  double EN_onshell  = TMath::Sqrt(pF2+Mn*Mn);
+  fEb = EN_onshell - EN_offshell;
 
   double s = interaction->InitState().comE(); // actually sqrt(s)
   s *= s; // now s actually = s
   double outLeptonEnergy = ( s - Mp*Mp + lepMass*lepMass ) / (2 * TMath::Sqrt(s));
   double outMomentum = TMath::Sqrt(outLeptonEnergy*outLeptonEnergy - lepMass*lepMass);
-  std::cout << "calculated root s and outLeptonEnergy" << std::endl;
+  //std::cout << "calculated root s and outLeptonEnergy" << std::endl;
 
   TLorentzVector lepton(outMomentum, 0, 0, outLeptonEnergy);
 
@@ -680,7 +658,7 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
 
   // Boost particles
   TVector3 beta = this->COMframe2Lab(interaction->InitState());
-  std::cout << "converted to lab frame" << std::endl;
+  //std::cout << "converted to lab frame" << std::endl;
   
   TLorentzVector leptonCOM = TLorentzVector(lepton);
 
@@ -690,7 +668,7 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
   
   // Check if event is at a low angle - if so return 0 and stop wasting time
   //double angle = fConfig->GetDoubleDef("MinAngle",  gc->GetDouble("SF-MinAngleEMscattering"));
-  std::cout << "min angle = " << fMinAngleEM << std::endl;
+  //std::cout << "min angle = " << fMinAngleEM << std::endl;
   if (180 * lepton.Theta() / 3.1415 < fMinAngleEM && interaction->ProcInfo().IsEM()){
     return 0;
   }

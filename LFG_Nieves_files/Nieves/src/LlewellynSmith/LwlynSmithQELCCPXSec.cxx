@@ -12,7 +12,10 @@
  Important revisions after version 2.0.0 :
  @ Sep 19, 2009 - CA
    Renamed QELPXSec -> LwlynSmithQELCCPXSec
-
+ @ Mar 18, 2016 - JJ (SD)
+   Moved code to average over initial nucleons from QELXSec to the Integral()
+   method here. For each nucleon, generate a struck nucleon position, then a
+   momentum, then integrate.
 */
 //____________________________________________________________________________
 
@@ -312,6 +315,8 @@ void LwlynSmithQELCCPXSec::LoadConfig(void)
     fEnergyCutOff = 
       fConfig->GetDoubleDef("IntegralNuclearInfluenceCutoffEnergy", 2.0);
   }
+
+  
 }
 //____________________________________________________________________________
 double LwlynSmithQELCCPXSec::FullDifferentialXSec(const Interaction *  interaction)const{
