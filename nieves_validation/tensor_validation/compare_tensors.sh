@@ -6,7 +6,7 @@
 # from each iteration.
 #
 # Arguments
-# 1 modified qe.f output file
+# 1 modified qe.f output file (out of qe-gen-intOmega-tensors.o)
 # 2 modified GENIE code output file
 # 3 prefix for saved files
 function compare_tensors() {
