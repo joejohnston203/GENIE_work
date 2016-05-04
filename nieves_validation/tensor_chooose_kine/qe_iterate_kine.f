@@ -7,6 +7,9 @@
                 write(6,*)' coslepton, xmagev/1.049, RPA (0/1)'
                 read(5,*)  cost, xx,ipol
                  xmagev = xx*1.049d0
+                write(6,*) ' position as a fraction of RMax'
+                read(5,*) rmaxfrac
+
 
        write(60,1) 'QE from  Nieves et al.,PRC 70,055503 (2004)', 
      f             'arXiv:1106.5374 [hep-ph]' 
@@ -19,12 +22,23 @@
        delta = (eingev-0.025)/100.d0
        do it = 0,100
           tmugev = it*delta
-                sig = SigthNacho(eingev,tmugev, cost, xmagev,ipol)
-
-                write(60,11) tmugev, cost, xmagev,ipol,sig*1d-3
-                  enddo
-                write(60,13)'units diff cross section', 
-     f        '[10^{-38} cm^2/GeV/num_of_active_nucleons (N or Z)]'
+          
+          call amunu_calc(eingev,tmugev,cost,xmagev,ipol,
+     f         rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00)
+          
+c     Print Q2, form factors, tensor elts
+c     No header is printed because this file is not meant to be read. A
+c     script will label and plot the results
+          
+          write(61,15) -q2*hbarc**2*1d-6,q0*hbarc*1d-3,dq*hbarc*1d-3,
+     f         axx*hbarc**2*1d-6,azz*hbarc**2*1d-6,a0z*hbarc**2*1d-6,
+     f         a00*hbarc**2*1d-6,axy*hbarc**2*1d-6,
+     f         fact,facl,f00
+          
+ 15       format(e15.7,e15.7,e15.7,e15.7,e15.7,
+     f         e15.7,e15.7,e15.7,e15.7,e15.7)
+       end do
+          
  13             format ('#', 1x, a,1x,a)
  11               format(3(e14.7,1x),i1,1x,e14.7)
  12               format('#', 1x, a,1x,a)
@@ -33,26 +47,9 @@
 
                stop
                end
-
-
-
 ******************************************************************************
-*******         READ(4,*)DZZ,DAA,KLAVE,DNCXP,DNCA0P,DNCXN,DNCA0N
-*******         READ($,*)qvalue,lepton
-*******         READ(4,*) mn
-*******         READ(4,*)ILIN
-*******         IF (ILIN.EQ.1) THEN
-*******          'LINHARD NORMAL'
-*******         ELSEIF (ILIN.EQ.2) THEN
-*******          'LINHARD RELATIVISTA'
-*******         ELSEIF (ILIN.EQ.3) THEN
-*******          'LINHARD F.SPECTRALES'
-*******         ENDIF
-*******         Unidades FMs y qvector va en la direccion z
-
- 
-        double precision function SigthNacho(eingev,tmugev, 
-     f                           cost, xmagev,ipol)
+      subroutine amunu_calc(eingev,tmugev,cost,xmagev,ipol,
+     f            rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00)
         IMPLICIT REAL*8 (A-H,O-T,V-Z)
         IMPLICIT COMPLEX*16 (U)
         DIMENSION WD(5) ! funciones de respuesta
@@ -210,27 +207,17 @@ c               write(40,*)r,vcd(ir)*hbarc
              DQ=DSQRT(PIN**2+POUT**2-2.D0*DCOS(THETA)*PIN*POUT)
 
 
-             call secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,
-     f       ieta,rmax,mn,mnr,wd,sig,ipol)
-                else
-                 sig=0.d0
-                  endif
-
-                 if (ieta.eq.1) then 
-                  dnumber=dnn 
-                 elseif (ieta.eq.-1) then
-                   dnumber=dzz
-                 else
-                  stop'ieta wrong'
-                 endif
-                     
-                SigthNacho = sig*2.d0*dpi*1d18/hbarc/dnumber
-
-ccccc unidades 10^{-41} cm^2/GeV/num_activo de nucleones
-          
-
-
-
+             call secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,ieta,
+     f        rmax,mn,mnr,wd,sig,ipol,rmaxfrac,axx,azz,a0z,a00,axy,
+     f        q2,fact,facl,f00)
+             else
+                axx=0.
+                azz=0.
+                aoz=0.
+                a00=0.
+                axy=0.
+             end if
+ 
 100          FORMAT(A)
 
 
@@ -241,8 +228,8 @@ ccccc unidades 10^{-41} cm^2/GeV/num_activo de nucleones
 
 
            subroutine secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,
-     f       ieta,rmax,mn,mnr,wd,sig,ipol) 
-
+     f     ieta,rmax,mn,mnr,wd,sig,ipol,rmaxfrac,axx,azz,a0z,a00,axy,
+     f     q2,fact,facl,f00)
         IMPLICIT REAL*8 (A-H,O-T,V-Z)
         IMPLICIT COMPLEX*16 (U)
  
@@ -259,22 +246,7 @@ ccccc unidades 10^{-41} cm^2/GeV/num_activo de nucleones
              coseno = cos12**2-sin12**2             
 
        CALL WSELF(ILIN,Q0,dq,coseno,Q2,RMAX,MN,mnr,WD,ipol,eout,pin,
-     f  ieta)
-
-
-             dsum1 = 2.d0*WD(1)*sin12**2 + WD(2)*cos12**2 
-     f               -ieta*WD(3)*(ein+eout)*sin12**2/dma
-
-             dsum2 = (wd(1)-wd(2)/2.d0)*coseno+0.5d0*ieta*wd(3)*
-     f               ((eout+pout)/dma -(eout+ein)*coseno/dma)+
-     f               0.5d0*wd(4)*(coseno*dmlepton**2/dma**2 + 
-     f               2.d0*eout*(eout+pout)*sin12**2/dma**2) -
-     f               0.5d0*wd(5)*(eout+pout)/dma
-
-
-
-             SIG= factor*(dsum1+cte*dsum2)
-
+     f  ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00)
 
              return
              end
@@ -285,7 +257,7 @@ ccccc unidades 10^{-41} cm^2/GeV/num_activo de nucleones
 
 
          subroutine WSELF(ILIN,Q0,dq,coseno,Q2,RMAX,MN,mnr,WD,ipol,
-     f             eout,pin,ieta)
+     f       eout,pin,ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00)
 
 
 ******* TODAS LAS UNIDADES EN FMS; Q0 Y DQ DEFINEN EL4-MOMENTO DEL FOTON
@@ -330,7 +302,7 @@ ccccc unidades 10^{-41} cm^2/GeV/num_activo de nucleones
               CALL DSG20R (0.D0,RMAX,MNR,DR,NR)
                 
  
-              DO IR=1,NR
+c              DO IR=1,NR
 
               iflag=0
               q0old = q0
@@ -341,7 +313,9 @@ ccccc unidades 10^{-41} cm^2/GeV/num_activo de nucleones
 
 
 
-               R=DR(IR)
+c               R=DR(IR)
+              R=rmaxfrac*RMAX
+
               CALL xro(R)
 
 
@@ -526,30 +500,6 @@ c          facl=facl*delfacl
      f                  xmuf2v,gaq,gpq,fact,facl,f00,ipol)
 
 
-
-             DFXX(IR)=cte_r*R**2*axx*xlind*fema
-             DFZZ(IR)=cte_r*R**2*azz*xlind*fema
-             DF00(IR)=cte_r*R**2*a00*xlind*fema
-             DFXY(IR)=cte_r*R**2*axy*xlind*fema
-             DF0Z(IR)=cte_r*R**2*a0Z*xlind*fema
-              q0=q0old
-              q2=q2old
-              dq =dqold
-
-             END DO
-
-            CALL DRG20R (0.D0,RMAX,MNR,DFXX,RESXX)
-            CALL DRG20R (0.D0,RMAX,MNR,DFZZ,RESZZ)
-            CALL DRG20R (0.D0,RMAX,MNR,DF00,RES00)
-            CALL DRG20R (0.D0,RMAX,MNR,DFXY,RESXY)
-            CALL DRG20R (0.D0,RMAX,MNR,DF0Z,RES0Z)
-
-             wd(1) = resxx/2.d0/dma 
-             wd(4) = dma*(reszz-resxx)/2.d0/dq**2
-             wd(5) = (res0z-q0*(reszz-resxx)/dq)/dq
-             wd(3) = resxy/dq
-             wd(2) = (res00+resxx+(reszz-resxx)*(q0/dq)**2
-     f              -2.d0*q0*res0z/dq)/2.d0/dma  
 
             RETURN
             END

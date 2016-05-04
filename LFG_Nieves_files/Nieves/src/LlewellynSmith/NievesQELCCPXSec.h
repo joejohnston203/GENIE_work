@@ -91,8 +91,9 @@ private:
   // Calculates values of CN, CT, CL, and imU, and stores them in the provided 
   // variables. If target is not a nucleus, then CN, CN, and CL are all 1.0.
   // r must be in units of fm.
-  void CNCTCLimUcalc(const Target * target, double r, 
-		     TLorentzVector qVec, double q2, bool is_neutrino,
+  void CNCTCLimUcalc(TLorentzVector qTildeP4, double M, double r, 
+		     bool is_neutrino, bool tgtIsNucleus, int tgt_pdgc,
+		     int A, int Z, int N, bool hitNucIsProton,
 		     double & CN, double & CT, double & CL,
 		     double & imU, double & t0, double & r00) const;
 
@@ -127,10 +128,15 @@ private:
   //are equal
   int leviCivita(int input[]) const;
 
-  double LmunuAnumu(const Interaction * interaction,
-		    const TLorentzVector piVec,
-		    const TLorentzVector kVec,
-		    const TLorentzVector kPrimeVec) const;
+  double LmunuAnumu(const TlorentzVector neutrinoMom,
+		    const TLorentzVector inNucleonMom,
+		    const TLorentzVector leptonMom,
+		    const TLorentzVector outNucleonMom,
+		    double M, double r, bool is_neutrino, boot tgtIsNucleus,
+		    int tgt_pdgc, int A, int Z, int N, 
+		    bool hitNucIsProton) const;
+
+  void PrintTensorsIterateKinematics() const;
 };
 
 }       // genie namespace

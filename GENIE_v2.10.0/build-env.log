@@ -2,9 +2,9 @@
 
 $GENIE                       -> /home/joe/GENIE_work/GENIE_v2.10.0
 $SRT_ENV_SET                 -> **undefined**
-$LD_LIBRARY_PATH             -> /opt/root/lib
-$DYLD_LIBRARY_PATH           -> /opt/root/lib
-$PATH                        -> /opt/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+$LD_LIBRARY_PATH             -> /opt/root/lib:/home/joe/GENIE_work/GENIE_v2.10.0/lib:/opt/v6_424/lib:/opt/log4cpp/lib:/lib::/usr/lib64:
+$DYLD_LIBRARY_PATH           -> **undefined**
+$PATH                        -> /opt/root/bin:/home/joe/GENIE_work/GENIE_v2.10.0/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 
 Saving the configuration of your GENIE installation: 
 
@@ -53,14 +53,14 @@ Saving the configuration of your ROOT installation:
 
 Saving info on your OS, activity, disk usage & quota limit: 
 
-Linux joe-S855 3.13.0-77-generic #121-Ubuntu SMP Wed Jan 20 10:50:42 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+Linux joe-S855 3.13.0-79-generic #123-Ubuntu SMP Fri Feb 19 14:27:58 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
 
 Filesystem     1K-blocks     Used Available Use% Mounted on
 udev             4040120        4   4040116   1% /dev
-tmpfs             810184     1220    808964   1% /run
-/dev/sda5       55796676 42845768  10093512  81% /
+tmpfs             810184     1192    808992   1% /run
+/dev/sda5       55796676 33578460  19360820  64% /
 none                   4        0         4   0% /sys/fs/cgroup
 none                5120        0      5120   0% /run/lock
-none             4050904    10148   4040756   1% /run/shm
+none             4050904    11912   4038992   1% /run/shm
 none              102400       36    102364   1% /run/user
 
