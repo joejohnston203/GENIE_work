@@ -80,7 +80,6 @@
    <config alg="genie::CharmHadronization">          CharmHadronization.xml          </config>
 
    <!-- ****** CONFIGURATION FOR PARTON DENSITY FUNCTION ALGORITHMS ****** -->
-   <config alg="genie::GRV98LO">                     GRV98LO.xml                     </config>
    <config alg="genie::PDFLIB">                      PDFLIB.xml                      </config>
    <config alg="genie::BYPDF">                       BYPDF.xml                       </config>
 
@@ -111,7 +110,6 @@
    <config alg="genie::AlamSimoAtharVacasSKXSec">    AlamSimoAtharVacasSKXSec.xml    </config>   
    <config alg="genie::IMDXSec">                     IMDXSec.xml                     </config>
    <config alg="genie::RESXSec">                     RESXSec.xml                     </config>
-   <config alg="genie::MECXSec">                     MECXSec.xml                     </config>
    <config alg="genie::NuElectronXSec">              NuElectronXSec.xml              </config>
 
    <!--  ****** CONFIGURATION FOR XSEC ALGORITHMS ****** -->
@@ -120,6 +118,7 @@
    <config alg="genie::BergerSehgalCOHPiPXSec2015">         BergerSehgalCOHPiPXSec2015.xml         </config> 
    <config alg="genie::BergerSehgalFMCOHPiPXSec2015">       BergerSehgalFMCOHPiPXSec2015.xml       </config> 
    <config alg="genie::LwlynSmithQELCCPXSec">               LwlynSmithQELCCPXSec.xml               </config>
+   <config alg="genie::NievesQELCCPXSec">                   NievesQELCCPXSec.xml                   </config>
    <config alg="genie::QPMDISPXSec">                        QPMDISPXSec.xml                        </config>
    <config alg="genie::AivazisCharmPXSecLO">                AivazisCharmPXSecLO.xml                </config>
    <config alg="genie::SlowRsclCharmDISPXSecLO">            SlowRsclCharmDISPXSecLO.xml            </config>
@@ -140,8 +139,7 @@
    <config alg="genie::ReinSehgalRESXSec">                  ReinSehgalRESXSec.xml                  </config>
    <config alg="genie::ReinSehgalSPPXSec">                  ReinSehgalSPPXSec.xml                  </config>
    <config alg="genie::H3AMNuGammaPXSec">                   H3AMNuGammaPXSec.xml                   </config>
-   <config alg="genie::EmpiricalMECPXSec2015">              EmpiricalMECPXSec2015.xml              </config>
-   <config alg="genie::NievesSimoVacasMECPXSec2016">        NievesSimoVacasMECPXSec2016.xml        </config>
+   <config alg="genie::MECPXSec">                           MECPXSec.xml                           </config>
    <config alg="genie::RosenbluthPXSec">                    RosenbluthPXSec.xml                    </config>
    <config alg="genie::StrumiaVissaniIBDPXSec">             StrumiaVissaniIBDPXSec.xml             </config>
    <config alg="genie::DummyPXSec">                         Default.xml                            </config>

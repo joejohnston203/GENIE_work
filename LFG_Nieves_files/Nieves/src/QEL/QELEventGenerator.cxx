@@ -39,6 +39,7 @@
 #include "GHEP/GHepRecord.h"
 #include "GHEP/GHepParticle.h"
 #include "GHEP/GHepFlags.h"
+#include "LlewellynSmith/NievesQELException.h"
 #include "Messenger/Messenger.h"
 #include "Nuclear/NuclearModelI.h"
 #include "Numerical/RandomGen.h"
@@ -294,6 +295,11 @@ void QELEventGenerator::ProcessEventRecord(GHepRecord * evrec) const
 //        interaction->KinePtr()->SetFSLeptonP4(lepton);
 //        interaction->KinePtr()->SetHadSystP4(outNucleon);
 //
+
+	// store the struck nucleon position for use by the xsec method
+	double hitNucPos = evrec->HitNucleon()->X4()->Vect().Mag();
+	interaction->InitStatePtr()->TgtPtr()->SetHitNucPosition(hitNucPos);
+	
         double xsec = this->ComputeXSec(interaction, costheta, phi);
 
         // select/reject event
@@ -334,10 +340,10 @@ void QELEventGenerator::ProcessEventRecord(GHepRecord * evrec) const
           evrec->AddParticle(interaction->RecoilNucleonPdg(), kIStHadronInTheNucleus, evrec->HitNucleonPosition(),-1,-1,-1, interaction->KinePtr()->HadSystP4(), x4l); // Set status to kIStHadronInTheNucleus to enable hadron transport
 
 	  // Store struck nucleon momentum and binding energy
-	  GHepParticle * nucleon = evrec->HitNucleon();
-	  assert(nucleon);
-	  nucleon->SetMomentum(evrec->Summary()->InitStatePtr()->TgtPtr()->HitNucP4());
-	  nucleon->SetRemovalEnergy(Eb);
+	  TLorentzVector p4ptr = interaction->InitStatePtr()->TgtPtr()->HitNucP4();
+	  LOG("QELEvent",pNOTICE) << "pn: " << p4ptr.X() << ", " <<p4ptr.Y() << ", " <<p4ptr.Z() << ", " <<p4ptr.E();
+	  nucleon->SetMomentum(p4ptr);
+	  nucleon->SetRemovalEnergy(fEb);
 
           // add a recoiled nucleus remnant
           this->AddTargetNucleusRemnant(evrec);
@@ -438,7 +444,7 @@ void QELEventGenerator::LoadConfig(void)
 {
 // Load sub-algorithms and config data to reduce the number of registry
 // lookups
-  AlgConfigPool * confp = AlgConfigPool::Instance();
+  //AlgConfigPool * confp = AlgConfigPool::Instance();
   //const Registry * gc = confp->GlobalParameterList();
   
   fNuclModel = 0;
@@ -592,7 +598,7 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
   //if (fNuclModel->Momentum3().X()){std::cout << "yes!" << std::endl;}
    
   TVector3 p3 = fNuclModel->Momentum3();
-  double w = fNuclModel->RemovalEnergy();
+  //double w = fNuclModel->RemovalEnergy();
   //std::cout << "found the nuclear model and retrieved the binding energy and Fermi momentum" << std::endl;
 
   double xsec = 0;
@@ -607,7 +613,7 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
   //std::cout << "found the nucleon masses..." << std::endl;
   
   double EN_offshell(0);
-  FermiMoverInteractionType_t interaction_type = fNuclModel->GetFermiMoverInteractionType(); // check the nuclear model essentially
+  //FermiMoverInteractionType_t interaction_type = fNuclModel->GetFermiMoverInteractionType(); // check the nuclear model essentially
   //if  (interaction_type == kFermiMoveBenharSF){
   //EN_offshell = Mn - w; 
   //std::cout << "Using FermiMoveBenharSF and defined energy" << std::endl;
@@ -681,7 +687,13 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
   interaction->KinePtr()->SetQ2(Q2, true);
   // Compute the QE cross section for the current kinematics ("~" variables)
   interaction->InitStatePtr()->TgtPtr()->HitNucP4Ptr()->SetE(EN_onshell);
-  xsec = fXSecModel->XSec(interaction, kPSFullDiffQE); // 
+  try{
+    xsec = fXSecModel->XSec(interaction, kPSFullDiffQE); // 
+  }catch(exceptions::NievesQELException e){
+    LOG("QELEvent",pINFO) << e;
+    LOG("QELEvent",pINFO) << "setting xsec = 0";
+    xsec = 0.0;
+  }
   interaction->InitStatePtr()->TgtPtr()->HitNucP4Ptr()->SetE(EN_offshell);
 
   // Multiply xsec by Jacobian

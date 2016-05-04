@@ -7,6 +7,7 @@
 #pragma link C++ namespace genie;
 
 #pragma link C++ class genie::LwlynSmithQELCCPXSec;
+#pragma link C++ class genie::NievesQELCCPXSec;
 #pragma link C++ class genie::LwlynSmithFFCC;
 #pragma link C++ class genie::LwlynSmithFFNC;
 #pragma link C++ class genie::LwlynSmithFF;
