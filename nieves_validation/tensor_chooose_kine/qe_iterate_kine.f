@@ -11,32 +11,25 @@
                 read(5,*) rmaxfrac
 
 
-       write(60,1) 'QE from  Nieves et al.,PRC 70,055503 (2004)', 
-     f             'arXiv:1106.5374 [hep-ph]' 
-                write(60,2) 'ein (gev) =', eingev 
-                write(60,13)'units diff cross section', 
-     f        '[10^{-38} cm^2/GeV/num_of_active_nucleons (N or Z)]'
-       write(60,12)'Tlepton (GeV), coslepton,   MA(GeV), RPA (0/1),', 
-     f      'dsigma/dTlepton/dcoslepton' 
- 
        delta = (eingev-0.025)/100.d0
        do it = 0,100
           tmugev = it*delta
           
           call amunu_calc(eingev,tmugev,cost,xmagev,ipol,
-     f         rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00)
+     f      rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00,xlind)
           
 c     Print Q2, form factors, tensor elts
 c     No header is printed because this file is not meant to be read. A
 c     script will label and plot the results
-          
-          write(61,15) -q2*hbarc**2*1d-6,q0*hbarc*1d-3,dq*hbarc*1d-3,
-     f         axx*hbarc**2*1d-6,azz*hbarc**2*1d-6,a0z*hbarc**2*1d-6,
-     f         a00*hbarc**2*1d-6,axy*hbarc**2*1d-6,
-     f         fact,facl,f00
-          
+          if (abs(xlind).gt.1.d-10) then  
+             hbarc = 197.3269602d0
+             write(61,15) -q2*hbarc**2*1d-6,q0*hbarc*1d-3,dq*hbarc*1d-3,
+     f            axx*hbarc**2*1d-6,azz*hbarc**2*1d-6,a0z*hbarc**2*1d-6,
+     f            a00*hbarc**2*1d-6,axy*hbarc**2*1d-6,
+     f            fact,facl,f00,tmugev*hbarc*1d-3,xlind
+          end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,
-     f         e15.7,e15.7,e15.7,e15.7,e15.7)
+     f         e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
        end do
           
  13             format ('#', 1x, a,1x,a)
@@ -49,7 +42,7 @@ c     script will label and plot the results
                end
 ******************************************************************************
       subroutine amunu_calc(eingev,tmugev,cost,xmagev,ipol,
-     f            rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00)
+     f        rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00,xlind)
         IMPLICIT REAL*8 (A-H,O-T,V-Z)
         IMPLICIT COMPLEX*16 (U)
         DIMENSION WD(5) ! funciones de respuesta
@@ -209,7 +202,8 @@ c               write(40,*)r,vcd(ir)*hbarc
 
              call secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,ieta,
      f        rmax,mn,mnr,wd,sig,ipol,rmaxfrac,axx,azz,a0z,a00,axy,
-     f        q2,fact,facl,f00)
+     f            q2,fact,facl,f00,xlind)
+
              else
                 axx=0.
                 azz=0.
@@ -217,7 +211,7 @@ c               write(40,*)r,vcd(ir)*hbarc
                 a00=0.
                 axy=0.
              end if
- 
+
 100          FORMAT(A)
 
 
@@ -229,7 +223,7 @@ c               write(40,*)r,vcd(ir)*hbarc
 
            subroutine secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,
      f     ieta,rmax,mn,mnr,wd,sig,ipol,rmaxfrac,axx,azz,a0z,a00,axy,
-     f     q2,fact,facl,f00)
+     f     q2,fact,facl,f00,xlind)
         IMPLICIT REAL*8 (A-H,O-T,V-Z)
         IMPLICIT COMPLEX*16 (U)
  
@@ -239,14 +233,15 @@ c               write(40,*)r,vcd(ir)*hbarc
      f                coscabibbo
  
              Q2=Q0**2-DQ**2
-             factor = pout*eout*dma*(coscabibbo*GF0)**2/(dpi**2)
+
+            factor = pout*eout*dma*(coscabibbo*GF0)**2/(dpi**2)
              cte = dmlepton**2/(eout*(eout+pout))
              sin12 = sin(theta/2)  
              cos12 = dsqrt(1.d0 - sin12**2)
              coseno = cos12**2-sin12**2             
 
        CALL WSELF(ILIN,Q0,dq,coseno,Q2,RMAX,MN,mnr,WD,ipol,eout,pin,
-     f  ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00)
+     f  ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00,xlind)
 
              return
              end
@@ -257,7 +252,7 @@ c               write(40,*)r,vcd(ir)*hbarc
 
 
          subroutine WSELF(ILIN,Q0,dq,coseno,Q2,RMAX,MN,mnr,WD,ipol,
-     f       eout,pin,ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00)
+     f eout,pin,ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00,xlind)
 
 
 ******* TODAS LAS UNIDADES EN FMS; Q0 Y DQ DEFINEN EL4-MOMENTO DEL FOTON
