@@ -70,6 +70,9 @@ private:
   bool                         fRPA;              ///< use RPA corrections
   bool                         fCoulomb;          ///< use Coulomb corrections
   bool                         fPrintData;        ///< print data
+  bool                         fPrintTensors;     ///< print tensors
+  TString                      fTensorsOutFile;   ///< file to print tensors to
+  void PrintTensorsIterateKinematics(const Interaction* i) const;
 
   const NuclearModelI*         fNuclModel;        ///< Nuclear Model for integration
   // Detect whether the nuclear model is local Fermi gas, and store
@@ -136,7 +139,6 @@ private:
 		    int tgt_pdgc, int A, int Z, int N, 
 		    bool hitNucIsProton) const;
 
-  void PrintTensorsIterateKinematics() const;
 };
 
 }       // genie namespace

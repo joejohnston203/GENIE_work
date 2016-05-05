@@ -16,20 +16,12 @@
           tmugev = it*delta
           
           call amunu_calc(eingev,tmugev,cost,xmagev,ipol,
-     f      rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00,xlind)
+     f      rmaxfrac)
           
 c     Print Q2, form factors, tensor elts
 c     No header is printed because this file is not meant to be read. A
 c     script will label and plot the results
-          if (abs(xlind).gt.1.d-10) then  
-             hbarc = 197.3269602d0
-             write(61,15) -q2*hbarc**2*1d-6,q0*hbarc*1d-3,dq*hbarc*1d-3,
-     f            axx*hbarc**2*1d-6,azz*hbarc**2*1d-6,a0z*hbarc**2*1d-6,
-     f            a00*hbarc**2*1d-6,axy*hbarc**2*1d-6,
-     f            fact,facl,f00,tmugev*hbarc*1d-3,xlind
-          end if
- 15       format(e15.7,e15.7,e15.7,e15.7,e15.7,
-     f         e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
+
        end do
           
  13             format ('#', 1x, a,1x,a)
@@ -42,7 +34,7 @@ c     script will label and plot the results
                end
 ******************************************************************************
       subroutine amunu_calc(eingev,tmugev,cost,xmagev,ipol,
-     f        rmaxfrac,axx,azz,a0z,a00,axy,q2,q0,dq,fact,facl,f00,xlind)
+     f        rmaxfrac)
         IMPLICIT REAL*8 (A-H,O-T,V-Z)
         IMPLICIT COMPLEX*16 (U)
         DIMENSION WD(5) ! funciones de respuesta
@@ -128,7 +120,9 @@ c*******************************************************************
         ncxro=0 ! normaliza densidad
 
  
-         lc = 0 ! 0 desconvoluciona cualquier otro numero no
+c         lc = 0 ! 0 desconvoluciona cualquier otro numero no
+c     CONVOLUTION TURNED OFF
+         lc = 1
          call convolucion (dncxp,dnca0p,dncxn,dnca0n,klave,lc,
      f   dxp,da0p,dxn,da0n)
 
@@ -201,8 +195,7 @@ c               write(40,*)r,vcd(ir)*hbarc
 
 
              call secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,ieta,
-     f        rmax,mn,mnr,wd,sig,ipol,rmaxfrac,axx,azz,a0z,a00,axy,
-     f            q2,fact,facl,f00,xlind)
+     f        rmax,mn,mnr,wd,sig,ipol,rmaxfrac)
 
              else
                 axx=0.
@@ -222,8 +215,7 @@ c               write(40,*)r,vcd(ir)*hbarc
 
 
            subroutine secciondif(q0,dq,theta,ein,pin,eout,pout,ilin,
-     f     ieta,rmax,mn,mnr,wd,sig,ipol,rmaxfrac,axx,azz,a0z,a00,axy,
-     f     q2,fact,facl,f00,xlind)
+     f     ieta,rmax,mn,mnr,wd,sig,ipol,rmaxfrac)
         IMPLICIT REAL*8 (A-H,O-T,V-Z)
         IMPLICIT COMPLEX*16 (U)
  
@@ -241,7 +233,7 @@ c               write(40,*)r,vcd(ir)*hbarc
              coseno = cos12**2-sin12**2             
 
        CALL WSELF(ILIN,Q0,dq,coseno,Q2,RMAX,MN,mnr,WD,ipol,eout,pin,
-     f  ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00,xlind)
+     f  ieta,rmaxfrac)
 
              return
              end
@@ -252,7 +244,7 @@ c               write(40,*)r,vcd(ir)*hbarc
 
 
          subroutine WSELF(ILIN,Q0,dq,coseno,Q2,RMAX,MN,mnr,WD,ipol,
-     f eout,pin,ieta,rmaxfrac,axx,azz,a0z,a00,axy,fact,facl,f00,xlind)
+     f eout,pin,ieta,rmaxfrac)
 
 
 ******* TODAS LAS UNIDADES EN FMS; Q0 Y DQ DEFINEN EL4-MOMENTO DEL FOTON
@@ -494,6 +486,17 @@ c          facl=facl*delfacl
           call amunu_pol(axx,azz,a0z,a00,axy,tulin,rulin,q2,q0,dq,f1v,
      f                  xmuf2v,gaq,gpq,fact,facl,f00,ipol)
 
+          if (abs(xlind).gt.1.d-10) then  
+             hbarc = 197.3269602d0
+             write(61,15) -q2*hbarc**2*1d-6,q0*hbarc*1d-3,dq*hbarc*1d-3,
+     f            axx*hbarc**2*1d-6,azz*hbarc**2*1d-6,a0z*hbarc**2*1d-6,
+     f            a00*hbarc**2*1d-6,axy*hbarc**2*1d-6,
+     f            fact,facl,f00,(eout-dmf)*hbarc*1d-3,
+     f            xlind*hbarc**2*1d-6,
+     f            f1v,xmuf2v,gaq,gpq*1d3/hbarc
+          end if
+ 15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
+     f         e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
 
 
             RETURN

@@ -79,6 +79,15 @@ NievesQELCCPXSec::~NievesQELCCPXSec()
 double NievesQELCCPXSec::XSec(const Interaction * interaction,
 		       KinePhaseSpace_t kps) const
 {
+  // The first time this method is called, output tensor elements and other
+  // kinmeatics variables for various kinematics. This can the be compared
+  // to Nieves' fortran code for validation purposes
+  if(fPrintTensors){
+    PrintTensorsIterateKinematics(interaction);
+    fPrintTensors = false;
+  }
+  // Resume normal execution of the XSec code
+
   if(! this -> ValidProcess    (interaction) ) return 0.;
   if(! this -> ValidKinematics (interaction) ) return 0.;
 
@@ -211,7 +220,7 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
   bool hitNucIsProton = pdg::IsProton(target->HitNucPdg());
   double LmunuAnumuResult = LmunuAnumu(*neutrinoMom,inNucleonMom,
 				       leptonMom,outNucleonMom,
-				       M,is_neutrino,r,tgtIsNucleus,
+				       M,r,is_neutrino,tgtIsNucleus,
 				       tgt_pdgc,A,Z,N,hitNucIsProton);
   // double LmunuAnumuResult = LmunuAnumu(
 
@@ -967,8 +976,7 @@ void NievesQELCCPXSec::LoadConfig(void)
   LOG("Nieves",pNOTICE) << "RPA=" << fRPA << ", useCoulomb=" << fCoulomb;
 
   fPrintData = fConfig->GetBoolDef("PrintData",false);
-  if(fPrintData)
-    PrintTensorsIterateKinematics();
+  fPrintTensors = fPrintData;
 
   // Get nuclear model for use in Integral()
   RgKey nuclkey = "IntegralNuclearModel";
@@ -1612,6 +1620,9 @@ int NievesQELCCPXSec::leviCivita(int input[]) const{
   }  
 }
 //____________________________________________________________________________
+// neutrinoMom and leptonMom only affect the leptonic tensor
+// inNucleonMom and outNucleonMom are only used to calculate q
+// Nieves' averages for intial nucleon momenta are used in all other places
 double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 				    const TLorentzVector inNucleonMom,
 				    const TLorentzVector leptonMom,
@@ -1863,6 +1874,22 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
     ffstream << "\n";
     ffstream.close();
   }
+  if(fPrintTensors){
+    double tmugev = leptonMom.X(); // tmu was stored here before
+  // Print Q2, form factors, and tensor elts
+    ofstream ffstream;
+    ffstream.open(fTensorsOutFile, std::ios_base::app);
+    ffstream << -q2 << "\t" << q[0] << "\t" << dq
+	     << "\t" << axx << "\t" << azz << "\t" << a0z
+	     << "\t" << a00 << "\t" << axy << "\t"
+	     << CT << "\t" << CL << "\t" << CN << "\t"
+	     << tmugev << "\t" << imU << "\t";
+	     << F1V << "\t" << xiF2V << "\t" 
+	     << FA << "\t" << Fp << "\t";
+    ffstream << "\n";
+    ffstream.close();
+  }
+
 
   // Since the real parts of A and L are both symmetric and the imaginary
   // parts are antisymmetric, the contraction should be real
@@ -1873,7 +1900,79 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
   return real(sum);
 }
 //____________________________________________________________________________
-void NievesQELCCPXSec::PrintTensorsIterateKinematics() const {
+void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* i) 
+  const {
+  Interaction * interaction = new Interaction(*i); // copy i
+  
+  // These should be set by the user- eg read these from file
+  double ein = 1.0;
+  double ctl = 0.0;
+  double rmaxfrac = 0.0;
+
+  fTensorsOutFile = "genie_output.txt";
+
+  // Calculate radius
+  // CARBON
+  bool klave = true;
+  double rp = 1.692;
+  double ap = 1.082;
+  double rn = 1.692;
+  double an = 1.082
+  if(!klave)
+    rmax = TMath::Max(rp,rn) + 9.25*TMath::Max(ap,an);
+  else
+    rmax = TMath::Sqrt(20.0)*TMath::Max(rp,rn);
+  double r = rmax *  rmaxfrac;
+
+  // Relevant objects and parameters
+  const Kinematics &   kinematics = interaction -> Kine();
+  const InitialState & init_state = interaction -> InitState();
+  const Target & target = init_state.Tgt();
+
+  double ml = interaction->FSPrimLepton()->Mass();
+
+  // Paramters required for LmunuAnumu
+  bool is_neutrino = pdg::IsNeutrino(init_state.ProbePdg());
+  bool tgtIsNucleus = target.IsNucleus();
+  int tgt_pdgc = target.HitNucPdg();
+  int A = target.A();
+  int Z = target.Z();
+  int N = target.N();
+  bool hitNucIsProton = pdg::IsProton(target->HitNucPdg());
+
+  // Iterate over lepton energy (which then affects q, which is passed to
+  // LmunuAnumu using in and out NucleonMom
+  double delta = (ein-0.025)/100.d0;
+  for(int i=0;i<100;i++){
+    double tmugev = it*delta;
+    double eout = ml + tmugev;
+    double pout = TMath::Sqrt(eout*eout-ml*ml);
+
+    double pin = TMath::Sqrt(eingev*eingev); // Assume massless neutrinos
+
+    double qvalue = .016827; // Units of GeV
+    double q0 = ein-eout-qvalue;
+    double dq = TMath::Sqrt(pin*pin+pou*pou-2.0*ctl*pin*pout);
+    double q2 = q0*q0-dq*dq;
+    interaction->KinePtr()->SetQ2(-Q2);
+
+    // Right now inNucleonMom and outNucleonMom are only used to calulate 
+    // q = outNucleonMom - inNucleonMom. I can thus provide the calculated
+    // values using outNucleonMom and inNucleonMom and putting q in the
+    // z direction, as Nieves does in his paper
+    TLorentzVector inNucleonMom(0,0,0,0);
+    TLorentzVector outNucleonMom(0,0,dq,q0);
+
+    // neutrinoMom and leptonMom only directly affect the leptonic tensor, which
+    // we are not calculating now. Set to large values so we see if they
+    // do make a difference (which would be bad).
+    TLorentzVector * neutrinoMom = new TLorentzVector(999999,999999,999999,999999);
+    TLorentzVector * leptonMom = new TLorentzVector(tmugev,999999,999999,999999);
+
+
+    fFormFactors.Calculate(interaction);
+    LmunuAnumu(*neutrinoMom,inNucleonMom,leptonMom,outNucleonMom,
+	       M,r,is_neutrino,tgtIsNucleus,tgt_pdgc,A,Z,N,hitNucIsProton);
   return;
 }
 //____________________________________________________________________________

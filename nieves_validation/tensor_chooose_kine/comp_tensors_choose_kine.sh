@@ -22,22 +22,26 @@ function comp_tensors_choose_kine() {
     autoGNUPlot "$files" 'pc_'$3'_q2_CT.png' 1 9 'Q2' 'CT' 'Q2 vs CT' # fact
     autoGNUPlot "$files" 'pc_'$3'_q2_CL.png' 1 10 'Q2' 'CL' 'Q2 vs CL' # facl
     autoGNUPlot "$files" 'pc_'$3'_q2_CN.png' 1 11 'Q2' 'CN' 'Q2 vs CN' # f00
-    autoGNUPlot "$files" 'pc_'$3'_q2_Tl.png' 1 12 'Q2' 'Tl' 'Q2 vs Tl'
-    autoGNUPlot "$files" 'pc_'$3'_q2_xlind.png' 1 13 'Q2' 'xlind' 'Q2 vs xlind'
+    autoGNUPlot "$files" 'kine_'$3'_q2_Tl.png' 1 12 'Q2' 'Tl' 'Q2 vs Tl'
+    autoGNUPlot "$files" 'kine_'$3'_q2_xlind.png' 1 13 'Q2' 'xlind' 'Q2 vs xlind'
+    autoGNUPlot "$files" 'ff_'$3'_q2_f1v.png' 1 14 'Q2' 'f1v' 'Q2 vs f1v'   
+    autoGNUPlot "$files" 'ff_'$3'_xmuf2v.png' 1 15 'Q2' 'xmuf2v' 'Q2 vs xmuf2v'
+    autoGNUPlot "$files" 'ff_'$3'_gaq.png' 1 16 'Q2' 'gaq' 'Q2 vs gaq'
+    autoGNUPlot "$files" 'ff_'$3'_gpq.png' 1 17 'Q2' 'gpq' 'Q2 vs gpq'
 
     # Make plots vs tmugev
-    autoGNUPlot "$files" 'kine_'$3'_Tl_q0.png' 12 2 'Tmu' 'q0' 'Tmu vs q0'
-    autoGNUPlot "$files" 'kine_'$3'_Tl_dq.png' 12 3 'Tmu' 'dq' 'Tmu vs dq'
-    autoGNUPlot "$files" 'Amunu_'$3'_Tl_axx.png' 12 4 'Tmu' 'axx' 'Tmu vs axx'
-    autoGNUPlot "$files" 'Amunu_'$3'_Tl_azz.png' 12 5 'Tmu' 'azz' 'Tmu vs azz'
-    autoGNUPlot "$files" 'Amunu_'$3'_Tl_a0z.png' 12 6 'Tmu' 'a0z' 'Tmu vs a0z'
-    autoGNUPlot "$files" 'Amunu_'$3'_Tl_a00.png' 12 7 'Tmu' 'a00' 'Tmu vs a00'
-    autoGNUPlot "$files" 'Amunu_'$3'_Tl_axy.png' 12 8 'Tmu' 'axy' 'Tmu vs axy'
-    autoGNUPlot "$files" 'pc_'$3'_Tl_CT.png' 12 9 'Tmu' 'CT' 'Tmu vs CT' # fact
-    autoGNUPlot "$files" 'pc_'$3'_Tl_CL.png' 12 10 'Tmu' 'CL' 'Tmu vs CL' # facl
-    autoGNUPlot "$files" 'pc_'$3'_Tl_CN.png' 12 11 'Tmu' 'CN' 'Tmu vs CN' # f00
-    autoGNUPlot "$files" 'pc_'$3'_Tl_q2.png' 12 1 'Tl' 'Q2' 'Tl vs Q2'
-    autoGNUPlot "$files" 'pc_'$3'_Tl_xlind.png' 12 13 'Tl' 'xlind' 'Tl vs xlind'
+    #autoGNUPlot "$files" 'kine_'$3'_Tl_q0.png' 12 2 'Tmu' 'q0' 'Tmu vs q0'
+    #autoGNUPlot "$files" 'kine_'$3'_Tl_dq.png' 12 3 'Tmu' 'dq' 'Tmu vs dq'
+    #autoGNUPlot "$files" 'Amunu_'$3'_Tl_axx.png' 12 4 'Tmu' 'axx' 'Tmu vs axx'
+    #autoGNUPlot "$files" 'Amunu_'$3'_Tl_azz.png' 12 5 'Tmu' 'azz' 'Tmu vs azz'
+    #autoGNUPlot "$files" 'Amunu_'$3'_Tl_a0z.png' 12 6 'Tmu' 'a0z' 'Tmu vs a0z'
+    #autoGNUPlot "$files" 'Amunu_'$3'_Tl_a00.png' 12 7 'Tmu' 'a00' 'Tmu vs a00'
+    #autoGNUPlot "$files" 'Amunu_'$3'_Tl_axy.png' 12 8 'Tmu' 'axy' 'Tmu vs axy'
+    #autoGNUPlot "$files" 'pc_'$3'_Tl_CT.png' 12 9 'Tmu' 'CT' 'Tmu vs CT' # fact
+    #autoGNUPlot "$files" 'pc_'$3'_Tl_CL.png' 12 10 'Tmu' 'CL' 'Tmu vs CL' # facl
+    #autoGNUPlot "$files" 'pc_'$3'_Tl_CN.png' 12 11 'Tmu' 'CN' 'Tmu vs CN' # f00
+    #autoGNUPlot "$files" 'pc_'$3'_Tl_q2.png' 12 1 'Tl' 'Q2' 'Tl vs Q2'
+    #autoGNUPlot "$files" 'pc_'$3'_Tl_xlind.png' 12 13 'Tl' 'xlind' 'Tl vs xlind'
 }
 
 # ---------------------------------------------------------------------------
