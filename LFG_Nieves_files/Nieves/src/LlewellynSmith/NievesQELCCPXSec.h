@@ -70,8 +70,8 @@ private:
   bool                         fRPA;              ///< use RPA corrections
   bool                         fCoulomb;          ///< use Coulomb corrections
   bool                         fPrintData;        ///< print data
-  bool                         fPrintTensors;     ///< print tensors
-  TString                      fTensorsOutFile;   ///< file to print tensors to
+  mutable bool                fPrintTensors;     ///< print tensors
+  mutable TString             fTensorsOutFile;   ///< file to print tensors to
   void PrintTensorsIterateKinematics(const Interaction* i) const;
 
   const NuclearModelI*         fNuclModel;        ///< Nuclear Model for integration
@@ -131,12 +131,13 @@ private:
   //are equal
   int leviCivita(int input[]) const;
 
-  double LmunuAnumu(const TlorentzVector neutrinoMom,
+  double LmunuAnumu(const TLorentzVector neutrinoMom,
 		    const TLorentzVector inNucleonMom,
 		    const TLorentzVector leptonMom,
 		    const TLorentzVector outNucleonMom,
-		    double M, double r, bool is_neutrino, boot tgtIsNucleus,
-		    int tgt_pdgc, int A, int Z, int N, 
+		    double M, double r, bool is_neutrino, 
+		    bool tgtIsNucleus,
+		    int tgt_pdgc, int A, int Z, int N,
 		    bool hitNucIsProton) const;
 
 };
