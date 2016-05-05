@@ -312,6 +312,8 @@ c            correccion del potencial coulombiano
               DKFN=(3.D0*DPI*DPI*DRON)**(1.D0/3.D0)
 
               if (ipol.eq.1) then 
+c     Coulomb effects turned off for now
+                 ir = rmaxfrac*nr
                  vc = vcd(ir)
  
               epro = dsqrt(dmnu**2+dkfp**2)              
@@ -331,7 +333,7 @@ c            correccion del potencial coulombiano
                endif 
  
                pout = dsqrt(eout**2-dmf**2)
-               dq =DSQRT(PIN**2+POUTlocal**2-2.D0*coseno*PIN*POUTlocal) 
+c               dq =DSQRT(PIN**2+POUTlocal**2-2.D0*coseno*PIN*POUTlocal) 
                fema=eoutlocal*poutlocal/(eout*pout)
 
               q2=(q0**2-dq**2)
@@ -493,10 +495,24 @@ c          facl=facl*delfacl
      f            a00*hbarc**2*1d-6,axy*hbarc**2*1d-6,
      f            fact,facl,f00,(eout-dmf)*hbarc*1d-3,
      f            xlind*hbarc**2*1d-6,
-     f            f1v,xmuf2v,gaq,gpq*1d3/hbarc
+     f            f1v,xmuf2v,gaq,gpq*1d3/hbarc,
+     f            tulin(0)*hbarc*1d-3,tulin(1)*hbarc*1d-3,
+     f            tulin(2)*hbarc*1d-3,tulin(3)*hbarc*1d-3,
+     f            rulin(0,0)*hbarc**2*1d-6,rulin(0,1)*hbarc**2*1d-6,
+     f            rulin(0,2)*hbarc**2*1d-6,rulin(0,3)*hbarc**2*1d-6,
+     f            rulin(1,0)*hbarc**2*1d-6,rulin(1,1)*hbarc**2*1d-6,
+     f            rulin(1,2)*hbarc**2*1d-6,rulin(1,3)*hbarc**2*1d-6,
+     f            rulin(2,0)*hbarc**2*1d-6,rulin(2,1)*hbarc**2*1d-6,
+     f            rulin(2,2)*hbarc**2*1d-6,rulin(2,3)*hbarc**2*1d-6,
+     f            rulin(3,0)*hbarc**2*1d-6,rulin(3,1)*hbarc**2*1d-6,
+     f            rulin(3,2)*hbarc**2*1d-6,rulin(3,3)*hbarc**2*1d-6,
+     f            drop,dron,dro,dro0,-q2old*hbarc**2*1d-6
           end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f         e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
+     f      e15.7,e15.7,e15.7,e15.7,e15.7)
 
 
             RETURN

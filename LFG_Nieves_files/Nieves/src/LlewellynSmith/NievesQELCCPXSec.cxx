@@ -1165,6 +1165,12 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
     double rhon = nuclear::Density(r,A)*N;
     double rho = rhop + rhon;
     double rho0 = A*nuclear::Density(0,A);
+
+    // TESTING CODE
+    rhopStored = rhop;
+    rhonStored = rhon;
+    rhoStored = rho;
+    rho0Stored = rho0;
     
     double fPrime = 0.33*rho/rho0+0.45*(1-rho/rho0);
     
@@ -1644,6 +1650,7 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
   const TLorentzVector qTildeP4 = outNucleonMom-inNucleonMom;
   double q2 = qTildeP4.Mag2();
 
+
   const double q[4] = {qTildeP4.E(),qTildeP4.Px(),qTildeP4.Py(),qTildeP4.Pz()};
   double q0 = q[0];
   double dq = TMath::Sqrt(TMath::Power(q[1],2)+
@@ -1878,7 +1885,20 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 	     << CT << "\t" << CL << "\t" << CN << "\t"
 	     << tmugev << "\t" << imU << "\t"
 	     << F1V << "\t" << xiF2V << "\t" 
-	     << FA << "\t" << Fp << "\t";
+	     << FA << "\t" << Fp << "\t"
+	     << tulin[0] << "\t"<< tulin[1] << "\t"
+	     << tulin[2] << "\t"<< tulin[3] << "\t"
+	     << rulin[0][0]<< "\t"<< rulin[0][1]<< "\t"
+	     << rulin[0][2]<< "\t"<< rulin[0][3]<< "\t"
+	     << rulin[1][0]<< "\t"<< rulin[1][1]<< "\t"
+	     << rulin[1][2]<< "\t"<< rulin[1][3]<< "\t"
+	     << rulin[2][0]<< "\t"<< rulin[2][1]<< "\t"
+	     << rulin[2][2]<< "\t"<< rulin[2][3]<< "\t"
+	     << rulin[3][0]<< "\t"<< rulin[3][1]<< "\t"
+	     << rulin[3][2]<< "\t"<< rulin[3][3]<< "\t"
+	     << rhopStored << "\t" << rhonStored << "\t"
+	     << rhoStored << "\t" << rho0Stored << "\t" << q2Orig << "\t";
+
     ffstream << "\n";
     ffstream.close();
   }else  if(fPrintData){
@@ -1961,6 +1981,7 @@ void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in)
     double dq = TMath::Sqrt(pin*pin+pout*pout-2.0*ctl*pin*pout);
     double q2 = q0*q0-dq*dq;
     interaction->KinePtr()->SetQ2(-q2);
+    q2Orig = q2;
 
     // Right now inNucleonMom and outNucleonMom are only used to calulate 
     // q = outNucleonMom - inNucleonMom. I can thus provide the calculated
