@@ -263,9 +263,6 @@ double LwlynSmithFF::tau(const Interaction * interaction) const
   const Kinematics &   kinematics = interaction->Kine();
   const InitialState & init_state = interaction->InitState();
   double q2     = kinematics.q2();
-  double Mnucl  = init_state.Tgt().HitNucMass();
-  double Mnucl2 = TMath::Power(Mnucl, 2);
-
   //-- calculate q^2 / (4*Mnuc^2)
   return q2/(4*Mnucl2);
 }

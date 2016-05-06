@@ -8,12 +8,16 @@ c     dSigma/dElepton. It is a modification of Nieves' qe.f code.
       
       write(6,*) 'eneutrino gev'
       read(5,*)eingev
-      write(6,*) 'xmagev/1.049, RPA (0/1), Coul (0/1)'
-      read(5,*)  xx,ipol,coul
+c      write(6,*) 'xmagev/1.049, RPA (0/1), Coul (0/1)'
+c      read(5,*)  xx,ipol,coul
 c      write(6,*) 'ctl min, ctl max'
 c      read(5,*) cosMin,cosMax
-      xmagev = xx*1.049d0
-      
+c      xmagev = xx*1.049d0
+ 
+c     Hard code genie's value for ma
+      write(6,*) 'RPA (0/1), Coul (0/1)'
+      read(5,*)  ipol,coul
+      xmagev = 0.99d0
       write(60,1) 'QE from  Nieves et al.,PRC 70,055503 (2004)', 
      f     'arXiv:1106.5374 [hep-ph]' 
       write(60,2) 'ein (gev) =', eingev 

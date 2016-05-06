@@ -4,9 +4,13 @@
 
                 write(6,*) 'eneutrino gev'
                 read(5,*)eingev
-                write(6,*)' coslepton, xmagev/1.049, RPA (0/1)'
-                read(5,*)  cost, xx,ipol
-                 xmagev = xx*1.049d0
+c                write(6,*)' coslepton, xmagev/1.049, RPA (0/1)'
+c                read(5,*)  cost, xx,ipol
+c                 xmagev = xx*1.049d0
+c               hard code xma to be the same as GENIE
+                write(6,*)' coslepton, RPA (0/1)'
+                read(5,*) cost,ipol
+                xmagev = 0.99
                 write(6,*) ' position as a fraction of RMax'
                 read(5,*) rmaxfrac
 
@@ -69,7 +73,8 @@ c     script will label and plot the results
         dmneutrino = 0.d0 / hbarc
         dmuon = 105.658357d0 / hbarc ! masa muon
         dmelectron = 0.510998902d0 / hbarc ! masa electron         
-        dmnu = 940.d0 / hbarc
+        dmnu = 939.5653d0 / hbarc
+c        dmnu = 940.d0 / hbarc
         coscabibbo=0.974d0
         GF0= 1.1664d-11*hbarc**2 ! units fm^2
         xma= xmagev*1.d3/ hbarc
@@ -346,21 +351,45 @@ c               dq =DSQRT(PIN**2+POUTlocal**2-2.D0*coseno*PIN*POUTlocal)
 c              xmassproton = 938.3d0/hbarc
 c              xmassneutron = 939.6d0/hbarc
               UYI=(0.D0,1.D0)
-              DMAGP=2.792847D0
-              DMAGN=-1.913043D0
-              FFAC=0.843D0*1.D3/hbarc
+c              DMAGP=2.792847D0
+c              DMAGN=-1.913043D0
+c             genie values
+              DMAGP=2.7930d0
+              DMAGN=-1.913042d0
+c              FFAC=0.843D0*1.D3/hbarc
+c             genie value
+              FFAC=0.84d0*1d3/hbarc
               xln=5.6d0
+
               if (ipol.eq.2) xln = 0.d0            
               GQ=1.D0/(1.D0-Q2/(FFAC*FFAC))**2
               tau = -q2/4.d0/dmnu**2
 cccccccccccccccccc              xma = 1.049*1.D3/hbarc
-              ga = 1.257d0
+c              ga = 1.257d0
+c     hard code genie parameters
+              ga = 1.267
               xmpi = 139.57d0 / hbarc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc             
-              f1v = 0.5d0*gq*(1.d0+tau*dmagp
-     f         -dmagn*xln*tau**2/(1.d0+xln*tau))/(1.d0+tau)
-              xmuf2v =0.5d0*gq*(-1.d0+dmagp
-     f         -dmagn*(1.d0+xln*tau+tau)/(1.d0+xln*tau))/(1.d0+tau)
+c              f1v = 0.5d0*gq*(1.d0+tau*dmagp
+c     f         -dmagn*xln*tau**2/(1.d0+xln*tau))/(1.d0+tau)
+c              xmuf2v =0.5d0*gq*(-1.d0+dmagp
+c     f         -dmagn*(1.d0+xln*tau+tau)/(1.d0+xln*tau))/(1.d0+tau)
+
+c     Try to match genie
+              gep = gq
+c     genie has gen = 0 for some reason...
+c              gen = -dmagn*tau/(1+xln*tau)*gep
+              gen = 0
+              gmp = dmagp*gep
+              gmn = dmagn*gep
+
+              f1p = (gep+tau*gmp)/(1+tau)
+              f1n = (gen+tau*gmn)/(1+tau)
+              f1v = 0.5d0*(f1p-f1n)
+
+              xmuf2p = (gmp-gep)/(1+tau)
+              xmuf2n = (gmn-gen)/(1+tau)
+              xmuf2v = 0.5d0*(xmuf2p-xmuf2n)
 
 
               GAQ = ga /(1.d0-Q2/xma**2)**2 
@@ -511,13 +540,14 @@ c          facl=facl*delfacl
      f            rulin(3,0)*hbarc**2*1d-6,rulin(3,1)*hbarc**2*1d-6,
      f            rulin(3,2)*hbarc**2*1d-6,rulin(3,3)*hbarc**2*1d-6,
      f            drop,dron,dro,dro0,-q2old*hbarc**2*1d-6,
-     f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0
+     f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0,
+     f            dmnu*hbarc*1d-3
           end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
 
 
             RETURN

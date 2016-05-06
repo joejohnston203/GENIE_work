@@ -23,7 +23,7 @@ function comp_tensors_choose_kine() {
     autoGNUPlot "$files" 'pc_'$3'_q2_CL.png' 1 10 'Q2' 'CL' 'Q2 vs CL' # facl
     autoGNUPlot "$files" 'pc_'$3'_q2_CN.png' 1 11 'Q2' 'CN' 'Q2 vs CN' # f00
     autoGNUPlot "$files" 'kine_'$3'_q2_Tl.png' 1 12 'Q2' 'Tl' 'Q2 vs Tl'
-    autoGNUPlot "$files" 'kine_'$3'_q2_xlind.png' 1 13 'Q2' 'xlind' 'Q2 vs xlind'
+    autoGNUPlot "$files" 'xlind_'$3'_q2_xlind.png' 1 13 'Q2' 'xlind' 'Q2 vs xlind'
     autoGNUPlot "$files" 'ff_'$3'_q2_f1v.png' 1 14 'Q2' 'f1v' 'Q2 vs f1v'   
     autoGNUPlot "$files" 'ff_'$3'_q2_xmuf2v.png' 1 15 'Q2' 'xmuf2v' 'Q2 vs xmuf2v'
     autoGNUPlot "$files" 'ff_'$3'_q2_gaq.png' 1 16 'Q2' 'gaq' 'Q2 vs gaq'
@@ -54,11 +54,12 @@ function comp_tensors_choose_kine() {
     autoGNUPlot "$files" 'dens_'$3'_q2_dron.png' 1 39 'Q2' 'dron' 'Q2 vs dron'
     autoGNUPlot "$files" 'dens_'$3'_q2_dro.png' 1 40 'Q2' 'dro' 'Q2 vs dro'
     autoGNUPlot "$files" 'dens_'$3'_q2_dro0.png' 1 41 'Q2' 'dro0' 'Q2 vs dro0'
-    autoGNUPlot "$files" 'dens_'$3'_q2_q2orig.png' 1 42 'Q2' 'q2orig' 'Q2 vs q2orig'
+    #autoGNUPlot "$files" 'kine_'$3'_q2_q2orig.png' 1 42 'Q2' 'q2orig' 'Q2 vs q2orig'
     autoGNUPlot "$files" 'xlind_'$3'_q2_kF1.png' 1 43 'Q2' 'kF1' 'Q2 vs kF1'
     autoGNUPlot "$files" 'xlind_'$3'_q2_kF2.png' 1 44 'Q2' 'kF2' 'Q2 vs kF2'
     autoGNUPlot "$files" 'xlind_'$3'_q2_c0.png' 1 45 'Q2' 'c0' 'Q2 vs c0'
     autoGNUPlot "$files" 'xlind_'$3'_q2_fPrime0.png' 1 46 'Q2' 'fPrime0' 'Q2 vs fPrime0'
+    autoGNUPlot "$files" 'xlind_'$3'_q2_M.png' 1 47 'Q2' 'M' 'Q2 vs M'
 
     # Make plots vs tmugev
     #autoGNUPlot "$files" 'kine_'$3'_Tl_q0.png' 12 2 'Tmu' 'q0' 'Tmu vs q0'

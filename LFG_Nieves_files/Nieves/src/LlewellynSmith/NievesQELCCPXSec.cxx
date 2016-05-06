@@ -1871,7 +1871,7 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 	  Amunu = a1*g[mu][nu]+
 	    a2*(rulin[mu][nu]+tulin[mu]*q[nu]/2.0+tulin[nu]*q[mu]/2.0)+
 	    iNum*a3*imaginaryPart+a4*q[mu]*q[nu];
-	  Anumu = a1*g[mu][nu]+
+	  Anumu = a1*g[mu][nu]+ 
 	    a2*(rulin[mu][nu]+tulin[mu]*q[nu]/2.0+tulin[nu]*q[mu]/2.0)-
 	    iNum*a3*imaginaryPart+a4*q[mu]*q[nu];
 	  sum += Lmunu*Anumu+Lnumu*Amunu;
@@ -1885,6 +1885,7 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
   // Print Q2, form factors, and tensor elts
     ofstream ffstream;
     ffstream.open(fTensorsOutFile, std::ios_base::app);
+    if(imU < 0){
     ffstream << -q2 << "\t" << q[0] << "\t" << dq
 	     << "\t" << axx << "\t" << azz << "\t" << a0z
 	     << "\t" << a00 << "\t" << axy << "\t"
@@ -1908,7 +1909,7 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 	     << fKF1 << "\t" << fKF2 << "\t"
 	     << fc0 << "\t" << fPrimeStored << "\t" << M << "\t";
 
-    ffstream << "\n";
+    ffstream << "\n";}
     ffstream.close();
   }else  if(fPrintData){
   // Print Q2, form factors, and tensor elts
@@ -1936,6 +1937,7 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 //____________________________________________________________________________
 void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in) 
   const {
+  std::cout << "Interating Kinematics and printing tensor elts" << std::endl;
   Interaction * interaction = new Interaction(*in); // copy in
   
   // These should be set by the user- eg read these from file
@@ -1943,7 +1945,7 @@ void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in)
   double ctl = 0.0;
   double rmaxfrac = 0.0;
 
-  fTensorsOutFile = "tensors_specific_kine.txt";
+  fTensorsOutFile = "E1_ctl0_r0.txt";
 
   // Calculate radius
   // CARBON
@@ -1990,7 +1992,7 @@ void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in)
     double dq = TMath::Sqrt(pin*pin+pout*pout-2.0*ctl*pin*pout);
     double q2 = q0*q0-dq*dq;
     interaction->KinePtr()->SetQ2(-q2);
-    q2Orig = q2;
+    q2Orig = interaction->KinePtr()->q2();
 
     // Right now inNucleonMom and outNucleonMom are only used to calulate 
     // q = outNucleonMom - inNucleonMom. I can thus provide the calculated
@@ -1999,7 +2001,7 @@ void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in)
     TLorentzVector inNucleonMom(0,0,0,0);
     TLorentzVector outNucleonMom(0,0,dq,q0);
     std::cout << "E = " << outNucleonMom.E() << ", p = " << outNucleonMom.Vect().Mag()
-	      << ", q2 = " << outNucleonMom.Mag2() << ", q2 = " << q2;
+	      << ", q2 = " << outNucleonMom.Mag2() << ", q2 = " << q2 << std::endl;
 
     // neutrinoMom and leptonMom only directly affect the leptonic tensor, which
     // we are not calculating now. Set to large values so we see if they
@@ -2012,6 +2014,8 @@ void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in)
     LmunuAnumu(*neutrinoMom,inNucleonMom,leptonMom,outNucleonMom,
 	       M,r,is_neutrino,tgtIsNucleus,tgt_pdgc,A,Z,N,hitNucIsProton);
   }
+  fPrintTensors = false;
+  std::cout << "Done Interating Kinematics and printing tensor elts" << std::endl;
   return;
 }
 //____________________________________________________________________________
