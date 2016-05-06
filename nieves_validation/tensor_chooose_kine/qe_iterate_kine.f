@@ -383,8 +383,12 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
              if (ieta.eq.1) then
               xlind=DUR(q0,DQ,DKFn,dkfp,DMNU,t0,r00)
+              fkf1=dkfn
+              fkf2=dkfp
                elseif (ieta.eq.-1) then
               xlind=DUR(q0,DQ,DKFp,dkfn,DMNU,t0,r00)
+              fkf1=dkfp
+              fkf2=dkfn
               endif
 
  
@@ -506,13 +510,14 @@ c          facl=facl*delfacl
      f            rulin(2,2)*hbarc**2*1d-6,rulin(2,3)*hbarc**2*1d-6,
      f            rulin(3,0)*hbarc**2*1d-6,rulin(3,1)*hbarc**2*1d-6,
      f            rulin(3,2)*hbarc**2*1d-6,rulin(3,3)*hbarc**2*1d-6,
-     f            drop,dron,dro,dro0,-q2old*hbarc**2*1d-6
+     f            drop,dron,dro,dro0,-q2old*hbarc**2*1d-6,
+     f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0
           end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f      e15.7,e15.7,e15.7,e15.7,e15.7)
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
 
 
             RETURN

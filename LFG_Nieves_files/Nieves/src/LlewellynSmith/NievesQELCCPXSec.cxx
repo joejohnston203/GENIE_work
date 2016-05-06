@@ -1193,6 +1193,12 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
 	kF2 = fKFTable->FindClosestKF(tgt_pdgc, kPdgProton);	
       }
     }
+
+    fc0 = c0;
+    fPrimeStored = fPrime;
+    fKF1 = kF1;
+    fKF2 = kF2;
+
     //LOG("Nieves",pDEBUG) << "r=" << r << ",kF1=" << kF1 << ",kF2=" << kF2;
     double kF = kF1 + kF2;
 
@@ -1897,7 +1903,10 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 	     << rulin[3][0]<< "\t"<< rulin[3][1]<< "\t"
 	     << rulin[3][2]<< "\t"<< rulin[3][3]<< "\t"
 	     << rhopStored << "\t" << rhonStored << "\t"
-	     << rhoStored << "\t" << rho0Stored << "\t" << q2Orig << "\t";
+	     << rhoStored << "\t" << rho0Stored << "\t" 
+	     << -q2Orig << "\t"
+	     << fKF1 << "\t" << fKF2 << "\t"
+	     << fc0 << "\t" << fPrimeStored << "\t" << M << "\t";
 
     ffstream << "\n";
     ffstream.close();
