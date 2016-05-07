@@ -1,5 +1,10 @@
 #!/bin/bash
 
+Enu='1'
+cosl='0.5'
+RPA='1'
+rfrac='0'
+
 gfortran qe_iterate_kine.f -o qe_iterate_kine.o
-echo -e 1 "\n" 0 "\n" 1 "\n" 0 "\n" | ./qe_iterate_kine.o
-mv fort.61 fort.RPA_E1_ctl0_r0
+echo -e $Enu "\n" $cosl "\n" $RPA "\n" $rfrac "\n" | ./qe_iterate_kine.o
+mv fort.61 'fort.RPA_E'$RPA'_ctl'$cosl'_r'$rfrac
