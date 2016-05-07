@@ -143,6 +143,9 @@ private:
   mutable double               rhopStored,rhonStored,rhoStored,rho0Stored;
   mutable double               fKF1, fKF2;
   mutable double               fc0, fPrimeStored;
+  mutable double               fVt,fVl,fRelLinReal,fRelLinIm,
+                               fRelLinTotReal,fRelLinTotIm;
+  mutable double               fl1,fl2,fl3,q2rellin,fkf,fef,fl2im,fl3im;
   void PrintTensorsIterateKinematics(const Interaction* i) const;
 };
 

@@ -23,7 +23,7 @@ function comp_tensors_choose_kine() {
     autoGNUPlot "$files" 'pc_'$3'_q2_CL.png' 1 10 'Q2' 'CL' 'Q2 vs CL' # facl
     autoGNUPlot "$files" 'pc_'$3'_q2_CN.png' 1 11 'Q2' 'CN' 'Q2 vs CN' # f00
     autoGNUPlot "$files" 'kine_'$3'_q2_Tl.png' 1 12 'Q2' 'Tl' 'Q2 vs Tl'
-    autoGNUPlot "$files" 'xlind_'$3'_q2_xlind.png' 1 13 'Q2' 'xlind' 'Q2 vs xlind'
+    autoGNUPlot "$files" 'pc_'$3'_q2_xlind.png' 1 13 'Q2' 'xlind' 'Q2 vs xlind'
     autoGNUPlot "$files" 'ff_'$3'_q2_f1v.png' 1 14 'Q2' 'f1v' 'Q2 vs f1v'   
     autoGNUPlot "$files" 'ff_'$3'_q2_xmuf2v.png' 1 15 'Q2' 'xmuf2v' 'Q2 vs xmuf2v'
     autoGNUPlot "$files" 'ff_'$3'_q2_gaq.png' 1 16 'Q2' 'gaq' 'Q2 vs gaq'
@@ -55,11 +55,27 @@ function comp_tensors_choose_kine() {
     autoGNUPlot "$files" 'dens_'$3'_q2_dro.png' 1 40 'Q2' 'dro' 'Q2 vs dro'
     autoGNUPlot "$files" 'dens_'$3'_q2_dro0.png' 1 41 'Q2' 'dro0' 'Q2 vs dro0'
     #autoGNUPlot "$files" 'kine_'$3'_q2_q2orig.png' 1 42 'Q2' 'q2orig' 'Q2 vs q2orig'
-    autoGNUPlot "$files" 'xlind_'$3'_q2_kF1.png' 1 43 'Q2' 'kF1' 'Q2 vs kF1'
-    autoGNUPlot "$files" 'xlind_'$3'_q2_kF2.png' 1 44 'Q2' 'kF2' 'Q2 vs kF2'
-    autoGNUPlot "$files" 'xlind_'$3'_q2_c0.png' 1 45 'Q2' 'c0' 'Q2 vs c0'
-    autoGNUPlot "$files" 'xlind_'$3'_q2_fPrime0.png' 1 46 'Q2' 'fPrime0' 'Q2 vs fPrime0'
-    autoGNUPlot "$files" 'xlind_'$3'_q2_M.png' 1 47 'Q2' 'M' 'Q2 vs M'
+    autoGNUPlot "$files" 'pc_'$3'_q2_kF1.png' 1 43 'Q2' 'kF1' 'Q2 vs kF1'
+    autoGNUPlot "$files" 'pc_'$3'_q2_kF2.png' 1 44 'Q2' 'kF2' 'Q2 vs kF2'
+    autoGNUPlot "$files" 'pc_'$3'_q2_c0.png' 1 45 'Q2' 'c0' 'Q2 vs c0'
+    autoGNUPlot "$files" 'pc_'$3'_q2_fPrime0.png' 1 46 'Q2' 'fPrime0' 'Q2 vs fPrime0'
+    autoGNUPlot "$files" 'kine_'$3'_q2_M.png' 1 47 'Q2' 'M' 'Q2 vs M'
+    autoGNUPlot "$files" 'pc_'$3'_q2_Vt.png' 1 48 'Q2' 'Vt' 'Q2 vs Vt'
+    autoGNUPlot "$files" 'pc_'$3'_q2_Vl.png' 1 49 'Q2' 'Vl' 'Q2 vs Vl'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinRe.png' 1 50 'Q2' 'relLinRe' 'Q2 vs relLinRe'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinIm.png' 1 51 'Q2' 'relLinIm' 'Q2 vs relLinIm'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinTotRe.png' 1 52 'Q2' 'relLinTotRe' 'Q2 vs relLinTotRe'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinTotIm.png' 1 53 'Q2' 'relLinTotIm' 'Q2 vs relLinTotIm'
+    autoGNUPlot "$files" 'pc_'$3'_q2_L1.png' 1 54 'Q2' 'L1' 'Q2 vs L1'
+    autoGNUPlot "$files" 'pc_'$3'_q2_L2.png' 1 55 'Q2' 'L2' 'Q2 vs L2'
+    autoGNUPlot "$files" 'pc_'$3'_q2_L3.png' 1 56 'Q2' 'L3' 'Q2 vs L3'
+    autoGNUPlot "$files" 'pc_'$3'_q2_q2rellin.png' 1 57 'Q2' 'q2rellin' 'Q2 vs q2rellin'
+    autoGNUPlot "$files" 'pc_'$3'_q2_rellinKf.png' 1 58 'Q2' 'rellinKf' 'Q2 vs rellinKf'
+    autoGNUPlot "$files" 'pc_'$3'_q2_rellinEf.png' 1 59 'Q2' 'rellinEf' 'Q2 vs rellinEf'
+    autoGNUPlot "$files" 'pc_'$3'_q2_L2im.png' 1 60 'Q2' 'L2im' 'Q2 vs L2im'
+    autoGNUPlot "$files" 'pc_'$3'_q2_L3im.png' 1 61 'Q2' 'L3im' 'Q2 vs L3im'
+
+
 
     # Make plots vs tmugev
     #autoGNUPlot "$files" 'kine_'$3'_Tl_q0.png' 12 2 'Tmu' 'q0' 'Tmu vs q0'

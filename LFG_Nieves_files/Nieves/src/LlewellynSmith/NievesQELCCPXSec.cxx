@@ -1154,7 +1154,7 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
   if(tgtIsNucleus){
     double dq = qTildeP4.Vect().Mag();
     double dq2 = TMath::Power(dq,2);
-    double q2 = -1 * qTildeP4.Mag2();
+    double q2 = 1 * qTildeP4.Mag2();
     //Terms for polarization coefficients CN,CT, and CL
     double hbarc2 = TMath::Power(fhbarc,2);
     double c0 = 0.380/fhbarc;//Constant for CN in natural units
@@ -1172,7 +1172,7 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
     rhoStored = rho;
     rho0Stored = rho0;
     
-    double fPrime = 0.33*rho/rho0+0.45*(1-rho/rho0);
+    double fPrime = (0.33*rho/rho0+0.45*(1-rho/rho0))*c0;
     
     // Get Fermi momenta
     double kF1, kF2;
@@ -1200,7 +1200,8 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
     fKF2 = kF2;
 
     //LOG("Nieves",pDEBUG) << "r=" << r << ",kF1=" << kF1 << ",kF2=" << kF2;
-    double kF = kF1 + kF2;
+    //double kF = kF1 + kF2;
+    double kF = TMath::Power(1.5*kPi2*rho, 1.0/3.0) *fhbarc;
 
     std::complex<double> imU(relLindhardIm(qTildeP4.E(),dq,kF1,kF2,
 					   M,is_neutrino,t0,r00));
@@ -1214,7 +1215,8 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
 			 << ", is_neu = " << is_neutrino
 			 << ", imU = " << imU;*/
 
-    if(abs(imU)>pow(10.0,-10)){
+    // By comparison with Nieves' fortran code
+    if(imaginaryU < 0.){
       relLin = relLindhard(qTildeP4.E(),dq,kF,M,is_neutrino,imU);
       udel = deltaLindhard(qTildeP4.E(),dq,rho,kF);
     }
@@ -1233,11 +1235,17 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
     double Vl = 0.08*4*kPi/kPionMass2 * 
       (TMath::Power((1.44-kPionMass2)/(1.44-q2),2)*dq2/(q2-kPionMass2)+0.63);
     
-    CN = 1.0/TMath::Power(abs(1.0-c0*fPrime*relLin/hbarc2),2);
+    CN = 1.0/TMath::Power(abs(1.0-fPrime*relLin/hbarc2),2);
 
     CT = 1.0/TMath::Power(abs(1.0-relLinTot*Vt),2);
     CL = 1.0/TMath::Power(abs(1.0-relLinTot*Vl),2);
-    //LOG("Nieves",pDEBUG) <<"CN = " << CN <<",CT = " << CT << ",CL = " << CL;
+    LOG("Nieves",pDEBUG) <<"CN = " << CN <<",CT = " << CT << ",CL = " << CL;
+    fVt = Vt;
+    fVl = Vl;
+    fRelLinReal = real(relLin);
+    fRelLinIm = imag(relLin);
+    fRelLinTotReal = real(relLinTot);
+    fRelLinTotIm = imag(relLinTot);
   }else{
     //Polarization Coefficients: all equal to 1.0 for free nucleon
     CN = 1.0;
@@ -1316,7 +1324,7 @@ std::complex<double> NievesQELCCPXSec::relLindhard(double q0gev,
   double q0 = q0gev/fhbarc;
   double qm = dqgev/fhbarc;
   double kf = kFgev/fhbarc;
-  double m = kFgev/fhbarc;
+  double m = M/fhbarc;
 
   if(q0>qm){
     LOG("Nieves", pWARN) << "relLindhard() failed";
@@ -1358,6 +1366,15 @@ std::complex<double> NievesQELCCPXSec::ruLinRelX(double q0, double qm,
 			     (TMath::Power(2*kf - q0*ds,2)-qm2))) + 
        TMath::Log(TMath::Abs((TMath::Power(kf-ef*ds,2) - (4*m4*qm2)/q4)/
 			     (TMath::Power(kf+ef*ds,2) - (4*m4*qm2)/q4))));
+  
+  q2rellin = q2;
+  fl1 = L1;
+  fl2 = real(uL2);
+  fl3 = real(uL3);
+  fkf = kf;
+  fef = ef;
+  fl2im = imag(uL2);
+  fl3im = imag(uL3);
 
   std::complex<double> RlinrelX(-L1/(16.0*kPi2)+
 				uL2*(2.0*ef+q0)/(32.0*kPi2*qm)-
@@ -1907,7 +1924,13 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
 	     << rhoStored << "\t" << rho0Stored << "\t" 
 	     << -q2Orig << "\t"
 	     << fKF1 << "\t" << fKF2 << "\t"
-	     << fc0 << "\t" << fPrimeStored << "\t" << M << "\t";
+	     << fc0 << "\t" << fPrimeStored << "\t" << M << "\t"
+	     << fVt << "\t" << fVl << "\t" 
+	     << fRelLinReal << "\t" << fRelLinIm << "\t"
+	     << fRelLinTotReal << "\t" << fRelLinTotIm << "\t"
+	     << fl1 << "\t" << fl2 << "\t" << fl3 << "\t"
+	     << q2rellin << "\t" << fkf << "\t" << fef << "\t"
+	     << fl2im << "\t" << fl3im << "\t";
 
     ffstream << "\n";}
     ffstream.close();
@@ -1945,7 +1968,7 @@ void NievesQELCCPXSec::PrintTensorsIterateKinematics(const Interaction* in)
   double ctl = 0.0;
   double rmaxfrac = 0.0;
 
-  fTensorsOutFile = "E1_ctl0_r0.txt";
+  fTensorsOutFile = "gen.RPA_E1_ctl0_r0";
 
   // Calculate radius
   // CARBON

@@ -65,7 +65,6 @@ c     script will label and plot the results
         common/importantisimo/xma
 
 
-
         if (ipol.ne.0 .and. ipol.ne.1) stop'wrong ipol'
         ic = 0
         DPI=3.141592653589793D0
@@ -285,8 +284,6 @@ c               write(40,*)r,vcd(ir)*hbarc
         common/datos2/dmneutrino,dmlepton,dmi,dmf,
      f                coscabibbo
         common/importantisimo/xma
-        common/thingstoprint/al1,al2,al3,q2rellin,akf,aef,
-     f       al2im,al3im
 
        if (ilin.ne.2) stop'no preparado'
 
@@ -544,18 +541,13 @@ c          facl=facl*delfacl
      f            rulin(3,2)*hbarc**2*1d-6,rulin(3,3)*hbarc**2*1d-6,
      f            drop,dron,dro,dro0,-q2old*hbarc**2*1d-6,
      f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0,
-     f            dmnu*hbarc*1d-3,vt*1d6/hbarc**2,vl*1d6/hbarc**2,
-     f      REALPART(CUNUC)*1d-6*hbarc**2,IMAGPART(CUNUC)*1d-6*hbarc**2,
-     f      REALPART(UFULI)*1d-6*hbarc**2,IMAGPART(UFULI)*1d-6*hbarc**2,
-     f            al1,al2,al3,q2rellin,akf,aef,al2im,al3im
+     f            dmnu*hbarc*1d-3
           end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f      e15.7,e15.7,e15.7,e15.7)
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
 
 
             RETURN
@@ -1221,9 +1213,7 @@ c range validity
            write(6,*)' q0=',q0,' q=',qm
            stop
           endif
-c          m = 940.d0/197.3269602d0
-          m = 939.5653d0 / 197.3269602d0
-
+          m = 940.d0/197.3269602d0
           uyi=(0.d0,1.d0)
 c
           RLINREL=RulinrelX(q0,qm,kf)+RulinrelX(-q0,qm,kf)
@@ -1237,37 +1227,26 @@ C
 c fm, only real part, only |q0|<|q|
           IMPLICIT REAL*8 (A-T,V-Z)
           IMPLICIT COMPLEX*16 (U)
-          common/thingstoprint/al1,al2,al3,q2rellin,akf,aef,
-     f         al2im,al3im
 c
-c          m = 940.d0/197.3269602d0
-          m = 939.5653d0 / 197.3269602d0
+          m = 940.d0/197.3269602d0
           pi=3.1415926535d0
           pi2=pi**2
           uy=(0.d0,1.d0)
 c
        ef=sqrt(m**2+kf**2)
        q2=q0**2-qm**2
-       q2rellin=q2
        ds=Sqrt(1.d0-(4.d0*m**2)/q2)
 c
        L1=Log((kf + ef)/m)
-       akf=kf
-       aef=ef
-       al1=l1
        uL2=Log(Abs((ef + q0 - Sqrt(m**2+(kf-qm)**2))/
      &             (ef + q0 - Sqrt(m**2 + (kf + qm)**2)))) + 
      &  Log(Abs((ef + q0 + Sqrt(m**2 + (kf - qm)**2))/
      &          (ef + q0 + Sqrt(m**2 + (kf + qm)**2))))
-       al2=REALPART(ul2)
-       al2im=IMAGPART(ul2)
 
        uL3=Log(Abs(((2*kf + q0*ds)**2-qm**2)/
      &             ((2*kf - q0*ds)**2-qm**2))) + 
      &  Log(Abs(((kf-ef*ds)**2 - (4*m**4*qm**2)/q2**2)/
      &          ((kf+ef*ds)**2 - (4*m**4*qm**2)/q2**2)))
-       al3 = REALPART(ul3)
-       al3im=IMAGPART(ul3)
 c
        RlinrelX = -L1/(16.d0*pi2)+uL2*(2.d0*ef+q0)/(32.d0*pi2*qm)
      &    -uL3*ds/(64.d0*Pi2)
