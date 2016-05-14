@@ -26,20 +26,21 @@ and .gst.root files, and execute this script to generate the plots
 void dsigmadTl_make_plots() {
   // Set paramters for plotting here
   // do not inclue .png extension in output_file_name
-  TString output_file_name = "Furmanski_LFG_1GeV_C12";
+  TString output_file_name = "N_RFG_RPA_1GeV_C12";
   // location of .gst.root file from gevgen
-  TString rootFile = "/home/joe/GENIE_work/runs/2016_05_13_af_LFG_100000/numu_C12_CCQE_run0.gst.root";
+  TString rootFile = "~/GENIE_work/runs/2016_05_12_Nieves_RFG_RPA_noCoul_1mil/numu_C12_CCQE_run0.gst.root";
+//2016_05_12_Nieves_RFG_noRPA_noCoul_1mil/numu_C12_CCQE_run0.gst.root";
   // 2 column text file (as above) or .root spline file
-  TString spline = "/home/joe/GENIE_work/runs/lfgcomp_2016_03_17/2016_03_17_C12_LS_LFG_1GeV/data_2016_03_17_C12_LS_LFG.txt";
+  TString spline = "~/GENIE_work/runs/lfgcomp_2016_03_17/2016_03_17_C12_LS_LFG_1GeV/data_2016_03_17_C12_LS_LFG.txt";
+    //~/GENIE_work/runs/runs_2.10.0/2.10.0_10000ev_C12_LS_RFG_1GeV/data_2.10.0_unmodified_10000ev_C12_LS_RFG_1GeV.txt";
   TString target = "C12"; // C12 or Pb208
   TString Enu = "1.0"; // in GeV- 0.2, 1.0, or 5.0 
-  TString RPA = "0";   // 0 or 1
+  TString RPA = "1";   // 0 or 1
   TString Coul = "0";  // 0 or 1
   double ymax1 = 25.0; // y axis max for plot where all solid angles are integrated
   double ymax2 = 12.0; // y axis max for plot with specific ctl values
   // "" gives a default title
-  //TString plotTitle = "C12, Enu = 1.0 GeV, Nieves noRPA, RFG"; 
-  TString plotTitle = output_file_name;
+  TString plotTitle = "C12, Enu = 1.0 GeV, Nieves noRPA, RFG"; 
   make_plots(output_file_name, rootFile, spline, target,
 	     Enu, RPA, Coul, ymax1, ymax2,plotTitle);
   exit();

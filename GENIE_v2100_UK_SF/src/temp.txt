@@ -1,0 +1,411 @@
+CrossSections/GSLXSecFunc.cxx:#include "LlewellynSmith/LwlynSmithQELCCPXSec.h"
+CrossSections/GSLXSecFunc.cxx:  //LwlynSmithQELCCPXSec *tmpLwlyn = new LwlynSmithQELCCPXSec();
+LlewellynSmith/LinkDef.h:#pragma link C++ class genie::LwlynSmithQELCCPXSec;
+LlewellynSmith/LinkDef.h:#pragma link C++ class genie::LwlynSmithFFCC;
+LlewellynSmith/LinkDef.h:#pragma link C++ class genie::LwlynSmithFFNC;
+LlewellynSmith/LinkDef.h:#pragma link C++ class genie::LwlynSmithFF;
+LlewellynSmith/LwlynSmithFFCC.cxx:   Renamed LlewellynSmithModelCC -> LwlynSmithFFCC
+LlewellynSmith/LwlynSmithFFCC.cxx:#include "LlewellynSmith/LwlynSmithFFCC.h"
+LlewellynSmith/LwlynSmithFFCC.cxx:LwlynSmithFFCC::LwlynSmithFFCC() :
+LlewellynSmith/LwlynSmithFFCC.cxx:LwlynSmithFF("genie::LwlynSmithFFCC")
+LlewellynSmith/LwlynSmithFFCC.cxx:LwlynSmithFFCC::LwlynSmithFFCC(string config) :
+LlewellynSmith/LwlynSmithFFCC.cxx:LwlynSmithFF("genie::LwlynSmithFFCC", config)
+LlewellynSmith/LwlynSmithFFCC.cxx:LwlynSmithFFCC::~LwlynSmithFFCC()
+LlewellynSmith/LwlynSmithFFCC.cxx:double LwlynSmithFFCC::F1V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFCC.cxx:  return LwlynSmithFF::F1V(interaction);
+LlewellynSmith/LwlynSmithFFCC.cxx:double LwlynSmithFFCC::xiF2V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFCC.cxx:  return LwlynSmithFF::xiF2V(interaction);
+LlewellynSmith/LwlynSmithFFCC.cxx:double LwlynSmithFFCC::FA(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFCC.cxx:  return LwlynSmithFF::FA(interaction);
+LlewellynSmith/LwlynSmithFFCC.cxx:double LwlynSmithFFCC::Fp(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFCC.cxx:  return LwlynSmithFF::Fp(interaction);
+LlewellynSmith/LwlynSmithFFCC.h:\class    genie::LwlynSmithFFCC
+LlewellynSmith/LwlynSmithFFCC.h:#include "LlewellynSmith/LwlynSmithFF.h"
+LlewellynSmith/LwlynSmithFFCC.h:class LwlynSmithFFCC : public LwlynSmithFF {
+LlewellynSmith/LwlynSmithFFCC.h:  LwlynSmithFFCC();
+LlewellynSmith/LwlynSmithFFCC.h:  LwlynSmithFFCC(string config);
+LlewellynSmith/LwlynSmithFFCC.h:  virtual ~LwlynSmithFFCC();
+Binary file LlewellynSmith/LwlynSmithFFCC.o matches
+LlewellynSmith/LwlynSmithFF.cxx:   Renamed LlewellynSmithModel -> LwlynSmithFF
+LlewellynSmith/LwlynSmithFF.cxx:#include "LlewellynSmith/LwlynSmithFF.h"
+LlewellynSmith/LwlynSmithFF.cxx:LwlynSmithFF::LwlynSmithFF() :
+LlewellynSmith/LwlynSmithFF.cxx:LwlynSmithFF::LwlynSmithFF(string name) :
+LlewellynSmith/LwlynSmithFF.cxx:LwlynSmithFF::LwlynSmithFF(string name, string config) :
+LlewellynSmith/LwlynSmithFF.cxx:LwlynSmithFF::~LwlynSmithFF()
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::StrangeF1V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::StrangexiF2V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::StrangeFA(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::F1P(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::F2P(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::F1N(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::F2N(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::F1V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::xiF2V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::FA(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::Fp(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:void LwlynSmithFF::Configure(const Registry & config)
+LlewellynSmith/LwlynSmithFF.cxx:void LwlynSmithFF::Configure(string config)
+LlewellynSmith/LwlynSmithFF.cxx:void LwlynSmithFF::LoadConfig(void)
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::tau(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::GVE(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.cxx:double LwlynSmithFF::GVM(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFF.h:\class    genie::LwlynSmithFF
+LlewellynSmith/LwlynSmithFF.h:          concrete subclasses: LwlynSmithFFCC, LwlynSmithFFNC.
+LlewellynSmith/LwlynSmithFF.h:class LwlynSmithFF : public QELFormFactorsModelI {
+LlewellynSmith/LwlynSmithFF.h:  virtual ~LwlynSmithFF();
+LlewellynSmith/LwlynSmithFF.h:  LwlynSmithFF();
+LlewellynSmith/LwlynSmithFF.h:  LwlynSmithFF(string name);
+LlewellynSmith/LwlynSmithFF.h:  LwlynSmithFF(string name, string config);
+LlewellynSmith/LwlynSmithFFNC.cxx:   Renamed LlewellynSmithModelNC -> LwlynSmithFFNC
+LlewellynSmith/LwlynSmithFFNC.cxx:#include "LlewellynSmith/LwlynSmithFFNC.h"
+LlewellynSmith/LwlynSmithFFNC.cxx:LwlynSmithFFNC::LwlynSmithFFNC() :
+LlewellynSmith/LwlynSmithFFNC.cxx:LwlynSmithFF("genie::LwlynSmithFFNC")
+LlewellynSmith/LwlynSmithFFNC.cxx:LwlynSmithFFNC::LwlynSmithFFNC(string config) :
+LlewellynSmith/LwlynSmithFFNC.cxx:LwlynSmithFF("genie::LwlynSmithFFNC", config)
+LlewellynSmith/LwlynSmithFFNC.cxx:LwlynSmithFFNC::~LwlynSmithFFNC()
+LlewellynSmith/LwlynSmithFFNC.cxx:double LwlynSmithFFNC::F1V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFNC.cxx:  double F1V_CC = LwlynSmithFF::F1V(interaction);
+LlewellynSmith/LwlynSmithFFNC.cxx:  double t   = LwlynSmithFF::tau(interaction);
+LlewellynSmith/LwlynSmithFFNC.cxx:double LwlynSmithFFNC::xiF2V(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFNC.cxx:  double xiF2V_CC = LwlynSmithFF::xiF2V(interaction);
+LlewellynSmith/LwlynSmithFFNC.cxx:double LwlynSmithFFNC::FA(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFNC.cxx:  double FA_CC = LwlynSmithFF::FA(interaction);
+LlewellynSmith/LwlynSmithFFNC.cxx:double LwlynSmithFFNC::Fp(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithFFNC.h:\class    genie::LwlynSmithFFNC
+LlewellynSmith/LwlynSmithFFNC.h:#include "LlewellynSmith/LwlynSmithFF.h"
+LlewellynSmith/LwlynSmithFFNC.h:class LwlynSmithFFNC : public LwlynSmithFF {
+LlewellynSmith/LwlynSmithFFNC.h:  LwlynSmithFFNC();
+LlewellynSmith/LwlynSmithFFNC.h:  LwlynSmithFFNC(string config);
+LlewellynSmith/LwlynSmithFFNC.h:  virtual ~LwlynSmithFFNC();
+Binary file LlewellynSmith/LwlynSmithFFNC.o matches
+Binary file LlewellynSmith/LwlynSmithFF.o matches
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:   Renamed QELPXSec -> LwlynSmithQELCCPXSec
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:#include "LlewellynSmith/LwlynSmithQELCCPXSec.h"
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:LwlynSmithQELCCPXSec::LwlynSmithQELCCPXSec() :
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:XSecAlgorithmI("genie::LwlynSmithQELCCPXSec")
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:LwlynSmithQELCCPXSec::LwlynSmithQELCCPXSec(string config) :
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:XSecAlgorithmI("genie::LwlynSmithQELCCPXSec", config)
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:LwlynSmithQELCCPXSec::~LwlynSmithQELCCPXSec()
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:double LwlynSmithQELCCPXSec::XSec(
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:  LOG("LwlynSmith", pDEBUG) << "\n" << fFormFactors;
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:  LOG("LwlynSmith", pDEBUG)
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:  LOG("LwlynSmith", pDEBUG) 
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:    LOG("LwlynSmith", pDEBUG)
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:  LOG("LwlynSmith", pDEBUG) 
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:double LwlynSmithQELCCPXSec::Integral(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:bool LwlynSmithQELCCPXSec::ValidProcess(const Interaction * interaction) const
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:void LwlynSmithQELCCPXSec::Configure(const Registry & config)
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:void LwlynSmithQELCCPXSec::Configure(string config)
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:void LwlynSmithQELCCPXSec::LoadConfig(void)
+LlewellynSmith/LwlynSmithQELCCPXSec.cxx:double LwlynSmithQELCCPXSec::FullDifferentialXSec(const Interaction *  interaction)const{
+LlewellynSmith/LwlynSmithQELCCPXSec.h:\class    genie::LwlynSmithQELCCPXSec
+LlewellynSmith/LwlynSmithQELCCPXSec.h:class LwlynSmithQELCCPXSec : public XSecAlgorithmI {
+LlewellynSmith/LwlynSmithQELCCPXSec.h:  LwlynSmithQELCCPXSec();
+LlewellynSmith/LwlynSmithQELCCPXSec.h:  LwlynSmithQELCCPXSec(string config);
+LlewellynSmith/LwlynSmithQELCCPXSec.h:  virtual ~LwlynSmithQELCCPXSec();
+Binary file LlewellynSmith/LwlynSmithQELCCPXSec.o matches
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:            instance("genie", 0 /*version*/, "./LwlynSmithQELCCPXSec.h", 29,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   void geniecLcLLwlynSmithFF_ShowMembers(void *obj, TMemberInspector &R__insp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithFF_Dictionary();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithFF(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithFF(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithFF(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static TGenericClassInfo *GenerateInitInstanceLocal(const ::genie::LwlynSmithFF*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::genie::LwlynSmithFF *ptr = 0;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::genie::LwlynSmithFF),0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         instance("genie::LwlynSmithFF", "/local/xrootd/a/users/genie/GENIE_v2100_UK_SF/src/LlewellynSmith/LwlynSmithFF.h", 35,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  typeid(::genie::LwlynSmithFF), DefineBehavior(ptr, ptr),
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  0, &geniecLcLLwlynSmithFF_Dictionary, isa_proxy, 0,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  sizeof(::genie::LwlynSmithFF) );
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDelete(&delete_geniecLcLLwlynSmithFF);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDeleteArray(&deleteArray_geniecLcLLwlynSmithFF);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDestructor(&destruct_geniecLcLLwlynSmithFF);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   TGenericClassInfo *GenerateInitInstance(const ::genie::LwlynSmithFF*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return GenerateInitInstanceLocal((::genie::LwlynSmithFF*)0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const ::genie::LwlynSmithFF*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithFF_Dictionary() {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::ROOT::GenerateInitInstanceLocal((const ::genie::LwlynSmithFF*)0x0)->GetClass();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   void geniecLcLLwlynSmithFFCC_ShowMembers(void *obj, TMemberInspector &R__insp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithFFCC_Dictionary();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *new_geniecLcLLwlynSmithFFCC(void *p = 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *newArray_geniecLcLLwlynSmithFFCC(Long_t size, void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithFFCC(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithFFCC(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithFFCC(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static TGenericClassInfo *GenerateInitInstanceLocal(const ::genie::LwlynSmithFFCC*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::genie::LwlynSmithFFCC *ptr = 0;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::genie::LwlynSmithFFCC),0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         instance("genie::LwlynSmithFFCC", "./LwlynSmithFFCC.h", 30,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  typeid(::genie::LwlynSmithFFCC), DefineBehavior(ptr, ptr),
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  0, &geniecLcLLwlynSmithFFCC_Dictionary, isa_proxy, 0,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  sizeof(::genie::LwlynSmithFFCC) );
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetNew(&new_geniecLcLLwlynSmithFFCC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetNewArray(&newArray_geniecLcLLwlynSmithFFCC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDelete(&delete_geniecLcLLwlynSmithFFCC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDeleteArray(&deleteArray_geniecLcLLwlynSmithFFCC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDestructor(&destruct_geniecLcLLwlynSmithFFCC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   TGenericClassInfo *GenerateInitInstance(const ::genie::LwlynSmithFFCC*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return GenerateInitInstanceLocal((::genie::LwlynSmithFFCC*)0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const ::genie::LwlynSmithFFCC*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithFFCC_Dictionary() {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::ROOT::GenerateInitInstanceLocal((const ::genie::LwlynSmithFFCC*)0x0)->GetClass();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   void geniecLcLLwlynSmithFFNC_ShowMembers(void *obj, TMemberInspector &R__insp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithFFNC_Dictionary();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *new_geniecLcLLwlynSmithFFNC(void *p = 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *newArray_geniecLcLLwlynSmithFFNC(Long_t size, void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithFFNC(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithFFNC(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithFFNC(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static TGenericClassInfo *GenerateInitInstanceLocal(const ::genie::LwlynSmithFFNC*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::genie::LwlynSmithFFNC *ptr = 0;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::genie::LwlynSmithFFNC),0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         instance("genie::LwlynSmithFFNC", "./LwlynSmithFFNC.h", 30,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  typeid(::genie::LwlynSmithFFNC), DefineBehavior(ptr, ptr),
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  0, &geniecLcLLwlynSmithFFNC_Dictionary, isa_proxy, 0,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  sizeof(::genie::LwlynSmithFFNC) );
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetNew(&new_geniecLcLLwlynSmithFFNC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetNewArray(&newArray_geniecLcLLwlynSmithFFNC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDelete(&delete_geniecLcLLwlynSmithFFNC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDeleteArray(&deleteArray_geniecLcLLwlynSmithFFNC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDestructor(&destruct_geniecLcLLwlynSmithFFNC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   TGenericClassInfo *GenerateInitInstance(const ::genie::LwlynSmithFFNC*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return GenerateInitInstanceLocal((::genie::LwlynSmithFFNC*)0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const ::genie::LwlynSmithFFNC*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithFFNC_Dictionary() {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::ROOT::GenerateInitInstanceLocal((const ::genie::LwlynSmithFFNC*)0x0)->GetClass();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   void geniecLcLLwlynSmithQELCCPXSec_ShowMembers(void *obj, TMemberInspector &R__insp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithQELCCPXSec_Dictionary();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *new_geniecLcLLwlynSmithQELCCPXSec(void *p = 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *newArray_geniecLcLLwlynSmithQELCCPXSec(Long_t size, void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithQELCCPXSec(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithQELCCPXSec(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithQELCCPXSec(void *p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static TGenericClassInfo *GenerateInitInstanceLocal(const ::genie::LwlynSmithQELCCPXSec*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::genie::LwlynSmithQELCCPXSec *ptr = 0;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      static ::TVirtualIsAProxy* isa_proxy = new ::TIsAProxy(typeid(::genie::LwlynSmithQELCCPXSec),0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         instance("genie::LwlynSmithQELCCPXSec", "./LwlynSmithQELCCPXSec.h", 34,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  typeid(::genie::LwlynSmithQELCCPXSec), DefineBehavior(ptr, ptr),
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  0, &geniecLcLLwlynSmithQELCCPXSec_Dictionary, isa_proxy, 0,
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:                  sizeof(::genie::LwlynSmithQELCCPXSec) );
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetNew(&new_geniecLcLLwlynSmithQELCCPXSec);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetNewArray(&newArray_geniecLcLLwlynSmithQELCCPXSec);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDelete(&delete_geniecLcLLwlynSmithQELCCPXSec);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDeleteArray(&deleteArray_geniecLcLLwlynSmithQELCCPXSec);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      instance.SetDestructor(&destruct_geniecLcLLwlynSmithQELCCPXSec);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   TGenericClassInfo *GenerateInitInstance(const ::genie::LwlynSmithQELCCPXSec*)
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return GenerateInitInstanceLocal((::genie::LwlynSmithQELCCPXSec*)0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static ::ROOT::TGenericClassInfo *_R__UNIQUE_(Init) = GenerateInitInstanceLocal((const ::genie::LwlynSmithQELCCPXSec*)0x0); R__UseDummy(_R__UNIQUE_(Init));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void geniecLcLLwlynSmithQELCCPXSec_Dictionary() {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      ::ROOT::GenerateInitInstanceLocal((const ::genie::LwlynSmithQELCCPXSec*)0x0)->GetClass();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *new_geniecLcLLwlynSmithQELCCPXSec(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::genie::LwlynSmithQELCCPXSec : new ::genie::LwlynSmithQELCCPXSec;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *newArray_geniecLcLLwlynSmithQELCCPXSec(Long_t nElements, void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::genie::LwlynSmithQELCCPXSec[nElements] : new ::genie::LwlynSmithQELCCPXSec[nElements];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithQELCCPXSec(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete ((::genie::LwlynSmithQELCCPXSec*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithQELCCPXSec(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete [] ((::genie::LwlynSmithQELCCPXSec*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithQELCCPXSec(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      typedef ::genie::LwlynSmithQELCCPXSec current_t;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:} // end of namespace ROOT for class ::genie::LwlynSmithQELCCPXSec
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *new_geniecLcLLwlynSmithFFCC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::genie::LwlynSmithFFCC : new ::genie::LwlynSmithFFCC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *newArray_geniecLcLLwlynSmithFFCC(Long_t nElements, void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::genie::LwlynSmithFFCC[nElements] : new ::genie::LwlynSmithFFCC[nElements];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithFFCC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete ((::genie::LwlynSmithFFCC*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithFFCC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete [] ((::genie::LwlynSmithFFCC*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithFFCC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      typedef ::genie::LwlynSmithFFCC current_t;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:} // end of namespace ROOT for class ::genie::LwlynSmithFFCC
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *new_geniecLcLLwlynSmithFFNC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return  p ? ::new((::ROOT::TOperatorNewHelper*)p) ::genie::LwlynSmithFFNC : new ::genie::LwlynSmithFFNC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void *newArray_geniecLcLLwlynSmithFFNC(Long_t nElements, void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      return p ? ::new((::ROOT::TOperatorNewHelper*)p) ::genie::LwlynSmithFFNC[nElements] : new ::genie::LwlynSmithFFNC[nElements];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithFFNC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete ((::genie::LwlynSmithFFNC*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithFFNC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete [] ((::genie::LwlynSmithFFNC*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithFFNC(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      typedef ::genie::LwlynSmithFFNC current_t;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:} // end of namespace ROOT for class ::genie::LwlynSmithFFNC
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void delete_geniecLcLLwlynSmithFF(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete ((::genie::LwlynSmithFF*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void deleteArray_geniecLcLLwlynSmithFF(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      delete [] ((::genie::LwlynSmithFF*)p);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   static void destruct_geniecLcLLwlynSmithFF(void *p) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      typedef ::genie::LwlynSmithFF current_t;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:} // end of namespace ROOT for class ::genie::LwlynSmithFF
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G__add_compiledheader("LwlynSmithFFCC.h");
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G__add_compiledheader("LwlynSmithFF.h");
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G__add_compiledheader("LwlynSmithFFNC.h");
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G__add_compiledheader("LwlynSmithQELCCPXSec.h");
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithFF */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFF* p;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   p = new genie::LwlynSmithFF(*(genie::LwlynSmithFF*) tmp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:typedef genie::LwlynSmithFF G__TgeniecLcLLwlynSmithFF;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete[] (genie::LwlynSmithFF*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         ((genie::LwlynSmithFF*) (soff+(sizeof(genie::LwlynSmithFF)*i)))->~G__TgeniecLcLLwlynSmithFF();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete (genie::LwlynSmithFF*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       ((genie::LwlynSmithFF*) (soff))->~G__TgeniecLcLLwlynSmithFF();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithFFCC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFFCC* p = NULL;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new genie::LwlynSmithFFCC[n];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new((void*) gvp) genie::LwlynSmithFFCC[n];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new genie::LwlynSmithFFCC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new((void*) gvp) genie::LwlynSmithFFCC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFFCC* p = NULL;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     p = new genie::LwlynSmithFFCC(*((string*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     p = new((void*) gvp) genie::LwlynSmithFFCC(*((string*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFFCC* p;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   p = new genie::LwlynSmithFFCC(*(genie::LwlynSmithFFCC*) tmp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:typedef genie::LwlynSmithFFCC G__TgeniecLcLLwlynSmithFFCC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete[] (genie::LwlynSmithFFCC*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         ((genie::LwlynSmithFFCC*) (soff+(sizeof(genie::LwlynSmithFFCC)*i)))->~G__TgeniecLcLLwlynSmithFFCC();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete (genie::LwlynSmithFFCC*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       ((genie::LwlynSmithFFCC*) (soff))->~G__TgeniecLcLLwlynSmithFFCC();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithFFNC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFFNC* p = NULL;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new genie::LwlynSmithFFNC[n];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new((void*) gvp) genie::LwlynSmithFFNC[n];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new genie::LwlynSmithFFNC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new((void*) gvp) genie::LwlynSmithFFNC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFFNC* p = NULL;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     p = new genie::LwlynSmithFFNC(*((string*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     p = new((void*) gvp) genie::LwlynSmithFFNC(*((string*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithFFNC* p;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   p = new genie::LwlynSmithFFNC(*(genie::LwlynSmithFFNC*) tmp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:typedef genie::LwlynSmithFFNC G__TgeniecLcLLwlynSmithFFNC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete[] (genie::LwlynSmithFFNC*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         ((genie::LwlynSmithFFNC*) (soff+(sizeof(genie::LwlynSmithFFNC)*i)))->~G__TgeniecLcLLwlynSmithFFNC();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete (genie::LwlynSmithFFNC*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       ((genie::LwlynSmithFFNC*) (soff))->~G__TgeniecLcLLwlynSmithFFNC();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithQELCCPXSec */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithQELCCPXSec* p = NULL;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new genie::LwlynSmithQELCCPXSec[n];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new((void*) gvp) genie::LwlynSmithQELCCPXSec[n];
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new genie::LwlynSmithQELCCPXSec;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       p = new((void*) gvp) genie::LwlynSmithQELCCPXSec;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithQELCCPXSec* p = NULL;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     p = new genie::LwlynSmithQELCCPXSec(*((string*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     p = new((void*) gvp) genie::LwlynSmithQELCCPXSec(*((string*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:      G__letdouble(result7, 100, (double) ((const genie::LwlynSmithQELCCPXSec*) G__getstructoffset())->FullDifferentialXSec((genie::Interaction*) G__int(libp->para[0])));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   genie::LwlynSmithQELCCPXSec* p;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   p = new genie::LwlynSmithQELCCPXSec(*(genie::LwlynSmithQELCCPXSec*) tmp);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__set_tagnum(result7,G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:typedef genie::LwlynSmithQELCCPXSec G__TgeniecLcLLwlynSmithQELCCPXSec;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete[] (genie::LwlynSmithQELCCPXSec*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:         ((genie::LwlynSmithQELCCPXSec*) (soff+(sizeof(genie::LwlynSmithQELCCPXSec)*i)))->~G__TgeniecLcLLwlynSmithQELCCPXSec();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       delete (genie::LwlynSmithQELCCPXSec*) soff;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       ((genie::LwlynSmithQELCCPXSec*) (soff))->~G__TgeniecLcLLwlynSmithQELCCPXSec();
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithFF */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithFFCC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithFFNC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:/* genie::LwlynSmithQELCCPXSec */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   if(0==G__getnumbaseclass(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF))) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     genie::LwlynSmithFF *G__Lderived;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     G__Lderived=(genie::LwlynSmithFF*)0x1000;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLQELFormFactorsModelI),(long)G__Lpbase-(long)G__Lderived,1,1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLAlgorithm),(long)G__Lpbase-(long)G__Lderived,1,0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   if(0==G__getnumbaseclass(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC))) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     genie::LwlynSmithFFCC *G__Lderived;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     G__Lderived=(genie::LwlynSmithFFCC*)0x1000;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       genie::LwlynSmithFF *G__Lpbase=(genie::LwlynSmithFF*)G__Lderived;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF),(long)G__Lpbase-(long)G__Lderived,1,1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLQELFormFactorsModelI),(long)G__Lpbase-(long)G__Lderived,1,0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLAlgorithm),(long)G__Lpbase-(long)G__Lderived,1,0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   if(0==G__getnumbaseclass(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC))) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     genie::LwlynSmithFFNC *G__Lderived;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     G__Lderived=(genie::LwlynSmithFFNC*)0x1000;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       genie::LwlynSmithFF *G__Lpbase=(genie::LwlynSmithFF*)G__Lderived;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF),(long)G__Lpbase-(long)G__Lderived,1,1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLQELFormFactorsModelI),(long)G__Lpbase-(long)G__Lderived,1,0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLAlgorithm),(long)G__Lpbase-(long)G__Lderived,1,0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   if(0==G__getnumbaseclass(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec))) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     genie::LwlynSmithQELCCPXSec *G__Lderived;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:     G__Lderived=(genie::LwlynSmithQELCCPXSec*)0x1000;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLXSecAlgorithmI),(long)G__Lpbase-(long)G__Lderived,1,1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:       G__inheritance_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec),G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLAlgorithm),(long)G__Lpbase-(long)G__Lderived,1,0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithFF */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memvargeniecLcLLwlynSmithFF(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memvar_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   { genie::LwlynSmithFF *p; p=(genie::LwlynSmithFF*)0x1000; if (p) { }
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithFFCC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memvargeniecLcLLwlynSmithFFCC(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memvar_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   { genie::LwlynSmithFFCC *p; p=(genie::LwlynSmithFFCC*)0x1000; if (p) { }
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithFFNC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memvargeniecLcLLwlynSmithFFNC(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memvar_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   { genie::LwlynSmithFFNC *p; p=(genie::LwlynSmithFFNC*)0x1000; if (p) { }
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithQELCCPXSec */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memvargeniecLcLLwlynSmithQELCCPXSec(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memvar_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   { genie::LwlynSmithQELCCPXSec *p; p=(genie::LwlynSmithQELCCPXSec*)0x1000; if (p) { }
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memfuncgeniecLcLLwlynSmithFF(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithFF */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memfunc_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFF",1191,(G__InterfaceMethod) NULL, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF), -1, 0, 0, 1, 2, 0, "", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFF",1191,(G__InterfaceMethod) NULL, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF), -1, 0, 1, 1, 2, 0, "u 'string' - 0 - name", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFF",1191,(G__InterfaceMethod) NULL, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF), -1, 0, 2, 1, 2, 0, 
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFF", 1191, G___ROOT_DICT_LlewellynSmith_629_0_21, (int) ('i'), G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF), -1, 0, 1, 1, 1, 0, "u 'genie::LwlynSmithFF' - 11 - -", (char*) NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("~LwlynSmithFF", 1317, G___ROOT_DICT_LlewellynSmith_629_0_22, (int) ('y'), -1, -1, 0, 0, 1, 1, 0, "", (char*) NULL, (void*) NULL, 1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memfuncgeniecLcLLwlynSmithFFCC(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithFFCC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memfunc_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFFCC",1325,G___ROOT_DICT_LlewellynSmith_630_0_1, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC), -1, 0, 0, 1, 1, 0, "", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFFCC",1325,G___ROOT_DICT_LlewellynSmith_630_0_2, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC), -1, 0, 1, 1, 1, 0, "u 'string' - 0 - config", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFFCC", 1325, G___ROOT_DICT_LlewellynSmith_630_0_7, (int) ('i'), G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC), -1, 0, 1, 1, 1, 0, "u 'genie::LwlynSmithFFCC' - 11 - -", (char*) NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("~LwlynSmithFFCC", 1451, G___ROOT_DICT_LlewellynSmith_630_0_8, (int) ('y'), -1, -1, 0, 0, 1, 1, 0, "", (char*) NULL, (void*) NULL, 1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memfuncgeniecLcLLwlynSmithFFNC(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithFFNC */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memfunc_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFFNC",1336,G___ROOT_DICT_LlewellynSmith_631_0_1, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC), -1, 0, 0, 1, 1, 0, "", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFFNC",1336,G___ROOT_DICT_LlewellynSmith_631_0_2, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC), -1, 0, 1, 1, 1, 0, "u 'string' - 0 - config", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithFFNC", 1336, G___ROOT_DICT_LlewellynSmith_631_0_7, (int) ('i'), G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC), -1, 0, 1, 1, 1, 0, "u 'genie::LwlynSmithFFNC' - 11 - -", (char*) NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("~LwlynSmithFFNC", 1462, G___ROOT_DICT_LlewellynSmith_631_0_8, (int) ('y'), -1, -1, 0, 0, 1, 1, 0, "", (char*) NULL, (void*) NULL, 1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:static void G__setup_memfuncgeniecLcLLwlynSmithQELCCPXSec(void) {
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   /* genie::LwlynSmithQELCCPXSec */
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tag_memfunc_setup(G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec));
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithQELCCPXSec",1862,G___ROOT_DICT_LlewellynSmith_637_0_1, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec), -1, 0, 0, 1, 1, 0, "", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithQELCCPXSec",1862,G___ROOT_DICT_LlewellynSmith_637_0_2, 105, G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec), -1, 0, 1, 1, 1, 0, "u 'string' - 0 - config", (char*)NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("LwlynSmithQELCCPXSec", 1862, G___ROOT_DICT_LlewellynSmith_637_0_10, (int) ('i'), G__get_linked_tagnum(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec), -1, 0, 1, 1, 1, 0, "u 'genie::LwlynSmithQELCCPXSec' - 11 - -", (char*) NULL, (void*) NULL, 0);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__memfunc_setup("~LwlynSmithQELCCPXSec", 1988, G___ROOT_DICT_LlewellynSmith_637_0_11, (int) ('y'), -1, -1, 0, 0, 1, 1, 0, "", (char*) NULL, (void*) NULL, 1);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF = { "genie::LwlynSmithFF" , 99 , -1 };
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC = { "genie::LwlynSmithFFCC" , 99 , -1 };
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC = { "genie::LwlynSmithFFNC" , 99 , -1 };
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec = { "genie::LwlynSmithQELCCPXSec" , 99 , -1 };
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF.tagnum = -1 ;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC.tagnum = -1 ;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC.tagnum = -1 ;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:  G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec.tagnum = -1 ;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tagtable_setup(G__get_linked_tagnum_fwd(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF),sizeof(genie::LwlynSmithFF),-1,34048,(char*)NULL,G__setup_memvargeniecLcLLwlynSmithFF,G__setup_memfuncgeniecLcLLwlynSmithFF);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tagtable_setup(G__get_linked_tagnum_fwd(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC),sizeof(genie::LwlynSmithFFCC),-1,34048,(char*)NULL,G__setup_memvargeniecLcLLwlynSmithFFCC,G__setup_memfuncgeniecLcLLwlynSmithFFCC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tagtable_setup(G__get_linked_tagnum_fwd(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC),sizeof(genie::LwlynSmithFFNC),-1,34048,(char*)NULL,G__setup_memvargeniecLcLLwlynSmithFFNC,G__setup_memfuncgeniecLcLLwlynSmithFFNC);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.cc:   G__tagtable_setup(G__get_linked_tagnum_fwd(&G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec),sizeof(genie::LwlynSmithQELCCPXSec),-1,34048,(char*)NULL,G__setup_memvargeniecLcLLwlynSmithQELCCPXSec,G__setup_memfuncgeniecLcLLwlynSmithQELCCPXSec);
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:#include "LwlynSmithFFCC.h"
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:#include "LwlynSmithFF.h"
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:#include "LwlynSmithFFNC.h"
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:#include "LwlynSmithQELCCPXSec.h"
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:extern G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFF;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:extern G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFCC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:extern G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithFFNC;
+LlewellynSmith/_ROOT_DICT_LlewellynSmith.h:extern G__linked_taginfo G___ROOT_DICT_LlewellynSmithLN_geniecLcLLwlynSmithQELCCPXSec;
+Binary file LlewellynSmith/_ROOT_DICT_LlewellynSmith.o matches
+ReWeight/GReWeightNuXSecCCQE.cxx:  AlgId id("genie::LwlynSmithQELCCPXSec","Default");
+Binary file ReWeight/GReWeightNuXSecCCQE.o matches
+ReWeight/GReWeightNuXSecCCQEvec.cxx:  AlgId id0("genie::LwlynSmithQELCCPXSec","Default");
+ReWeight/GReWeightNuXSecCCQEvec.cxx:  AlgId id1("genie::LwlynSmithQELCCPXSec","DipoleELFF");
+Binary file ReWeight/GReWeightNuXSecCCQEvec.o matches
+test/gtestConfigPool.cxx:       algf->GetAlgorithm("genie::LwlynSmithFFCC","Default");
+Binary file test/gtestConfigPool.o matches

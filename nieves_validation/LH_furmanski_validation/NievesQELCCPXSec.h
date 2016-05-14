@@ -67,8 +67,7 @@ private:
 
   double                       fhbarc;            ///< hbar*c in GeV*fm
 
-  // mutable for testing purposes only!
-  mutable bool                         fRPA;              ///< use RPA corrections
+  bool                         fRPA;              ///< use RPA corrections
   bool                         fCoulomb;          ///< use Coulomb corrections
 
   const NuclearModelI*         fNuclModel;        ///< Nuclear Model for integration
@@ -137,7 +136,7 @@ private:
 		    int tgt_pdgc, int A, int Z, int N,
 		    bool hitNucIsProton) const;
 
-  mutable bool                         fPrintData;        ///< print data
+  bool                         fPrintData;        ///< print data
   mutable bool                 fPrintTensors;     ///< print tensors
   mutable TString              fTensorsOutFile;   ///< file to print tensors to
   mutable double               q2Orig;   

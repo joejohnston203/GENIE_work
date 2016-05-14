@@ -26,11 +26,12 @@ and .gst.root files, and execute this script to generate the plots
 void dsigmadTl_make_plots() {
   // Set paramters for plotting here
   // do not inclue .png extension in output_file_name
-  TString output_file_name = "Furmanski_LFG_1GeV_C12";
+  TString output_file_name = "Nieves_LFG_noRPA_1GeV_C12";
   // location of .gst.root file from gevgen
-  TString rootFile = "/home/joe/GENIE_work/runs/2016_05_13_af_LFG_100000/numu_C12_CCQE_run0.gst.root";
+  TString rootFile = "/home/joe/GENIE_work/runs/2016_05_12_Nieves_LFG_noRPA_noCoul_1mil/numu_C12_CCQE_run0.gst.root";
   // 2 column text file (as above) or .root spline file
   TString spline = "/home/joe/GENIE_work/runs/lfgcomp_2016_03_17/2016_03_17_C12_LS_LFG_1GeV/data_2016_03_17_C12_LS_LFG.txt";
+    //"~/GENIE_work/runs/my_af_runs/2016_05_02_af2_C12_LS_RFG_1GeV/data_2016_05_02_af2_C12_LS_RFG_1GeV.txt";
   TString target = "C12"; // C12 or Pb208
   TString Enu = "1.0"; // in GeV- 0.2, 1.0, or 5.0 
   TString RPA = "0";   // 0 or 1
