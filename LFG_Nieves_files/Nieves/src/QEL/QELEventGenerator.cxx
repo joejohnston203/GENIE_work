@@ -678,49 +678,6 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
   std::cout << "outNucleon COM EvGen:\n";
   outNucleon.Print();*/
 
-  // TEST CODE: Compare xsec for Furmanski code and Nieves code for
-  // COM frame kinematics
-  TLorentzVector qP4test = *(interaction->InitState().GetProbeP4()) - lepton;
-  double Q2test = -1 * qP4test.Mag2();
-  interaction->KinePtr()->SetFSLeptonP4(lepton);
-  interaction->KinePtr()->SetHadSystP4(outNucleon);
-  interaction->KinePtr()->SetQ2(Q2test, true);
-  /*// Compute the QE cross section for the current kinematics ("~" variables)
-  interaction->InitStatePtr()->TgtPtr()->HitNucP4Ptr()->SetE(EN_onshell);
-  try{
-    AlgFactory * algf = AlgFactory::Instance();
-    const XSecAlgorithmI * NievesXSecModel = dynamic_cast<const XSecAlgorithmI*>(
-		    algf->GetAlgorithm("genie::NievesQELCCPXSec","Default"));
-    double nxsec = NievesXSecModel->XSec(interaction,kPSFullDiffQE);
-    const XSecAlgorithmI * LwlynSmithXSecModel = dynamic_cast<const XSecAlgorithmI*>(
-	    algf->GetAlgorithm("genie::LwlynSmithQELCCPXSec","Default"));
-    double lsxsec = LwlynSmithXSecModel->XSec(interaction,kPSFullDiffQE);
-
-    ofstream ffstream;
-    ffstream.open("Nieves_kPSFullDiffQE", std::ios_base::app);
-    ffstream << Q2test << "\t" << nxsec << "\t" << lsxsec << "\t" << nxsec/lsxsec << "\t"
-	     << lsxsec/nxsec << "\n";
-    ffstream.close();
-
-    ffstream.open("LwlynSmith_kPSFullDiffQE", std::ios_base::app);
-    ffstream << Q2test << "\t" << lsxsec << "\t" << nxsec << "\t" << "\n";
-    ffstream.close();
-  }catch(exceptions::NievesQELException e){
-    LOG("QELEvent",pINFO) << e;
-    LOG("QELEvent",pINFO) << "Exception occured while comparing furmanski and nieves formulas";
-    ofstream ffstream;
-    ffstream.open("Nieves_kPSFullDiffQE", std::ios_base::app);
-    ffstream << Q2test << "\t" << 0. << "\t" << 0. << "\t"
-             << "error" << "\n";
-    ffstream.close();
-
-    ffstream.open("LwlynSmith_kPSFullDiffQE", std::ios_base::app);
-    ffstream << Q2test << "\t" << 0. << "\t" << 0. << "\t" 
-             << "error" << "\n";
-    ffstream.close();
-  }
-  interaction->InitStatePtr()->TgtPtr()->HitNucP4Ptr()->SetE(EN_offshell);*/
-  // END TEST
 
 
   // Boost particles
@@ -757,6 +714,44 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
   interaction->KinePtr()->SetFSLeptonP4(lepton);
   interaction->KinePtr()->SetHadSystP4(outNucleon);
   interaction->KinePtr()->SetQ2(Q2, true);
+
+  // TEST CODE: Compare xsec for Furmanski code and Nieves code
+  // Compute the QE cross section for the current kinematics ("~" variables)
+  /*try{
+    AlgFactory * algf = AlgFactory::Instance();
+    const XSecAlgorithmI * NievesXSecModel = dynamic_cast<const XSecAlgorithmI*>(
+		    algf->GetAlgorithm("genie::NievesQELCCPXSec","Default"));
+    double nxsec = NievesXSecModel->XSec(interaction,kPSFullDiffQE);
+    const XSecAlgorithmI * LwlynSmithXSecModel = dynamic_cast<const XSecAlgorithmI*>(
+	    algf->GetAlgorithm("genie::LwlynSmithQELCCPXSec","Default"));
+    double lsxsec = LwlynSmithXSecModel->XSec(interaction,kPSFullDiffQE);
+
+    ofstream ffstream;
+    ffstream.open("Nieves_kPSFullDiffQE", std::ios_base::app);
+    ffstream << Q2 << "\t" << nxsec << "\t" << lsxsec << "\t" << nxsec/lsxsec << "\t"
+	     << lsxsec/nxsec << "\n";
+    ffstream.close();
+
+    ffstream.open("LwlynSmith_kPSFullDiffQE", std::ios_base::app);
+    ffstream << Q2 << "\t" << lsxsec << "\t" << nxsec << "\t" << "\n";
+    ffstream.close();
+  }catch(exceptions::NievesQELException e){
+    LOG("QELEvent",pINFO) << e;
+    LOG("QELEvent",pINFO) << "Exception occured while comparing furmanski and nieves formulas";
+    ofstream ffstream;
+    ffstream.open("Nieves_kPSFullDiffQE", std::ios_base::app);
+    ffstream << Q2 << "\t" << 0. << "\t" << 0. << "\t"
+             << "error" << "\n";
+    ffstream.close();
+
+    ffstream.open("LwlynSmith_kPSFullDiffQE", std::ios_base::app);
+    ffstream << Q2 << "\t" << 0. << "\t" << 0. << "\t" 
+             << "error" << "\n";
+    ffstream.close();
+  }
+  // END TEST*/
+
+
   // Compute the QE cross section for the current kinematics ("~" variables)
   //interaction->InitStatePtr()->TgtPtr()->HitNucP4Ptr()->SetE(EN_onshell);
   try{

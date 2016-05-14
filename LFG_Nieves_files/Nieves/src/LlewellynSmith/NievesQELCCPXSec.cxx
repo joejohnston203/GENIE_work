@@ -1267,17 +1267,17 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
   double a4 = -8.0*q2_M2*xiF2V2*(M2/q2+1.0/4.0) - 
     8.0*M2*FA2/(kPionMass2-q2)*(q2/(kPionMass2-q2)+2.0) - 16.0*F1V*xiF2V;
 
-  //double t0,r00;
+  double t0,r00;
   double CN=1.,CT=1.,CL=1.,imU=0; // NOTE: imU can be removed as an argument here
-  /*  CNCTCLimUcalc(qTildeP4,M,r,is_neutrino,tgtIsNucleus,
+  CNCTCLimUcalc(qTildeP4,M,r,is_neutrino,tgtIsNucleus,
 		tgt_pdgc,A,Z,N,hitNucIsProton,
 		CN,CT,CL,imU,t0,r00);
-
+  
   if(! fRPA){
     CN=1.0;
     CT=1.0;
     CL=1.0;
-    }*/
+  }
 
   //CN = 1.0, CT = 1.0, CL = 1.0;
   //LOG("Nieves",pDEBUG) << "CN=" << CN << ",CT=" << CT << ",CL=" << CL << ",imU=" << imU;
