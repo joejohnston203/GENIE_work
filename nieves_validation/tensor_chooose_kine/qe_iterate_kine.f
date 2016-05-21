@@ -63,6 +63,8 @@ c     script will label and plot the results
         common/calculo/ic
         common/vcfto/vcd
         common/importantisimo/xma
+        common/morethingstoprint/armax,arcurr,aresult1,aresult2,
+     f       aalpha,aZ
 
 
 
@@ -139,7 +141,7 @@ c     CONVOLUTION TURNED OFF
              ELSEIF (KLAVE.EQ.1) THEN
               RMAX=DSQRT(20.D0)*MAX(DXN,DXP)
              ENDIF
-
+             armax = rmax
 
 
 
@@ -150,16 +152,20 @@ c calculo potencial coulomb tamanyo finito
 
                 alpha = 1.d0/137.036d0
  
-                do ir=1,nr
-                r = dr(ir)
-             
+c                do ir=1,nr
+c                r = dr(ir)
+                r = rmaxfrac*rmax
+                arcurr = r
+            
               CALL DSG20R (0.D0,R,5,DRP,NRP)
 
                   do irp = 1,nrP
                    rp=drp(irp)
-                   
+
                    df0 (irp) = (rp**2)*densq(rp)/r
 c                  write(10,*)rp,densq(rp)
+                   call xro(rp)
+                   write(62,16) rp,densq(rp),df0(irp),drop
                   enddo                   
 
               CALL DRG20R (0.D0,R,5,df0,f1)
@@ -168,16 +174,24 @@ c                  write(10,*)rp,densq(rp)
 
                   do irp = 1,nrP
                    rp=drp(irp)
-                   
+
                    df0 (irp) = rp*densq(rp)
 c                  write(10,*)rp,densq(rp)
+                   call xro(rp)
+                   write(62,16) rp,densq(rp),df0(irp),drop
                   enddo                  
 
               CALL DRG20R (R,RMAX,5,df0,f2)
 
+ 16           format(e15.7,e15.7,e15.7,e15.7)
+
+              ir = rmaxfrac*nr
+              aresult1 = f1
+              aresult2 = f2
+              aalpha = alpha
                vcd(ir)=-alpha*ieta*4.d0*dpi*(f1+f2)
 c               write(40,*)r,vcd(ir)*hbarc
-               enddo
+c               enddo
 
                 endif
 
@@ -287,6 +301,8 @@ c               write(40,*)r,vcd(ir)*hbarc
         common/importantisimo/xma
         common/thingstoprint/al1,al2,al3,q2rellin,akf,aef,
      f       al2im,al3im
+        common/morethingstoprint/armax,arcurr,aresult1,aresult2,
+     f       aalpha,aZ
 
        if (ilin.ne.2) stop'no preparado'
 
@@ -328,7 +344,7 @@ c     Coulomb effects turned off for now
               eneu = dsqrt(dmnu**2+dkfn**2)              
               qth = ieta*(epro-eneu)
               endif
-                 
+              
 
               q0 = q0+qth
 
@@ -542,12 +558,18 @@ c          facl=facl*delfacl
      f            rulin(2,2)*hbarc**2*1d-6,rulin(2,3)*hbarc**2*1d-6,
      f            rulin(3,0)*hbarc**2*1d-6,rulin(3,1)*hbarc**2*1d-6,
      f            rulin(3,2)*hbarc**2*1d-6,rulin(3,3)*hbarc**2*1d-6,
-     f            drop,dron,dro,dro0,-q2old*hbarc**2*1d-6,
-     f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0,
-     f            dmnu*hbarc*1d-3,vt*1d6/hbarc**2,vl*1d6/hbarc**2,
-     f      REALPART(CUNUC)*1d-6*hbarc**2,IMAGPART(CUNUC)*1d-6*hbarc**2,
-     f      REALPART(UFULI)*1d-6*hbarc**2,IMAGPART(UFULI)*1d-6*hbarc**2,
-     f            al1,al2,al3,q2rellin,akf,aef,al2im,al3im
+     f            vc*hbarc*1d-3,fema,
+     f            eoutlocal*hbarc*1d-3,poutlocal*hbarc*1d-3,
+     f            eout*hbarc*1d-3,pout*hbarc*1d-3
+carmax,arcurr,aresult1,aresult2,
+c     f            aalpha,
+c     f            drop,dron,dro,dro0
+c     f            ,-q2old*hbarc**2*1d-6
+c     f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0,
+c     f            dmnu*hbarc*1d-3,vt*1d6/hbarc**2,vl*1d6/hbarc**2,
+c     f      REALPART(CUNUC)*1d-6*hbarc**2,IMAGPART(CUNUC)*1d-6*hbarc**2,
+c     f      REALPART(UFULI)*1d-6*hbarc**2,IMAGPART(UFULI)*1d-6*hbarc**2,
+c     f            al1,al2,al3,q2rellin,akf,aef,al2im,al3im
           end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
@@ -555,7 +577,7 @@ c          facl=facl*delfacl
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
      f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,
-     f      e15.7,e15.7,e15.7,e15.7)
+     f      e15.7,e15.7,e15.7,e15.7,e15.7,e15.7)
 
 
             RETURN
@@ -709,13 +731,14 @@ C densidad reducida de fermi
         DRONR=1.D0/(DEXP((DR-DXN)/DA0N)+1.D0)
         DROP=DRO0P*DROPR
         DRON=DRO0N*DRONR
- 
+
                 ELSE
 C densidad reducida oscilador
         DROPR=(1.D0+DA0P*(DR/DXP)**2)*DEXP(-(DR/DXP)**2)
         DRONR=(1.D0+DA0N*(DR/DXN)**2)*DEXP(-(DR/DXN)**2)
         DROP=DRO0P*DROPR
         DRON=DRO0N*DRONR
+
                 END IF
         dro  = drop+dron
         dro0 = dro0p+dro0n
@@ -784,7 +807,6 @@ c protones normalizada a DZZ.
 C densidad reducida de fermi
         DROPR=1.D0/(DEXP((DR-DXP)/DA0P)+1.D0)
         densq=DRO0P*DROPR
-
  
                 ELSE
 C densidad reducida oscilador

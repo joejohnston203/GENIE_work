@@ -7,9 +7,9 @@ void dsigmadTl_plot_multiple() {
   // do not inclue .png extension in output_file_name
   TString output_file_name = "LS_LFG_1GeV_C12";
   // location of .gst.root file from gevgen
-  TString rootFile = "~/GENIE_work/runs/2016_03_17/2016_03_17_C12_LS_LFG_1GeV/numu_C12_CCQE_run1.gst.root";
+  TString rootFile = "~/GENIE_work/runs/2016_05_19_C12_N_RPA_Coul_1GeV/numu_C12_CCQE_run1.gst.root";
   // 2 column text file (as above) or .root spline file
-  TString spline = "~/GENIE_work/runs/2016_03_17/2016_03_17_C12_LS_LFG_1GeV/data_2016_03_17_C12_LS_LFG.txt";
+  TString spline = "~/GENIE_work/runs/2016_05_19_C12_N_RPA_Coul_1GeV/C12_N_LFG.xml";
   TString target = "C12"; // C12 or Pb208
   TString Enu = "1.0"; // in GeV- 0.2, 1.0, or 5.0 
   TString RPA = "0";   // 0 or 1

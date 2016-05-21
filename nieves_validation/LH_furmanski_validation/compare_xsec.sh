@@ -12,11 +12,7 @@
 function compare_xsec() {
     files="$1 $2"
     # Add a line for each stored variable to make a plot
-    #autoGNUPlot "$files" 'q2_q0.png' 1 2 'Q2' 'q0' 'Q2 vs q0'
-    #autoGNUPlot "$files" 'q2_dq.png' 1 3 'Q2' 'dq' 'Q2 vs dq'
-    autoGNUPlot "$files" 'q2_xsec.png' 1 4 'Q2' 'xsec' 'Q2 vs xsec'
-    autoGNUPlot "$files" 'q2_frac.png' 1 5 'Q2' 'Nieves/Furmanski' 'Q2 vs xsec frac'
-    autoGNUPlot "$files" 'q2_xsec2.png' 1 6 'Q2' 'xsec' 'Q2 vs xsec (Nieves div by 4.0)'
+    autoGNUPlot "$files" 'q2_xsec.png' 1 2 'Q2' 'xsec' 'Q2 vs xsec'
 }
 
 # ---------------------------------------------------------------------------

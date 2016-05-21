@@ -1,4 +1,5 @@
 #!/bin/bash
 
 . ~/scripts/atlas_commands.sh
-scp_export_jpj13 runs/2016_05_05_Nieves_LFG_noRPA_noCoul/gen.RPA_E1_ctl0.5_r0 .
+scp_export_jpj13 runs/fort_comparison/gen.RPA_E1_ctl0_r0.5 .
+#scp_export_jpj13 runs/fort_comparison/r_rho.txt .
