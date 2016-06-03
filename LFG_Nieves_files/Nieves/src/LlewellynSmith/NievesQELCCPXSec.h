@@ -29,6 +29,7 @@
 #include "Nuclear/NuclearModelI.h"
 
 #include <complex>
+#include <Math/IFunction.h>
 
 namespace genie {
 
@@ -51,10 +52,6 @@ public:
   // data to private data members
   void Configure (const Registry & config);
   void Configure (string param_set);
-
-  // Generate outgoing lepton
-  void SetRunningOutgoingLepton(const Interaction * interaction,
-				TLorentzVector * probe) const;
 
 private:
   void LoadConfig (void);
@@ -80,10 +77,6 @@ private:
   bool   fDoAvgOverNucleonMomentum;    ///< Average cross section over hit nucleon monentum?
   double fEnergyCutOff;                ///< Average only for energies below this cutoff defining 
                                        ///< the region where nuclear modeling details do matter
-
-  // Variables to do integrals 
-  std::vector<double> fIntervalFractions;
-  std::vector<double> fW;
 
   //Functions needed to calculate XSec:
 
@@ -116,12 +109,6 @@ private:
   // Potential for coulomb correction
   double vcr(const Target * target, double r) const;
 
-  // Functions to do integrals
-  std::vector<double> integrationSetup(double a,double b,int n) const;
-  double integrate(double a,double b,int n,std::vector<double> y) const;
-  //  std::complex<double> integrate(double a,double b,int n,
-  //			 std::vector<std::complex<double> > y) const;
-
   //input must be length 4. Returns 1 if input is an even permutation of 0123,
   //-1 if input is an odd permutation of 0123, and 0 if any two elements
   //are equal
@@ -136,13 +123,17 @@ private:
 		    int tgt_pdgc, int A, int Z, int N,
 		    bool hitNucIsProton) const;
 
-  // NOTE: THE REMAINING CODE IS FOR TESTING PURPOSES ONLY
+  // Generate a temporary lepton in the LAB frame in order to calculate the xsec
+  TLorentzVector GenerateOutgoingLepton(const Interaction * in,
+					TLorentzVector p4v) const;
 
-  mutable bool                 fPrintData;        ///< print data
+  // NOTE: THE REMAINING CODE IS FOR TESTING PURPOSES ONLY
+  // Used to print tensor elements and various inputs for comparison to Nieves'
+  // fortran code
   mutable bool                 fCompareNievesTensors;     ///< print tensors
   mutable TString              fTensorsOutFile;   ///< file to print tensors to
   mutable double               fVc,fCoulombFactor,fresult1,fresult2,
-    falpha,fZ,frmax,frcurr;
+    falpha,frmax,frcurr;
   mutable double               fElocal, fPlocal,fElep,fPlep;
   //mutable double               q2Orig;
   mutable double               rhopStored,rhonStored,rhoStored,rho0Stored;
@@ -153,13 +144,47 @@ private:
   mutable double               fl1,fl2,fl3,q2rellin,fkf,fef,fl2im,fl3im;*/
   void CompareNievesTensors(const Interaction* i) const;
 
-  mutable bool                 fCompareFurmanskiTensorContraction;
-  mutable TString              fLHOutFileNieves;
-  mutable TString              fLHOutFileFurmanski;
-  void PrintFurmanskiLH(const Interaction* i) const;
-  double FurmanskiLH(const Interaction* i) const;
 };
-
 }       // genie namespace
+
+//____________________________________________________________________________
+/*!
+\class    genie::utils::gsl::wrap::NievesQELIntegrand
+
+\brief    Auxiliary scalar function for integration over the nuclear density
+          when calculaing the Coulomb correction in the Nieves QEL xsec model
+
+\author   Joe Johnston, University of Pittsburgh
+          Steven Dytman, University of Pittsburgh
+
+\created  June 03, 2016
+*/
+//____________________________________________________________________________
+
+namespace genie {
+ namespace utils {
+  namespace gsl   {
+   namespace wrap   {
+
+    class NievesQELvcrIntegrand : public ROOT::Math::IBaseFunctionOneDim
+    {
+     public:
+      NievesQELvcrIntegrand(double Rcurr, int A, int Z);
+      ~NievesQELvcrIntegrand();
+       // ROOT::Math::IBaseFunctionOneDim interface
+       unsigned int                      NDim   (void)       const;
+       double                            DoEval (double rin) const;
+       ROOT::Math::IBaseFunctionOneDim * Clone  (void)       const;
+     private:
+       double fRcurr;
+       double fA;
+       double fZ;
+    };
+
+   } // wrap namespace
+  } // gsl namespace
+ } // utils namespace
+} // genie namespace
+
 
 #endif  

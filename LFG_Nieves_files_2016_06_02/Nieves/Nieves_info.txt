@@ -1,0 +1,132 @@
+Nieves' QEL model with RPA
+
+Nieves' model depends on the LFG nuclear model, so all files 
+from that model are used.
+
+Files that must be added/modified in the GENIE code in order
+to implement Nieves QEL model:
+
+Added:
+config/NievesQELCCPXSec.xml
+src/LlewellynSmith/NievesQELCCPXSec.h
+src/LlewellynSmith/NievesQELCCPXSec.cxx
+src/LlewellynSmith/NievesQELException.h
+src/LlewellynSmith/NievesQELException.cxx
+config/QELEventGenerator.xml
+src/QEL/QELEventGenerator.cxx
+src/QEL/QELEventGenerator.h
+
+Modified:
+config/master_config.xml
+config/UserPhysicsOptions.xml 
+config/ Messenger files
+src/LlewelynSmith/LinkDef.h
+config/EventGenerator.xml
+src/Conventions/KinePhaseSpace.h
+src/Interaction/InitialState.cxx
+src/Interaction/InitialState.h
+src/QEL/LinkDef.h
+src/QEL/QELPrimaryLeptonGenerator.cxx
+src/QEL/QELKinematicsGenerator.h
+src/QEL/QELKinematicsGenerator.cxx
+(Note that if the QELEventGenerator class replaces the old QEL
+code in GENIE, then QELKinematicsGenerator will no longer be needed,
+but the QELPrimaryLeptonGenerator class is still required because
+it contains code that allows the NievesQELCCPXSec code to generate
+an outgoing lepton for each Q2 when integrating over Q2 to generate
+the spline)
+
+Files from LFGNuclearModel:
+config/LocalFGM.xml
+config/LwlynSmithQELCCPXSec.xml
+config/QELXSec.xml
+src/CrossSections/QELXSec.h
+src/CrossSections/QELXSec.cxx
+src/EVGModules/FermiMover.cxx
+src/EVGModules/PauliBlocker.h
+src/EVGModules/PauliBlocker.cxx
+src/Interaction/Target.h
+src/Interaction/Target.cxx
+src/LwlynSmith/LwlynSmithQELCCPXSec.cxx
+src/Nuclear/LocalFGM.h
+src/Nuclear/LocalFGM.cxx
+src/Nuclear/LinkDef.h
+src/Nuclear/NuclearModel.h
+src/Nuclear/NuclearModelI.h
+src/Nuclear/NuclearModelMap.h
+src/Nuclear/NuclearModelMap.cxx
+src/QEL/QELKinematicsGenerator.cxx
+src/Utils/NuclearUtils.cxx
+
+-----------------------------------------------------------------------
+
+Summary:
+
+config/NievesQELCCPXSec.xml:
+src/LlewellynSmith/NievesQELCCPXSec.h
+src/LlewellynSmith/NievesQELCCPXSec.cxx
+src/LlewellynSmith/NievesQELException.h
+src/LlewellynSmith/NievesQELException.cxx
+
+Files to implement Nieves' QEL model. It can include RPA long range 
+correlations in order to account for the intermediate W boson 
+interacting with surrounding nucleons. It can also include
+Couloumb corrections. Gives identical results 
+to LwlynSmithQELCCPXSec when the target is a free nucleon. The
+exception is thrown if an event is unphysical, such as when
+Coulomb effects would push the event below threshold.
+
+config/master_config.xml
+One line added to link to NievesQELCCPXSec.xml
+One line added to link to QELEventGenerator.xml
+(One line added to link to LFGNuclearModel.xml)
+
+config/UserPhysicsOptions.xml
+Comments added to mention NievesQELCCPXSec (and LocalFGM)
+as options
+
+config/ Messenger files 
+updated to inclue NievesQELCCPXSec and QELEventGenerator (and LocalFGM)
+respectively use the same messenger settings as LwlynSmithQELCCPXSec and
+QELKinematicsGenerator (and BodekRitchie)
+
+src/LwlynSmith/LinkDef.h
+Updated to link NievesQELCCPXSec to the genie
+
+src/QEL/QELKinematicsGenerator.h
+src/QEL/QELKinematicsGenerator.cxx
+QELKinematicsGenerator updated to catch NievesQELCCPXSecException.
+
+src/QEL/QELPrimaryLeptonGenerator.cxx
+QELPrimaryLeptonGenerator has a method that can be accessed by
+NievesQELCCPXSec that genrates a lepton and stores it in the running
+kinematics variables. If there is a stored lepton when QELPrimaryLeptonGenerator
+runs, it accesses that stored leptona and adds it to the event record.
+(Otherwise the parent PrimaryLeptonGenerator class is called to generate
+a lepton).
+
+config/EventGenerator.xml
+src/Conventions/KinePhaseSpace.h
+src/Interaction/InitialState.cxx
+src/Interaction/InitialState.h
+src/QEL/QELEventGenerator.cxx
+src/QEL/QELEventGenerator.h
+Replaces FermiMover, QELKinematicsGenerator, QELPrimaryLeptonGenerator,
+and QELHadronicSystemGenerator in order to generate all kinematics
+before calculating the cross section.
+Adaptation of Andrew Furmanski's code.
+
+-----------------------------------------------------------------------
+LocalFGM:
+Local Fermi gas model, where the Fermi momentum depends on the position
+in the nucleus. Nieves used this model when doing his calculation,
+so the best data should be obtained by combining Nieves' QEL model
+with the LFG nuclear model.
+The code to implement Nieves' model also depends on several changes
+made for the LocalFGM model, such as changes to QELXSec so that
+the physics necessary to do an integral is moved to the XSec object
+(in this case NievesQELCCPXSec), so I can have the Nieves code
+always average over initial nucleons when calculating the integral.
+See LFG_info.txt for more info about the changes added with the
+LocalFGM model.
+-----------------------------------------------------------------------

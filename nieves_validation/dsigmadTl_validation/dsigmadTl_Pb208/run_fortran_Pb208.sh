@@ -3,7 +3,7 @@
 # Script to run qe-gen-integral-dOmega.f and generate data files 
 CWD=$(pwd)
 
-target='C12'
+target='Pb208'
 for RPA in 1 0; do
 for Coul in 1 0; do
 for Enu in 0.2 1.0 5.0; do

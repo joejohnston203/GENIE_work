@@ -413,10 +413,26 @@ cccccccccccccccccc              xma = 1.049*1.D3/hbarc
               ga = 1.257d0
               xmpi = 139.57d0 / hbarc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc             
-              f1v = 0.5d0*gq*(1.d0+tau*dmagp
-     f         -dmagn*xln*tau**2/(1.d0+xln*tau))/(1.d0+tau)
-              xmuf2v =0.5d0*gq*(-1.d0+dmagp
-     f         -dmagn*(1.d0+xln*tau+tau)/(1.d0+xln*tau))/(1.d0+tau)
+c              f1v = 0.5d0*gq*(1.d0+tau*dmagp
+c     f         -dmagn*xln*tau**2/(1.d0+xln*tau))/(1.d0+tau)
+c              xmuf2v =0.5d0*gq*(-1.d0+dmagp
+c     f         -dmagn*(1.d0+xln*tau+tau)/(1.d0+xln*tau))/(1.d0+tau)
+
+c     Try to match genie
+              gep = gq
+c     genie has gen = 0
+c              gen = -dmagn*tau/(1+xln*tau)*gep
+              gen = 0
+              gmp = dmagp*gep
+              gmn = dmagn*gep
+
+              f1p = (gep+tau*gmp)/(1+tau)
+              f1n = (gen+tau*gmn)/(1+tau)
+              f1v = 0.5d0*(f1p-f1n)
+
+              xmuf2p = (gmp-gep)/(1+tau)
+              xmuf2n = (gmn-gen)/(1+tau)
+              xmuf2v = 0.5d0*(xmuf2p-xmuf2n)
 
 
               GAQ = ga /(1.d0-Q2/xma**2)**2 

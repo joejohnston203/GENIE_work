@@ -1,0 +1,10 @@
+Order that I copied files from ~joe/2016_03_18_LFG/
+to trunk290 folder:
+
+config/*
+src/Interaction/*
+src/Nuclear/*
+src/EVGModules/*
+src/QEL/QELKinematicsGenerator.cxx
+src/Utils/NuclearUtils.cxx
+CrossSections/* and LlewellynSmith/*

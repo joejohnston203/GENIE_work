@@ -10,33 +10,26 @@ Added:
 config/NievesQELCCPXSec.xml
 src/LlewellynSmith/NievesQELCCPXSec.h
 src/LlewellynSmith/NievesQELCCPXSec.cxx
-src/LlewellynSmith/NievesQELException.h
-src/LlewellynSmith/NievesQELException.cxx
 config/QELEventGenerator.xml
 src/QEL/QELEventGenerator.cxx
 src/QEL/QELEventGenerator.h
 
 Modified:
-config/master_config.xml
-config/UserPhysicsOptions.xml 
-config/ Messenger files
-src/LlewelynSmith/LinkDef.h
 config/EventGenerator.xml
+config/master_config.xml
+config/ Messenger files
+config/UserPhysicsOptions.xml 
+src/EVGModules/VertexGenerator.h
+src/EVGModules/VertexGenerator.cxx
+src/LlewelynSmith/LinkDef.h
+src/LlewellynSmith/NievesQELCCPXSec.h
+src/LlewellynSmith/NievesQELCCPXSec.cxx
 src/Conventions/KinePhaseSpace.h
 src/Interaction/InitialState.cxx
 src/Interaction/InitialState.h
 src/QEL/LinkDef.h
-src/QEL/QELPrimaryLeptonGenerator.cxx
-src/QEL/QELKinematicsGenerator.h
-src/QEL/QELKinematicsGenerator.cxx
-(Note that if the QELEventGenerator class replaces the old QEL
-code in GENIE, then QELKinematicsGenerator will no longer be needed,
-but the QELPrimaryLeptonGenerator class is still required because
-it contains code that allows the NievesQELCCPXSec code to generate
-an outgoing lepton for each Q2 when integrating over Q2 to generate
-the spline)
 
-Files from LFGNuclearModel:
+Files from LFGNuclearModel (must be added first):
 config/LocalFGM.xml
 config/LwlynSmithQELCCPXSec.xml
 config/QELXSec.xml
@@ -47,10 +40,11 @@ src/EVGModules/PauliBlocker.h
 src/EVGModules/PauliBlocker.cxx
 src/Interaction/Target.h
 src/Interaction/Target.cxx
+src/LwlynSmith/LwlynSmithQELCCPXSec.h
 src/LwlynSmith/LwlynSmithQELCCPXSec.cxx
+src/Nuclear/LinkDef.h
 src/Nuclear/LocalFGM.h
 src/Nuclear/LocalFGM.cxx
-src/Nuclear/LinkDef.h
 src/Nuclear/NuclearModel.h
 src/Nuclear/NuclearModelI.h
 src/Nuclear/NuclearModelMap.h
@@ -65,72 +59,59 @@ Summary:
 config/NievesQELCCPXSec.xml:
 src/LlewellynSmith/NievesQELCCPXSec.h
 src/LlewellynSmith/NievesQELCCPXSec.cxx
-src/LlewellynSmith/NievesQELException.h
-src/LlewellynSmith/NievesQELException.cxx
-
+src/LwlynSmith/LinkDef.h
 Files to implement Nieves' QEL model. It can include RPA long range 
 correlations in order to account for the intermediate W boson 
 interacting with surrounding nucleons. It can also include
 Couloumb corrections. Gives identical results 
-to LwlynSmithQELCCPXSec when the target is a free nucleon. The
-exception is thrown if an event is unphysical, such as when
-Coulomb effects would push the event below threshold.
-
-config/master_config.xml
-One line added to link to NievesQELCCPXSec.xml
-One line added to link to QELEventGenerator.xml
-(One line added to link to LFGNuclearModel.xml)
-
-config/UserPhysicsOptions.xml
-Comments added to mention NievesQELCCPXSec (and LocalFGM)
-as options
-
-config/ Messenger files 
-updated to inclue NievesQELCCPXSec and QELEventGenerator (and LocalFGM)
-respectively use the same messenger settings as LwlynSmithQELCCPXSec and
-QELKinematicsGenerator (and BodekRitchie)
-
-src/LwlynSmith/LinkDef.h
-Updated to link NievesQELCCPXSec to the genie
-
-src/QEL/QELKinematicsGenerator.h
-src/QEL/QELKinematicsGenerator.cxx
-QELKinematicsGenerator updated to catch NievesQELCCPXSecException.
-
-src/QEL/QELPrimaryLeptonGenerator.cxx
-QELPrimaryLeptonGenerator has a method that can be accessed by
-NievesQELCCPXSec that genrates a lepton and stores it in the running
-kinematics variables. If there is a stored lepton when QELPrimaryLeptonGenerator
-runs, it accesses that stored leptona and adds it to the event record.
-(Otherwise the parent PrimaryLeptonGenerator class is called to generate
-a lepton).
+to LwlynSmithQELCCPXSec when when RPA and Coulomb effects are 
+turned off, and when the target is a free nucleon.
 
 config/EventGenerator.xml
 src/Conventions/KinePhaseSpace.h
 src/Interaction/InitialState.cxx
 src/Interaction/InitialState.h
+src/QEL/QELLinkDef.h
 src/QEL/QELEventGenerator.cxx
 src/QEL/QELEventGenerator.h
+src/LlewellynSmith/LwlynSmithQELCCPXSec.h
+src/LlewellynSmith/LwlynSmithQELCCPXSec.cxx
 Replaces FermiMover, QELKinematicsGenerator, QELPrimaryLeptonGenerator,
 and QELHadronicSystemGenerator in order to generate all kinematics
 before calculating the cross section.
 Adaptation of Andrew Furmanski's code.
-One line added to KinePhaseSpace.h to include kPSFullDiffQE as a 
-choice for phase space. 
-A method is added to the Initial state class to calculate the center
-of mass energy.
+
+src/EVGModules/VertexGenerator.h
+src/EVGModules/VertexGenerator.cxx
+Updated to put vertex generation in its own public method to improve
+code reusability. NievesQELCCPXSec::Integrate() and
+LwlynSmithQELCCPXSec::Integrate() now use the public method in
+VertexGenerator when generating a position before generating a nucleon
+when calculating the cross section.
+
+config/master_config.xml
+One line added to link to NievesQELCCPXSec.xml
+One line added to link to QELEventGenerator.xml
+
+config/UserPhysicsOptions.xml
+Comments added to mention NievesQELCCPXSec as an option
+
+config/ Messenger files 
+Updated to inclue NievesQELCCPXSec and QELEventGenerator.
+Respectively use the same messenger settings as LwlynSmithQELCCPXSec
+and QELKinematicsGenerator.
 
 -----------------------------------------------------------------------
 LocalFGM:
 Local Fermi gas model, where the Fermi momentum depends on the position
-in the nucleus. Nieves used this model when doing his calculation,
+in the nucleus. Nieves used this model when doing his calculations,
 so the best data should be obtained by combining Nieves' QEL model
 with the LFG nuclear model.
 The code to implement Nieves' model also depends on several changes
 made for the LocalFGM model, such as changes to QELXSec so that
 the physics necessary to do an integral is moved to the XSec object
-(in this case NievesQELCCPXSec), so I can have the Nieves code
-always average over initial nucleons when calculating the integral.
+(in this case NievesQELCCPXSec). This waythe Nieves code
+always averages over initial nucleons when calculating the integral.
 See LFG_info.txt for more info about the changes added with the
 LocalFGM model.
 -----------------------------------------------------------------------

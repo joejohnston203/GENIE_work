@@ -1,0 +1,25 @@
+top directory: /export/home/jpj13/runs
+working in: /export/home/jpj13/runs/test2_2016_06_02_C12_1.0GeV_N_noRPA_noCoul_RFG
+running gmkspl
+Fri Jun  3 00:19:36 EDT 2016
+
+
+N LFG gmkspl finished for test2_2016_06_02_C12_1.0GeV_N_noRPA_noCoul_RFG0_CCQE
+Generating png graph
+Fri Jun  3 00:20:23 EDT 2016
+
+
+mkspl complete
+Fri Jun  3 00:20:23 EDT 2016
+
+
+running gevgen and gntpc
+
+
+gevgen and gntpc finished
+Fri Jun  3 00:22:12 EDT 2016
+
+
+mkspl_rungevgen.sh finished
+
+

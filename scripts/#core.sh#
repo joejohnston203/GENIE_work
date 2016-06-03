@@ -90,7 +90,7 @@ function mkspl_rungevgen() {
 # 10 ymin
 # 11 ymax
 # put nothing to use defaults for arguments 5 and up
-autoGNUPlot() {
+autoGUNsmPlot() {
     out=$2
     if [ -z "$2" ]
 	then

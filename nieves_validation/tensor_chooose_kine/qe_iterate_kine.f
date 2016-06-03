@@ -396,7 +396,7 @@ c     f         -dmagn*(1.d0+xln*tau+tau)/(1.d0+xln*tau))/(1.d0+tau)
 
 c     Try to match genie
               gep = gq
-c     genie has gen = 0 for some reason...
+c     genie has gen = 0
 c              gen = -dmagn*tau/(1+xln*tau)*gep
               gen = 0
               gmp = dmagp*gep

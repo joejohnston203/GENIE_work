@@ -1,5 +1,4 @@
-Order that I copied files from ~joe/2016_03_18_LFG/
-to trunk290 folder:
+Order that I copied and compiled files:
 
 config/*
 src/Interaction/*

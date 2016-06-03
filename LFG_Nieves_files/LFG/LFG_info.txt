@@ -98,8 +98,8 @@ when creating the splines.
 config/LwlynSmithQELCCPXSec.xml
 src/LwlynSmith/LwlynSmithQELCCPXSec.cxx
 src/LwlynSmith/LwlynSmithQELCCPXSec.h
-Updated Integral() method to decide whether to average over initial
-nucleons, and to choose a radius and then a nucleon if averaging over
+Updated Integral() method to average over initial nucleons for LFG,
+and to choose a radius and then a nucleon if averaging over
 initial nucleons. (This removes physics from the QELXSec class, so that
 class can serve simply as an interface between numerical packages and
 physics packages). 
