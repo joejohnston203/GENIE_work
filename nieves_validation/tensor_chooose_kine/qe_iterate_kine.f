@@ -165,7 +165,7 @@ c                r = dr(ir)
                    df0 (irp) = (rp**2)*densq(rp)/r
 c                  write(10,*)rp,densq(rp)
                    call xro(rp)
-                   write(62,16) rp,densq(rp),df0(irp),drop
+c                   write(62,16) rp,densq(rp),df0(irp),drop
                   enddo                   
 
               CALL DRG20R (0.D0,R,5,df0,f1)
@@ -178,7 +178,7 @@ c                  write(10,*)rp,densq(rp)
                    df0 (irp) = rp*densq(rp)
 c                  write(10,*)rp,densq(rp)
                    call xro(rp)
-                   write(62,16) rp,densq(rp),df0(irp),drop
+c                   write(62,16) rp,densq(rp),df0(irp),drop
                   enddo                  
 
               CALL DRG20R (R,RMAX,5,df0,f2)
@@ -336,17 +336,16 @@ c            correccion del potencial coulombiano
               DKFN=(3.D0*DPI*DPI*DRON)**(1.D0/3.D0)
 
               if (ipol.eq.1) then 
-c     Coulomb effects turned off for now
+c                Coulomb effects
                  ir = rmaxfrac*nr
                  vc = vcd(ir)
- 
-              epro = dsqrt(dmnu**2+dkfp**2)              
-              eneu = dsqrt(dmnu**2+dkfn**2)              
-              qth = ieta*(epro-eneu)
+                 epro = dsqrt(dmnu**2+dkfp**2)              
+                 eneu = dsqrt(dmnu**2+dkfn**2)              
+                 qth = ieta*(epro-eneu)
               endif
               
 
-              q0 = q0+qth
+c              q0 = q0+qth
 
                eoutlocal = eout-vc
                if ((eout-vc-dmf).lt.0) then
@@ -560,15 +559,16 @@ c          facl=facl*delfacl
      f            rulin(3,2)*hbarc**2*1d-6,rulin(3,3)*hbarc**2*1d-6,
      f            vc*hbarc*1d-3,fema,
      f            eoutlocal*hbarc*1d-3,poutlocal*hbarc*1d-3,
-     f            eout*hbarc*1d-3,pout*hbarc*1d-3
+     f            eout*hbarc*1d-3,pout*hbarc*1d-3,
+     f            vt*1d6/hbarc**2,vl*1d6/hbarc**2,
+     f      REALPART(CUNUC)*1d-6*hbarc**2,IMAGPART(CUNUC)*1d-6*hbarc**2,
+     f      REALPART(UFULI)*1d-6*hbarc**2,IMAGPART(UFULI)*1d-6*hbarc**2
 carmax,arcurr,aresult1,aresult2,
 c     f            aalpha,
 c     f            drop,dron,dro,dro0
 c     f            ,-q2old*hbarc**2*1d-6
 c     f            fkf1*hbarc*1d-3,fkf2*hbarc*1d-3,c0pol,fprima0,
 c     f            dmnu*hbarc*1d-3,vt*1d6/hbarc**2,vl*1d6/hbarc**2,
-c     f      REALPART(CUNUC)*1d-6*hbarc**2,IMAGPART(CUNUC)*1d-6*hbarc**2,
-c     f      REALPART(UFULI)*1d-6*hbarc**2,IMAGPART(UFULI)*1d-6*hbarc**2,
 c     f            al1,al2,al3,q2rellin,akf,aef,al2im,al3im
           end if
  15       format(e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,e15.7,

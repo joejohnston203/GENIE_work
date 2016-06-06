@@ -56,6 +56,12 @@ function compare_tensors_choose_kine() {
     autoGNUPlot "$files" 'coul_'$3'_q2_poutlocal.png' 1 41 'Q2' 'poutlocal' 'Q2 vs poutlocal'
     autoGNUPlot "$files" 'coul_'$3'_q2_eout.png' 1 42 'Q2' 'eout' 'Q2 vs eout'
     autoGNUPlot "$files" 'coul_'$3'_q2_pout.png' 1 43 'Q2' 'pout' 'Q2 vs pout'
+    autoGNUPlot "$files" 'pc_'$3'_q2_Vt.png' 1 44 'Q2' 'Vt' 'Q2 vs Vt'
+    autoGNUPlot "$files" 'pc_'$3'_q2_Vl.png' 1 45 'Q2' 'Vl' 'Q2 vs Vl'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinRe.png' 1 46 'Q2' 'relLinRe' 'Q2 vs relLinRe'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinIm.png' 1 47 'Q2' 'relLinIm' 'Q2 vs relLinIm'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinTotRe.png' 1 48 'Q2' 'relLinTotRe' 'Q2 vs relLinTotRe'
+    autoGNUPlot "$files" 'pc_'$3'_q2_relLinTotIm.png' 1 49 'Q2' 'relLinTotIm' 'Q2 vs relLinTotIm'
 
     # Nuclear density
     #autoGNUPlot "$files" 'dens_'$3'_q2_drop.png' 1 45 'Q2' 'drop' 'Q2 vs drop'
@@ -68,12 +74,7 @@ function compare_tensors_choose_kine() {
     #autoGNUPlot "$files" 'pc_'$3'_q2_c0.png' 1 45 'Q2' 'c0' 'Q2 vs c0'
     #autoGNUPlot "$files" 'pc_'$3'_q2_fPrime0.png' 1 46 'Q2' 'fPrime0' 'Q2 vs fPrime0'
     #autoGNUPlot "$files" 'kine_'$3'_q2_M.png' 1 47 'Q2' 'M' 'Q2 vs M'
-    #autoGNUPlot "$files" 'pc_'$3'_q2_Vt.png' 1 48 'Q2' 'Vt' 'Q2 vs Vt'
-    #autoGNUPlot "$files" 'pc_'$3'_q2_Vl.png' 1 49 'Q2' 'Vl' 'Q2 vs Vl'
-    #autoGNUPlot "$files" 'pc_'$3'_q2_relLinRe.png' 1 50 'Q2' 'relLinRe' 'Q2 vs relLinRe'
-    #autoGNUPlot "$files" 'pc_'$3'_q2_relLinIm.png' 1 51 'Q2' 'relLinIm' 'Q2 vs relLinIm'
-    #autoGNUPlot "$files" 'pc_'$3'_q2_relLinTotRe.png' 1 52 'Q2' 'relLinTotRe' 'Q2 vs relLinTotRe'
-    #autoGNUPlot "$files" 'pc_'$3'_q2_relLinTotIm.png' 1 53 'Q2' 'relLinTotIm' 'Q2 vs relLinTotIm'
+
     #autoGNUPlot "$files" 'pc_'$3'_q2_L1.png' 1 54 'Q2' 'L1' 'Q2 vs L1'
     #autoGNUPlot "$files" 'pc_'$3'_q2_L2.png' 1 55 'Q2' 'L2' 'Q2 vs L2'
     #autoGNUPlot "$files" 'pc_'$3'_q2_L3.png' 1 56 'Q2' 'L3' 'Q2 vs L3'
