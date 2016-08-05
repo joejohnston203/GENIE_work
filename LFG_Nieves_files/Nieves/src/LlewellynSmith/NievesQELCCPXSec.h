@@ -90,9 +90,6 @@ private:
 		     double & imU, double & t0, double & r00) const;
 
   //Equations to calculate the relativistic Lindhard function for Amunu
-  /*std::complex<double> relLindhardIm(double q0gev, double dqgev,
-				     double kFngev, double kFpgev,
-				     double M, bool isNeutrino) const;*/
   std::complex<double> relLindhardIm(double q0gev, double dqgev,
 				     double kFngev, double kFpgev,
 				     double M, bool isNeutrino,
@@ -127,23 +124,14 @@ private:
   TLorentzVector GenerateOutgoingLepton(const Interaction * in,
 					TLorentzVector p4v) const;
 
-  // NOTE: THE REMAINING CODE IS FOR TESTING PURPOSES ONLY
+  // NOTE: THE FOLLOWING CODE IS FOR TESTING PURPOSES ONLY
   // Used to print tensor elements and various inputs for comparison to Nieves'
   // fortran code
   mutable bool                 fCompareNievesTensors;     ///< print tensors
   mutable TString              fTensorsOutFile;   ///< file to print tensors to
-  mutable double               fVc,fCoulombFactor,fresult1,fresult2,
-    falpha,frmax,frcurr;
-  mutable double               fElocal, fPlocal,fElep,fPlep;
-  //mutable double               q2Orig;
-  mutable double               rhopStored,rhonStored,rhoStored,rho0Stored;
-  //mutable double               fKF1, fKF2;
-  /*mutable double               fc0, fPrimeStored;
-  mutable double               fVt,fVl,fRelLinReal,fRelLinIm,
-                               fRelLinTotReal,fRelLinTotIm;
-  mutable double               fl1,fl2,fl3,q2rellin,fkf,fef,fl2im,fl3im;*/
+  mutable double               fVc,fCoulombFactor;
   void CompareNievesTensors(const Interaction* i) const;
-
+  // END TESTING CODE
 };
 }       // genie namespace
 

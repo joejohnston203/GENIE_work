@@ -658,7 +658,14 @@ double QELEventGenerator::ComputeXSec( Interaction * interaction, double costhet
 
   double s = interaction->InitState().CMEnergy(); // actually sqrt(s)
   s *= s; // now s actually = s
-  double outLeptonEnergy = ( s - Mp*Mp + lepMass*lepMass ) / (2 * TMath::Sqrt(s));
+  
+  //double outLeptonEnergy = ( s - Mp*Mp + lepMass*lepMass ) / (2 * TMath::Sqrt(s));
+  // TESTING: UNIFORMLY GENERATE OUTGOING LEPTON ENERGY
+  RandomGen * rnd = RandomGen::Instance();
+  TLorentzVector * tempNeutrino = init_state.GetProbeP4(kRfLab);
+  double outLeptonEnergy = rnd->RndKine().Rndm() * tempNeutrino->E();
+  delete tempNeutrino;
+
   if(outLeptonEnergy*outLeptonEnergy-lepMass*lepMass < 0.) return 0.;
   double outMomentum = TMath::Sqrt(outLeptonEnergy*outLeptonEnergy - lepMass*lepMass);
   //LOG("QELEvent",pDEBUG) << "calculated root s and outLeptonEnergy" << std::endl;

@@ -12,18 +12,13 @@
 */
 //____________________________________________________________________________
 
-#include <iostream>
-#include <fstream>
-#include <complex>
-
 #include <TMath.h>
 #include <TVector3.h>
 #include <TLorentzVector.h>
-#include <ctype.h>
 #include <Math/IFunction.h>
 #include <Math/Integrator.h>
+#include <complex>
 
-#include "Algorithm/AlgFactory.h"
 #include "Algorithm/AlgConfigPool.h"
 #include "Base/XSecIntegratorI.h"
 #include "Base/QELFormFactors.h"
@@ -35,7 +30,6 @@
 #include "Conventions/Units.h"
 #include "EVGModules/VertexGenerator.h"
 #include "GHEP/GHepParticle.h"
-#include "GHEP/GHepStatus.h"
 #include "Messenger/Messenger.h"
 #include "Nuclear/NuclearModelI.h"
 #include "Nuclear/FermiMomentumTablePool.h"
@@ -50,6 +44,10 @@
 #include "Utils/NuclearUtils.h"
 #include "Utils/PrintUtils.h"
 #include "Utils/GSLUtils.h"
+
+
+#include <iostream> // Used for testing code
+#include <fstream> // Used for testing code
 
 using namespace genie;
 using namespace genie::constants;
@@ -78,11 +76,10 @@ NievesQELCCPXSec::~NievesQELCCPXSec()
 double NievesQELCCPXSec::XSec(const Interaction * interaction,
 		       KinePhaseSpace_t kps) const
 {
-  // TESTING CODE:
+  /*// TESTING CODE:
   // The first time this method is called, output tensor elements and other
   // kinmeatics variables for various kinematics. This can the be compared
   // to Nieves' fortran code for validation purposes
-  //bool exit_prog = false;
   if(fCompareNievesTensors){
     LOG("Nieves",pNOTICE) << "Printing tensor elements for specific " 
 			  << "kinematics for testing purposes";
@@ -90,7 +87,7 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
     fCompareNievesTensors = false;
     exit(0);
   }
-  // END TESTING CODE
+  // END TESTING CODE*/
 
 
   if(! this -> ValidProcess    (interaction) ) return 0.;
@@ -243,10 +240,14 @@ double NievesQELCCPXSec::XSec(const Interaction * interaction,
 
     // Correction factor
     coulombFactor= plLocal*ElLocal/leptonMom.Vect().Mag()/El;
-    fElocal = ElLocal;
-    fPlocal = plLocal;
-    fElep = El;
-    fPlep = leptonMom.Vect().Mag();
+
+    // Correcting outgoing lepton momentum is possible, but not doing
+    // so gives better agreement with plots made with code supplied
+    // by Nieves.
+    /*TVector3 ElVect = leptonMom.Vect();
+    ElVect.SetMag(plLocal);
+    leptonMom.SetVect(ElVect);
+    leptonMom.SetE(ElLocal);*/
   }
 
   // Calculate xsec
@@ -503,12 +504,6 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
     double rho = rhop + rhon;
     double rho0 = A*nuclear::Density(0,A);
 
-    // TESTING CODE
-    rhopStored = rhop;
-    rhonStored = rhon;
-    rhoStored = rho;
-    rho0Stored = rho0;
-    
     double fPrime = (0.33*rho/rho0+0.45*(1-rho/rho0))*c0;
     
     // Get Fermi momenta
@@ -531,26 +526,16 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
       }
     }
 
-    /*fc0 = c0;
-    fPrimeStored = fPrime;
-    fKF1 = kF1;
-    fKF2 = kF2;*/
-
     //LOG("Nieves",pDEBUG) << "r=" << r << ",kF1=" << kF1 << ",kF2=" << kF2;
-    //double kF = kF1 + kF2;
+
     double kF = TMath::Power(1.5*kPi2*rho, 1.0/3.0) *fhbarc;
 
     std::complex<double> imU(relLindhardIm(qTildeP4.E(),dq,kF1,kF2,
 					   M,is_neutrino,t0,r00));
 
     imaginaryU = imag(imU);
-    //LOG("Nieves",pDEBUG) << "imU = " << imaginaryU;
-    std::complex<double> relLin(0,0),udel(0,0);
 
-    /* LOG("Nieves",pDEBUG) << "q0 = " <<qTildeP4.E() << ", dq = " << dq
-			 << ", kF = " << kF << ", M = " << M 
-			 << ", is_neu = " << is_neutrino
-			 << ", imU = " << imU;*/
+    std::complex<double> relLin(0,0),udel(0,0);
 
     // By comparison with Nieves' fortran code
     if(imaginaryU < 0.){
@@ -577,14 +562,7 @@ void NievesQELCCPXSec::CNCTCLimUcalc(TLorentzVector qTildeP4,
 
     CT = 1.0/TMath::Power(abs(1.0-relLinTot*Vt),2);
     CL = 1.0/TMath::Power(abs(1.0-relLinTot*Vl),2);
-    LOG("Nieves",pDEBUG) <<"CN = " << CN <<",CT = " << CT << ",CL = " << CL;
-
-    /*fVt = Vt;
-    fVl = Vl;
-    fRelLinReal = real(relLin);
-    fRelLinIm = imag(relLin);
-    fRelLinTotReal = real(relLinTot);
-    fRelLinTotIm = imag(relLinTot);*/
+    //LOG("Nieves",pDEBUG) <<"CN = " << CN <<",CT = " << CT << ",CL = " << CL;
   }else{
     //Polarization Coefficients: all equal to 1.0 for free nucleon
     CN = 1.0;
@@ -668,8 +646,10 @@ std::complex<double> NievesQELCCPXSec::relLindhard(double q0gev,
   }
 
   std::complex<double> RealLinRel(ruLinRelX(q0,qm,kf,m)+ruLinRelX(-q0,qm,kf,m));
+  double t0,r00;
+  std::complex<double> ImLinRel(relLindhardIm(q0gev,dqgev,kFgev,kFgev,M,isNeutrino,t0,r00));
   //Units of GeV^2
-  return(RealLinRel*TMath::Power(fhbarc,2) + 2.0*relLindIm);
+  return(RealLinRel*TMath::Power(fhbarc,2) + 2.0*ImLinRel);
 }
 //____________________________________________________________________________
 //Inputs assumed to be in natural units
@@ -700,15 +680,6 @@ std::complex<double> NievesQELCCPXSec::ruLinRelX(double q0, double qm,
 			     (TMath::Power(2*kf - q0*ds,2)-qm2))) + 
        TMath::Log(TMath::Abs((TMath::Power(kf-ef*ds,2) - (4*m4*qm2)/q4)/
 			     (TMath::Power(kf+ef*ds,2) - (4*m4*qm2)/q4))));
-  
-  /*q2rellin = q2;
-  fl1 = L1;
-  fl2 = real(uL2);
-  fl3 = real(uL3);
-  fkf = kf;
-  fef = ef;
-  fl2im = imag(uL2);
-  fl3im = imag(uL3);*/
 
   std::complex<double> RlinrelX(-L1/(16.0*kPi2)+
 				uL2*(2.0*ef+q0)/(32.0*kPi2*qm)-
@@ -923,7 +894,6 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
   //const TLorentzVector qTildeP4 = outNucleonMom-inNucleonMom;
   const TLorentzVector qTildeP4 = neutrinoMom-leptonMom;
   double q2 = qTildeP4.Mag2();
- 
 
   const double q[4] = {qTildeP4.E(),qTildeP4.Px(),qTildeP4.Py(),qTildeP4.Pz()};
   double q0 = q[0];
@@ -971,7 +941,9 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
   CNCTCLimUcalc(qTildeP4,M,r,is_neutrino,tgtIsNucleus,
 		tgt_pdgc,A,Z,N,hitNucIsProton,
 		CN,CT,CL,imU,t0,r00);
-  
+  if(imU > kASmallNum)
+    return 0.;
+
   if(! fRPA){
     CN=1.0;
     CT=1.0;
@@ -1126,89 +1098,37 @@ double NievesQELCCPXSec::LmunuAnumu(const TLorentzVector neutrinoMom,
       }
       // All other terms will be 0 becuase the initial nucleon is at rest and
       // q is in the z direction
-
-      // CAN BE DELETED
-      /*else{
-	// No RPA corrections to the remaining terms, so A is not r dependent
-	if(mu == nu){
-	  Amunu = a1*g[mu][nu]+
-	    a2*(rulin[mu][nu]+tulin[mu]*q[nu]/2.0+tulin[nu]*q[mu]/2.0)+a4*q[mu]*q[nu];
-	  sum += Lmunu*Amunu;
-
-	}else{
-	  imaginaryPart = 0;
-	  leviCivitaIndexArray[0] = mu;
-	  leviCivitaIndexArray[1] = nu;
-	  for(int a=0;a<4;a++){
-	    for(int b=a+1;b<4;b++){
-	      leviCivitaIndexArray[2] = a;
-	      leviCivitaIndexArray[3] = b;
-	      //Switching a and b reverses the sign of the leviCivita
-	      //symbol, and a==b gives leviCivita = 0
-	      lcNum = leviCivita(leviCivitaIndexArray);
-	      imaginaryPart += lcNum*g[a][a]*tulin[a]*g[b][b]*q[b] 
-		-lcNum*g[b][b]*tulin[b]*g[a][a]*q[a];
-	    }
-	  }
-	  Amunu = a1*g[mu][nu]+
-	    a2*(rulin[mu][nu]+tulin[mu]*q[nu]/2.0+tulin[nu]*q[mu]/2.0)+
-	    iNum*a3*imaginaryPart+a4*q[mu]*q[nu];
-	  Anumu = a1*g[mu][nu]+ 
-	    a2*(rulin[mu][nu]+tulin[mu]*q[nu]/2.0+tulin[nu]*q[mu]/2.0)-
-	    iNum*a3*imaginaryPart+a4*q[mu]*q[nu];
-	  sum += Lmunu*Anumu+Lnumu*Amunu;
-	  }
-	  }*/ // END CODE THAT CAN BE DELETED
     } // End loop over nu
   } // End loop over mu
 
   // TESTING CODE
   if(fCompareNievesTensors){
-    std::cout << "printing stuff" << std::endl;
-    // Compute the coulomb factor
-    
     // get tmu
     double tmugev = leptonMom.E() - leptonMom.Mag();
-  // Print Q2, form factors, and tensor elts
+    // Print Q2, form factors, and tensor elts
     ofstream ffstream;
     ffstream.open(fTensorsOutFile, std::ios_base::app);
-    //if(imU < 0){
-    ffstream << -q2 << "\t" << q[0] << "\t" << dq
-	     << "\t" << axx << "\t" << azz << "\t" << a0z
-	     << "\t" << a00 << "\t" << axy << "\t"
-	     << CT << "\t" << CL << "\t" << CN << "\t"
-	     << tmugev << "\t" << imU << "\t"
-	     << F1V << "\t" << xiF2V << "\t" 
-	     << FA << "\t" << Fp << "\t"
-	     << tulin[0] << "\t"<< tulin[1] << "\t"
-	     << tulin[2] << "\t"<< tulin[3] << "\t"
-	     << rulin[0][0]<< "\t"<< rulin[0][1]<< "\t"
-	     << rulin[0][2]<< "\t"<< rulin[0][3]<< "\t"
-	     << rulin[1][0]<< "\t"<< rulin[1][1]<< "\t"
-	     << rulin[1][2]<< "\t"<< rulin[1][3]<< "\t"
-	     << rulin[2][0]<< "\t"<< rulin[2][1]<< "\t"
-	     << rulin[2][2]<< "\t"<< rulin[2][3]<< "\t"
-	     << rulin[3][0]<< "\t"<< rulin[3][1]<< "\t"
-	     << rulin[3][2]<< "\t"<< rulin[3][3]<< "\t"
-	     << fVc << "\t" << fCoulombFactor << "\t"
-	     << fElocal << "\t" << fPlocal << "\t"
-	     << fElep << "\t" << fPlep << "\t";
-      //<< rhopStored << "\t" << rhonStored << "\t"
-      //     << rhoStored << "\t" << rho0Stored << "\t" ;
-	   /*<< -q2Orig << "\t"
-	     << fKF1 << "\t" << fKF2 << "\t"
-	     << fc0 << "\t" << fPrimeStored << "\t" << M << "\t"
-	     << fVt << "\t" << fVl << "\t" 
-	     << fRelLinReal << "\t" << fRelLinIm << "\t"
-	     << fRelLinTotReal << "\t" << fRelLinTotIm << "\t"
-	     << fl1 << "\t" << fl2 << "\t" << fl3 << "\t"
-	     << q2rellin << "\t" << fkf << "\t" << fef << "\t"
-	     << fl2im << "\t" << fl3im << "\t";*/
-
-    ffstream << "\n";
-    //}else{
-    //std::cout << "imu > 0" << std::endl;
-    //}
+    if(q0 > 0){
+      ffstream << -q2 << "\t" << q[0] << "\t" << dq
+	       << "\t" << axx << "\t" << azz << "\t" << a0z
+	       << "\t" << a00 << "\t" << axy << "\t"
+	       << CT << "\t" << CL << "\t" << CN << "\t"
+	       << tmugev << "\t" << imU << "\t"
+	       << F1V << "\t" << xiF2V << "\t" 
+	       << FA << "\t" << Fp << "\t"
+	       << tulin[0] << "\t"<< tulin[1] << "\t"
+	       << tulin[2] << "\t"<< tulin[3] << "\t"
+	       << rulin[0][0]<< "\t"<< rulin[0][1]<< "\t"
+	       << rulin[0][2]<< "\t"<< rulin[0][3]<< "\t"
+	       << rulin[1][0]<< "\t"<< rulin[1][1]<< "\t"
+	       << rulin[1][2]<< "\t"<< rulin[1][3]<< "\t"
+	       << rulin[2][0]<< "\t"<< rulin[2][1]<< "\t"
+	       << rulin[2][2]<< "\t"<< rulin[2][3]<< "\t"
+	       << rulin[3][0]<< "\t"<< rulin[3][1]<< "\t"
+	       << rulin[3][2]<< "\t"<< rulin[3][3]<< "\t"
+	       << fVc << "\t" << fCoulombFactor << "\t";
+	ffstream << "\n";
+    }
     ffstream.close();
   }
   // END TESTING CODE
@@ -1339,44 +1259,55 @@ ROOT::Math::IBaseFunctionOneDim *
 
 //____________________________________________________________________________
 //
-// NOTE: THE REMAINING CODE FOR TESTING PURPOSES ONLY
+// NOTE: THE REMAINING IS TESTING CODE
 //
 // This method prints the tensor elements (as well as various inputs) for
 // different kinematics. The tensor elements can then be compared to the
 // output of Nieves' fortran code.
 //
 // The results of this code will only agree exactlly with Nieves' fortran
-// if Dipole form factors as set (in UserPhysicsOptions) and q is used
-// instead of qTilde in LmunuAnumu.
+// if Dipole form factors are set (in UserPhysicsOptions).
 //
 void NievesQELCCPXSec::CompareNievesTensors(const Interaction* in) 
   const {
   Interaction * interaction = new Interaction(*in); // copy in
   
-  // These can be changed
-  double ein = 1.0;
-  double ctl = 0.0;
+  // Set input values here
+  double ein = 0.2;
+  double ctl = 0.5;
   double rmaxfrac = 0.25;
 
+  bool carbon = false; // true -> C12, false -> Pb208
+
   if(fRPA)
-    fTensorsOutFile = "gen.RPA_E1_ctl0_r0.25";
+    fTensorsOutFile = "gen.RPA";
   else
-    fTensorsOutFile = "gen.noRPA_E1_ctl0_r0.25";
+    fTensorsOutFile = "gen.noRPA";
 
   // Calculate radius
-  // CARBON
-  bool klave = true;
-  double rp = 1.692;
-  double ap = 1.082;
-  double rn = 1.692;
-  double an = 1.082;
+  bool klave;
+  double rp,ap,rn,an;
+  if(carbon){
+    klave = true;
+    rp = 1.692;
+    ap = 1.082;
+    rn = 1.692;
+    an = 1.082;
+  }else{
+    // Pb208
+    klave = false;
+    rp = 6.624;
+    ap = 0.549;
+    rn = 6.890;
+    an = 0.549;
+  }
   double rmax;
   if(!klave)
     rmax = TMath::Max(rp,rn) + 9.25*TMath::Max(ap,an);
   else
     rmax = TMath::Sqrt(20.0)*TMath::Max(rp,rn);
   double r = rmax *  rmaxfrac;
-
+    
   // Relevant objects and parameters
   //const Kinematics &   kinematics = interaction -> Kine();
   const InitialState & init_state = interaction -> InitState();
@@ -1403,12 +1334,11 @@ void NievesQELCCPXSec::CompareNievesTensors(const Interaction* in)
 
     double pin = TMath::Sqrt(ein*ein); // Assume massless neutrinos
 
-    double qvalue = .016827; // Units of GeV
+    double qvalue = 0.;
     double q0 = ein-eout-qvalue;
     double dq = TMath::Sqrt(pin*pin+pout*pout-2.0*ctl*pin*pout);
     double q2 = q0*q0-dq*dq;
     interaction->KinePtr()->SetQ2(-q2);
-    //q2Orig = interaction->KinePtr()->q2();
 
     // When this method is called, inNucleonMom and outNucleonMom are 
     // only used to calulate 
@@ -1419,41 +1349,35 @@ void NievesQELCCPXSec::CompareNievesTensors(const Interaction* in)
     TLorentzVector outNucleonMom(0,0,dq,q0);
 
     // neutrinoMom and leptonMom only directly affect the leptonic tensor, which
-    // we are not calculating now. Set to large values so we see if they
-    // do make a difference (which would be bad).
-    TLorentzVector * neutrinoMom = new TLorentzVector(999999,999999,999999,999999);
+    // we are not calculating now. Use them to transfer q.
+    TLorentzVector neutrinoMom(0,0,pout+dq,eout+q0);
     TLorentzVector leptonMom(0,0,pout,eout);
 
-  if(fCoulomb){
-    // Coulomb potential
-    double Vc = vcr(& target, r);
-    fVc = Vc;
-
-    // Outgoing lepton energy and momentum including coulomb potential
-    int sign = is_neutrino ? 1 : -1;
-    double El = leptonMom.E();
-    double ElLocal = El - sign*Vc;
-    if(ElLocal - ml <= 0.0){
-      LOG("Nieves",pINFO) << "Event should be rejected. Coulomb effects "
+    if(fCoulomb){ // Use same steps as in XSec()
+      // Coulomb potential
+      double Vc = vcr(& target, r);
+      fVc = Vc;
+      
+      // Outgoing lepton energy and momentum including coulomb potential
+      int sign = is_neutrino ? 1 : -1;
+      double El = leptonMom.E();
+      double ElLocal = El - sign*Vc;
+      if(ElLocal - ml <= 0.0){
+	LOG("Nieves",pINFO) << "Event should be rejected. Coulomb effects "
 			    << "push kinematics below threshold";
-      return;
+	return;
+      }
+      double plLocal = TMath::Sqrt(ElLocal*ElLocal-ml*ml);
+      
+      // Correction factor
+      double coulombFactor= plLocal*ElLocal/leptonMom.Vect().Mag()/El;
+      fCoulombFactor = coulombFactor; // Store and print
     }
-    double plLocal = TMath::Sqrt(ElLocal*ElLocal-ml*ml);
 
-    // Correction factor
-    double coulombFactor= plLocal*ElLocal/leptonMom.Vect().Mag()/El;
-    fCoulombFactor = coulombFactor;
-    fElocal = ElLocal;
-    fPlocal = plLocal;
-    fElep = El;
-    fPlep = leptonMom.Vect().Mag();
-  }
-    
-    
     fFormFactors.Calculate(interaction);
-    LmunuAnumu(*neutrinoMom,inNucleonMom,leptonMom,outNucleonMom,
+    LmunuAnumu(neutrinoMom,inNucleonMom,leptonMom,outNucleonMom,
 	       M,r,is_neutrino,tgtIsNucleus,tgt_pdgc,A,Z,N,hitNucIsProton);
   }
   return;
-}
+} // END TESTING CODE
 //____________________________________________________________________________

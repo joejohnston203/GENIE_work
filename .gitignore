@@ -7,3 +7,4 @@ ignore
 # these directories tend to have large files
 runs
 data
+nieves_validation
